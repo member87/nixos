@@ -102,6 +102,7 @@
 
   environment.systemPackages = with pkgs; [
     agenix
+    jellyfin-media-player
     gcc
     librewolf
     nodejs
@@ -117,8 +118,10 @@
   services.spice-vdagentd.enable = true;
 
   fonts.packages = with pkgs; [
+    font-awesome
     (nerdfonts.override {
       fonts = [
+        "RobotoMono"
         "FiraCode"
       ];
     })
