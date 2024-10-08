@@ -109,6 +109,7 @@
     ripgrep
     spotify
     vesktop
+    playerctl
   ];
 
   virtualisation = {

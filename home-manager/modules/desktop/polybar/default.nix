@@ -1,4 +1,16 @@
-{pkgs, ...}: {
+{pkgs, ...}: 
+
+let
+  # spotifyScriptPath = "${pkgs.polybar-spotify-script}/bin/polybar-spotify-script";
+  spotifyScriptContent = builtins.readFile ./spotify.sh;
+  spotifyScriptPath = "${(pkgs.writeShellApplication {
+    name = "polybar-spotify-script";
+    runtimeInputs = [ pkgs.playerctl ];
+    text = spotifyScriptContent;
+  })}/bin/polybar-spotify-script";
+in 
+{
+
   services.polybar = {
     enable = true;
 
@@ -9,12 +21,10 @@
       i3 = pkgs.i3;
     };
 
-
-
     config = {
       "bar/bottom" = {
         height = "25";
-        modules-left = "i3";
+        modules-left = "i3 spotify";
         modules-right = "download cpu memory pulseaudio date time";
         bottom = true;
         background = "\${colors.crust}";
@@ -109,7 +119,7 @@
         format = "<label>";
         format-prefix = "";
         format-prefix-margin = 2;
-        exec = "";
+        exec = "${spotifyScriptPath}";
       };
     };
   };
