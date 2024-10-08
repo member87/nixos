@@ -1,24 +1,21 @@
-{ lib, ... }:
-
-let 
+{lib, ...}: let
   mod = "Mod4";
-in 
-{
+in {
   xsession.windowManager.i3 = {
     enable = true;
     config = {
       terminal = "alacritty";
       modifier = "Mod4";
-      
+
       window = {
         hideEdgeBorders = "smart";
-	titlebar = false;
+        titlebar = false;
       };
 
       startup = [
         {
-	  command = "systemctl restart --user polybar";
-	}
+          command = "systemctl restart --user polybar";
+        }
       ];
 
       keybindings = lib.mkOptionDefault {
@@ -27,7 +24,5 @@ in
 
       bars = [];
     };
-
   };
-
 }

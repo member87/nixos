@@ -1,7 +1,8 @@
-{ lib, config, ... }:
-
 {
-
+  lib,
+  config,
+  ...
+}: {
   services.dunst = {
     enable = true;
     settings = lib.mkForce {
@@ -35,9 +36,6 @@
         foreground = "#ffffff";
         timeout = 10;
       };
-
     };
   };
-
-
 }

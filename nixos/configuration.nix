@@ -110,19 +110,17 @@
     vesktop
   ];
 
-
   virtualisation = {
     docker.enable = true;
   };
-  
-  services.spice-vdagentd.enable = true;
 
+  services.spice-vdagentd.enable = true;
 
   fonts.packages = with pkgs; [
     (nerdfonts.override {
       fonts = [
         "FiraCode"
       ];
-     })
+    })
   ];
 }

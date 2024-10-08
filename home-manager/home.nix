@@ -55,7 +55,6 @@
     homeDirectory = "/home/jack";
   };
 
-
   home.activation = {
     polybar = lib.hm.dag.entryAfter ["linkGeneration"] ''
       ${pkgs.systemd}/bin/systemctl --user restart polybar
@@ -65,9 +64,9 @@
   # Add stuff for your user as you see fit:
   programs = {
     neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
+    # home.packages = with pkgs; [ steam ];
 
-  # Enable home-manager and git
+    # Enable home-manager and git
     home-manager.enable = true;
   };
 
@@ -76,7 +75,6 @@
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "23.05";
-
 
   catppuccin.enable = true;
   catppuccin.accent = "pink";

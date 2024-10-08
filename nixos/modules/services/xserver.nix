@@ -1,6 +1,4 @@
-{ ... }:
-
-{
+{...}: {
   services.displayManager.sddm.enable = true;
 
   services.xserver = {
@@ -9,10 +7,10 @@
     windowManager.i3.enable = true;
 
     xrandrHeads = [
-    {
-      output = "Virtual-1";
-      monitorConfig = ''
-        Option "PreferredMode" "1920x1080"
+      {
+        output = "Virtual-1";
+        monitorConfig = ''
+          Option "PreferredMode" "1920x1080"
         '';
       }
     ];

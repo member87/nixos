@@ -1,7 +1,9 @@
-{ lib, config, ... }:
-
 {
-  programs.git = { 
+  lib,
+  config,
+  ...
+}: {
+  programs.git = {
     enable = true;
 
     userName = "Jack";

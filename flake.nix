@@ -22,8 +22,6 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-
   };
 
   outputs = {
@@ -43,16 +41,14 @@
     # This is a function that generates an attribute by calling a function you
     # pass to it, with each system as an argument
     forAllSystems = nixpkgs.lib.genAttrs systems;
-
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
     packages = forAllSystems (
-      system: 
-      let
+      system: let
         pkgs = unstable.legacyPackages.${system};
       in
-      import ./pkgs { inherit pkgs; }
+        import ./pkgs {inherit pkgs;}
     );
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
@@ -88,7 +84,7 @@
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main home-manager configuration file <
-	        catppuccin.homeManagerModules.catppuccin
+          catppuccin.homeManagerModules.catppuccin
           ./home-manager/home.nix
         ];
       };

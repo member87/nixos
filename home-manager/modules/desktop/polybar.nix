@@ -1,12 +1,8 @@
-{ pkgs, ... }:
-
-{
-
+{pkgs, ...}: {
   services.polybar = {
     enable = true;
 
     script = "polybar top &";
-
 
     package = pkgs.polybar.override {
       i3Support = true;
@@ -23,7 +19,6 @@
         font-0 = "Fira Code;size=10;3";
       };
 
-
       "module/i3" = {
         type = "internal/i3";
         format = "<label-state> <label-mode>";
@@ -39,5 +34,4 @@
       };
     };
   };
-
 }
