@@ -19,6 +19,8 @@
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
     ./modules
+
+    inputs.spicetify-nix.homeManagerModules.default
   ];
 
   nixpkgs = {
@@ -31,6 +33,7 @@
 
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
+      inputs.agenix.overlays.default
 
       # Or define it inline, for example:
       # (final: prev: {
@@ -66,7 +69,6 @@
 
   # Enable home-manager and git
     home-manager.enable = true;
-    git.enable = true;
   };
 
   # Nicely reload system units when changing configs

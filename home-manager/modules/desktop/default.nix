@@ -5,6 +5,7 @@
     ./rofi.nix
     ./polybar.nix
     ./hyprland.nix
+    ./eww
   ];
 }
 

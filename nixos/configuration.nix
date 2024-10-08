@@ -35,6 +35,7 @@
 
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
+      inputs.agenix.overlays.default
 
       # Or define it inline, for example:
       # (final: prev: {
@@ -87,7 +88,8 @@
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = ["wheel"];
+      extraGroups = ["wheel" "docker"];
+      shell = pkgs.zsh;
     };
   };
 
@@ -99,9 +101,22 @@
   boot.loader.grub.useOSProber = true;
 
   environment.systemPackages = with pkgs; [
+    agenix
     gcc
     librewolf
+    nodejs
+    ripgrep
+    spotify
+    vesktop
   ];
+
+
+  virtualisation = {
+    docker.enable = true;
+  };
+  
+  services.spice-vdagentd.enable = true;
+
 
   fonts.packages = with pkgs; [
     (nerdfonts.override {
