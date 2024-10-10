@@ -1,53 +1,80 @@
-(defwidget bar []
-  (centerbox :orientation "h"
-    (workspaces)
-    (music)))
+(defpoll time           :interval "1s" "date '+%H:%M'")
+(defpoll volume         :interval "1s" "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}'")
+(defpoll music_art      :interval "1s" "~/.config/eww/scripts/music --art")
+(defpoll music_title    :interval "1s" "~/.config/eww/scripts/music --title")
+(defpoll music_artist   :interval "1s" "~/.config/eww/scripts/music --artist")
+(defpoll memory         :interval "15s" "free | awk '/Mem/ {print int($3/$2 * 100 + 0.5)}'")
 
-(defwidget workspaces []
-  (box :class "workspaces"
-       :orientation "h"
-       :space-evenly true
-       :halign "start"
-       :spacing 10
-    (button :onclick "wmctrl -s 0" 1)
-    (button :onclick "wmctrl -s 1" 2)
-    (button :onclick "wmctrl -s 2" 3)
-    (button :onclick "wmctrl -s 3" 4)
-    (button :onclick "wmctrl -s 4" 5)
-    (button :onclick "wmctrl -s 5" 6)
-    (button :onclick "wmctrl -s 6" 7)
-    (button :onclick "wmctrl -s 7" 8)
-    (button :onclick "wmctrl -s 8" 9)))
+(defvar volume_reveal false)
+
+(defvar eww "/usr/bin/env eww -c $HOME/.config/eww/")
+
+(defwidget left[]
+  (box :orientation "h" :space-evenly "false" 
+    "left"
+  ))
+
+(defwidget center[]
+  (box :orientation "h" :space-evenly "false" :halign "center"
+    (music)
+  ))
+
+(defwidget right[]
+  (box :orientation "h" :space-evenly "false" :halign "end" :spacing 15
+    (system)
+    (volume)
+    (clock)
+  ))
+
+(defwidget bar_container []
+  (box :orientation "h" 
+    (left)
+    (center)
+    (right)
+  ))
+  
+
 
 (defwidget music []
-  (box :class "music"
-       :orientation "h"
-       :space-evenly false
-       :halign "center"
-    {music != "" ? "🎵${music}" : ""}))
+  (box :orientation "h" :hexpand "false" :space-evenly "false"
+    (box :hexpand "false" :style "background-image: url('${music_art}');" :class "music_art") 
+    (box :hexpand "false" "${music_title} ")
+    (box :hexpand "false" " - ${music_artist}")))
 
+(defwidget system []
+  (box
+    (circular-progress
+      :class "system_bar"
+      :value memory
+      :thickness 8
+      (box ""))))
 
-(defwidget metric [label value onchange]
-  (box :orientation "h"
-       :class "metric"
-       :space-evenly false
-    (box :class "label" label)
-    (scale :min 0
-           :max 101
-           :active {onchange != ""}
-           :value value
-           :onchange onchange)))
+(defwidget volume []
+  (eventbox
+    :onhover      "${eww} update volume_reveal=true"
+    :onhoverlost  "${eww} update volume_reveal=false"
+    (box 
+      :orientation "h"
+      :space-evenly "false"
+      :spacing 10
+      (button :onclick 'echo test > $HOME/test' "")
+      (revealer 
+        :transition "slideleft" 
+        :duration "300ms" 
+        :reveal volume_reveal
+        (scale
+          :class "volbar"
+          :orientation "h"
+          :max 100
+          :min 0
+          :value volume
+          :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ $(awk \"BEGIN {print {} / 100}\")"
+        )))))
+        
 
+(defwidget clock []
+  (box "${time}"))
 
-
-(deflisten music :initial ""
-  "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
-
-(defpoll volume :interval "1s"
-  "scripts/getvol")
-
-(defpoll time :interval "10s"
-  "date '+%H:%M %b %d, %Y'")
 
 (defwindow bar
   :monitor 0
@@ -55,7 +82,7 @@
   :geometry (geometry :x "0%"
                       :y "0%"
                       :width "90%"
-                      :height "10px"
+                      :height "0px"
                       :anchor "bottom center")
   :reserve (struts :side "bottom" :distance "4%")
-  (bar))
+  (bar_container))

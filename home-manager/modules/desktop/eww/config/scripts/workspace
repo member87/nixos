@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+
+i3_workspaces() {
+  all_workspaces=$(i3-msg -t get_workspaces)
+  focused=$(i3-msg -t get_workspaces | jq -c '.[] | select(.focused==true)')
+}
+
+
+workspaces() {
+  i3_workspaces
+}
+
+

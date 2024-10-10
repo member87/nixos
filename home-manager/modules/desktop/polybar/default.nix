@@ -12,7 +12,7 @@ in
 {
 
   services.polybar = {
-    enable = true;
+    enable = false;
 
     script = "polybar bottom &";
 

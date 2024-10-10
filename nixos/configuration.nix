@@ -102,14 +102,19 @@
 
   environment.systemPackages = with pkgs; [
     agenix
+    curl
+    ffmpeg
     jellyfin-media-player
+    jq
     gcc
     librewolf
     nodejs
+    pavucontrol
+    playerctl
     ripgrep
     spotify
     vesktop
-    playerctl
+    wget
   ];
 
   virtualisation = {

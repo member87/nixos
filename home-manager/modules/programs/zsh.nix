@@ -12,6 +12,7 @@
 
     shellAliases = {
       vim = "nvim";
+      cd = "z";
     };
 
     history = {

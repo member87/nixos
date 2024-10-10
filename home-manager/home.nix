@@ -55,12 +55,6 @@
     homeDirectory = "/home/jack";
   };
 
-  home.activation = {
-    polybar = lib.hm.dag.entryAfter ["linkGeneration"] ''
-      ${pkgs.systemd}/bin/systemctl --user restart polybar
-    '';
-  };
-
   # Add stuff for your user as you see fit:
   programs = {
     neovim.enable = true;
