@@ -5,13 +5,16 @@
 (defpoll music_artist   :interval "1s" "~/.config/eww/scripts/music --artist")
 (defpoll memory         :interval "15s" "free | awk '/Mem/ {print int($3/$2 * 100 + 0.5)}'")
 
+
+(deflisten workspaces_listen "~/.config/eww/scripts/workspace")
+
 (defvar volume_reveal false)
 
 (defvar eww "/usr/bin/env eww -c $HOME/.config/eww/")
 
 (defwidget left[]
   (box :orientation "h" :space-evenly "false" 
-    "left"
+    (workspaces)
   ))
 
 (defwidget center[]
@@ -34,6 +37,9 @@
   ))
   
 
+(defwidget workspaces []
+  (literal :content workspaces_listen))
+
 
 (defwidget music []
   (box :orientation "h" :hexpand "false" :space-evenly "false"
@@ -43,11 +49,20 @@
 
 (defwidget system []
   (box
+    :spacing 6
     (circular-progress
       :class "system_bar"
-      :value memory
-      :thickness 8
-      (box ""))))
+      :value "${EWW_CPU.avg}"
+      :tooltip "CPU ${round(EWW_CPU.avg, 1)}%"
+      :thickness 4
+      (box :class "system_icon" "" ))
+
+    (circular-progress
+      :class "system_bar"
+      :value "${EWW_RAM.used_mem_perc}"
+      :tooltip "RAM ${round(EWW_RAM.used_mem_perc, 1)}%"
+      :thickness 4
+      (box :class "system_icon" "" ))))
 
 (defwidget volume []
   (eventbox
