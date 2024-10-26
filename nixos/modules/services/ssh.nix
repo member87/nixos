@@ -1,8 +1,8 @@
-{ ... }:
-
-{
+{...}: {
   services.openssh = {
     enable = true;
-    passwordAuthentication = true;
+    settings = {
+      PasswordAuthentication = false;
+    };
   };
 }

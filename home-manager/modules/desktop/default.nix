@@ -1,10 +1,10 @@
 {
-  imports = [ 
+  imports = [
     ./i3.nix
     ./alacritty.nix
     ./rofi.nix
-    ./polybar.nix
+    ./polybar
     ./hyprland.nix
+    ./eww
   ];
 }
-

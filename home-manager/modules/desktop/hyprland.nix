@@ -1,7 +1,9 @@
-{ ... }:
+{...}: {
+  wayland.windowManager.hyprland.settings = {
+    "$mod" = "SUPER";
 
-{
-  wayland.windowManager.hyprland = {
-
+    bindm = [
+      "$mod, ENTER, exec, alacritty"
+    ];
   };
 }
