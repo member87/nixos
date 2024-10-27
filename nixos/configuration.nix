@@ -105,6 +105,7 @@
     agenix
     curl
     ffmpeg
+    hyprshot
     jellyfin-media-player
     jq
     gcc
