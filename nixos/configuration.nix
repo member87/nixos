@@ -119,6 +119,7 @@
     spotify
     unzip
     vesktop
+    wl-clipboard
     wget
     wofi
   ];
