@@ -115,6 +115,7 @@
     ripgrep
     socat
     spotify
+    unzip
     vesktop
     wget
     wofi
