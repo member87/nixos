@@ -109,6 +109,7 @@
     jq
     gcc
     librewolf
+    lxqt.lxqt-policykit
     nodejs
     pavucontrol
     playerctl
