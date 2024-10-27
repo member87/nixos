@@ -101,6 +101,8 @@
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.efiInstallAsRemovable = true;
 
+  time.timeZone = "Europe/London";
+
   environment.systemPackages = with pkgs; [
     agenix
     curl
