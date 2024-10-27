@@ -18,6 +18,9 @@
 
     catppuccin.url = "github:catppuccin/nix/v1.0.2";
 
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -72,6 +75,8 @@
           # > Our main nixos configuration file <
           inputs.agenix.nixosModules.default
           ./nixos/configuration.nix
+          inputs.disko.nixosModules.disko
+          catppuccin.nixosModules.catppuccin
         ];
       };
     };

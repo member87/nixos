@@ -22,6 +22,7 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+    ./disks.nix
     ./modules
   ];
 
@@ -97,8 +98,8 @@
   system.stateVersion = "23.05";
 
   boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/vda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
 
   environment.systemPackages = with pkgs; [
     agenix
@@ -112,10 +113,21 @@
     pavucontrol
     playerctl
     ripgrep
+    socat
     spotify
     vesktop
     wget
+    wofi
   ];
+
+  catppuccin.enable = true;
+  catppuccin.accent = "pink";
+
+  fileSystems."/run/1TBSSD" = { 
+    device = "/dev/sdb1";
+    fsType = "ext4";
+    options = [ "rw" "data=ordered" "relatime" ];
+  };
 
   virtualisation = {
     docker.enable = true;

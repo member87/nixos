@@ -8,6 +8,8 @@
       enable = true;
       enableZshIntegration = true;
     };
+
+    btop.enable = true;
   };
 
   services = {

@@ -6,5 +6,7 @@
     ./polybar
     ./hyprland.nix
     ./eww
+    ./gtk.nix
+    ./hyprlock.nix
   ];
 }

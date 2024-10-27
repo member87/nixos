@@ -3,8 +3,8 @@
 }
 
 // Global Styles
-.bar {
-  background-color: #11111b;
+.bottom-bar {
+  background-color: rgba(17, 17, 27, 0.2);
   color: #b0b4bc;
   padding: 0px 10px;
 }
@@ -48,10 +48,17 @@ scale trough {
   border-radius: 10px;
 }
 
-.workspace {
-  color: #f5c2e7;
+.workspace-wrapper {
+  margin-top: 5px;
+  margin-bottom: 5px
 }
 
-.selected {
-  font-family: "Font Awesome 6 Free Solid";
+.workspace {
+  color: #a6adc8;
+}
+
+.workspace-selected {
+  color: #313244;
+  background-color: #f5c2e7;
+  border-radius: 999px;
 }
