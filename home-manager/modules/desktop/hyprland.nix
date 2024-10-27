@@ -57,8 +57,7 @@
 
       bind =
       [
-        "$mod, F, exec, firefox"
-        ", Print, exec, grimblast copy area"
+        ", Print, exec, ~/scripts/screenshot"
         "$mod, Return, exec, alacritty"
         "$mod SHIFT, Q, killactive"
         "$mod, left, movefocus, l"

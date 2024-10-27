@@ -109,6 +109,7 @@
     jellyfin-media-player
     jq
     gcc
+    libnotify
     librewolf
     lxqt.lxqt-policykit
     nodejs
