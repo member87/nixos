@@ -23,6 +23,7 @@
         offset = "5x5";
         min_icon_size = 0;
         max_icon_size = 64;
+        follow = "mouse";
       };
 
       urgency_low = {
