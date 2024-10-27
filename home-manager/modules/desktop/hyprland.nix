@@ -71,6 +71,11 @@
         "$mod, d, exec, wofi --show run"
         "$mod SHIFT, e, exit"
         "$mod, l, exec, hyprlock"
+        ", XF86AudioNext, exec, playerctl next"
+        ", XF86AudioPause, exec, playerctl play-pause"
+        ", XF86AudioPlay, exec, playerctl play-pause"
+        ", XF86AudioPrev, exec, playerctl previous"
+
       ]
       ++ (
         # workspaces
