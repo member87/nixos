@@ -71,6 +71,8 @@
         "$mod, d, exec, wofi --show run"
         "$mod SHIFT, e, exit"
         "$mod, l, exec, hyprlock"
+        "$mod, mouse:272, movewindow"
+        "$mod, f, fullscreen"
         ", XF86AudioNext, exec, playerctl next"
         ", XF86AudioPause, exec, playerctl play-pause"
         ", XF86AudioPlay, exec, playerctl play-pause"

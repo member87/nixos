@@ -59,8 +59,8 @@
 (defwidget music []
   (box :orientation "h" :hexpand "false" :space-evenly "false" :visible music_status
     (box :hexpand "false" :style "background-image: url('${music_art}');" :class "music_art") 
-    (box :hexpand "false" "${music_title} ")
-    (box :hexpand "false" " - ${music_artist}")))
+    (label :hexpand "false" :limit-width 32 :text "${music_title} ")
+    (label :hexpand "false" :text " - ${music_artist}")))
 
 (defwidget system []
   (box
