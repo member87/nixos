@@ -124,7 +124,7 @@
   catppuccin.accent = "pink";
 
   fileSystems."/run/1TBSSD" = { 
-    device = "/dev/sdb1";
+    device = "/dev/sdd1";
     fsType = "ext4";
     options = [ "rw" "data=ordered" "relatime" ];
   };
