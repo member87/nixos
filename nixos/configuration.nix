@@ -111,6 +111,7 @@
     jellyfin-media-player
     jq
     gcc
+    killall
     libnotify
     librewolf
     lxqt.lxqt-policykit
@@ -131,7 +132,7 @@
   catppuccin.accent = "pink";
 
   fileSystems."/run/1TBSSD" = { 
-    device = "/dev/sdd1";
+    device = "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_1TB_S3YBNB0K504591D-part1";
     fsType = "ext4";
     options = [ "rw" "data=ordered" "relatime" ];
   };
