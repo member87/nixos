@@ -64,7 +64,7 @@
       nix-path = config.nix.nixPath;
     };
     # Opinionated: disable channels
-    channel.enable = false;
+    channel.enable = true;
 
     # Opinionated: make flake registry and nix path match flake inputs
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
@@ -95,7 +95,7 @@
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.05";
 
   boot.loader.grub.enable = true;
   boot.loader.grub.efiSupport = true;
@@ -114,6 +114,7 @@
     killall
     libnotify
     librewolf
+    lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
     nodejs
     pavucontrol
