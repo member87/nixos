@@ -6,5 +6,6 @@
       remotePlay.openFirewall = true;
       localNetworkGameTransfers.openFirewall = true;
     };
+    gamemode.enable = true;
   };
 }

@@ -116,6 +116,7 @@
     librewolf
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
+    mangohud
     nodejs
     pavucontrol
     playerctl
