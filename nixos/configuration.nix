@@ -76,6 +76,14 @@
   # TODO: Set your hostname
   networking.hostName = "nixos";
 
+  users.groups.plugdev = {};
+
+  services.udev.extraRules = ''
+  SUBSYSTEMS=="usb", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="1b7c|2b7c|3b7c|4b7c", TAG+="uaccess", TAG+="udev-acl"
+  SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", TAG+="uaccess", TAG+="udev-acl"
+  KERNEL=="hidraw*", ATTRS{idVendor}=="2c97", MODE="0666"
+  '';
+
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
     # FIXME: Replace with your username
@@ -89,7 +97,7 @@
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = ["wheel" "docker"];
+      extraGroups = ["wheel" "docker" "plugdev"];
       shell = pkgs.zsh;
     };
   };
@@ -105,6 +113,7 @@
 
   environment.systemPackages = with pkgs; [
     agenix
+    brave
     curl
     ffmpeg
     hyprshot
@@ -112,6 +121,7 @@
     jq
     gcc
     killall
+    ledger-live-desktop
     libnotify
     librewolf
     lxqt.lxqt-openssh-askpass
