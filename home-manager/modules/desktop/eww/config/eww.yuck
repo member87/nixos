@@ -109,7 +109,7 @@
   (box "${time}"))
 
 (defwidget date []
-  (box "${}")
+  (box "${date}"))
 
 
 (defwindow bar
