@@ -27,6 +27,8 @@
     };
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
+    zen-browser.url = "github:omarcresp/zen-browser-flake";
   };
 
   outputs = {

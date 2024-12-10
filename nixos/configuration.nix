@@ -115,11 +115,13 @@
     agenix
     brave
     curl
+    darktable
     ffmpeg
     hyprshot
     jellyfin-media-player
     jq
     gcc
+    go
     killall
     ledger-live-desktop
     libnotify
@@ -130,14 +132,17 @@
     nodejs
     pavucontrol
     playerctl
+    python3
     ripgrep
     socat
     spotify
     unzip
     vesktop
+    wineWowPackages.stable
     wl-clipboard
     wget
     wofi
+    inputs.zen-browser.packages."${pkgs.system}".default
   ];
 
   catppuccin.enable = true;

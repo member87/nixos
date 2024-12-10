@@ -1,4 +1,5 @@
 (defpoll time           :interval "1s" "date '+%H:%M'")
+(defpoll date           :interval "60s" "date '+%x'")
 (defpoll volume         :interval "1s" "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}'")
 (defpoll music_art      :interval "1s" "~/.config/eww/scripts/music --art")
 (defpoll music_title    :interval "1s" "~/.config/eww/scripts/music --title")
@@ -27,9 +28,11 @@
 
 (defwidget right[]
   (box :orientation "h" :space-evenly "false" :halign "end" :spacing 15
+    (systray :orientation "h" :icon-size 15 :spacing 10)
     (system)
     (volume)
     (clock)
+    (date)
   ))
 
 (defwidget bar_container []
@@ -104,6 +107,9 @@
 
 (defwidget clock []
   (box "${time}"))
+
+(defwidget date []
+  (box "${}")
 
 
 (defwindow bar
