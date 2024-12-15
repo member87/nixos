@@ -12,8 +12,10 @@
   };
 
   environment.systemPackages = with pkgs; [
+    unstable.gamescope
     (inputs.nix-gaming.packages.${pkgs.system}.star-citizen.override {
       location = "/run/1TBSSD/star-citizen";
+      wine = pkgs.unstable.wine64;
     })
   ];
 }

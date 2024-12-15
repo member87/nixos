@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   wayland.windowManager.hyprland = {
     enable = true;
+    package = pkgs.unstable.hyprland;
     settings = {
       "$mod" = "SUPER";
 
@@ -26,17 +27,13 @@
         kb_layout = "gb";
         follow_mouse = 1;
         sensitivity = 0;
+        accel_profile = "flat";
       };
 
       decoration = {
         rounding = 4;
         active_opacity = 1.0;
         inactive_opacity = 0.95;
-
-        drop_shadow = true;
-        shadow_range = 4;
-        shadow_render_power = 3;
-        "col.shadow" = "rgba(1a1a1aee)";
 
         blur = {
           enabled = true;
