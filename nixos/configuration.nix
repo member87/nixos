@@ -80,6 +80,8 @@
 
   boot.kernelPackages = pkgs.unstable.linuxPackages_zen;
 
+  systemd.extraConfig = "DefaultTimeoutStopSec=10s";
+
   services.udev.extraRules = ''
   SUBSYSTEMS=="usb", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="1b7c|2b7c|3b7c|4b7c", TAG+="uaccess", TAG+="udev-acl"
   SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", TAG+="uaccess", TAG+="udev-acl"
@@ -128,6 +130,7 @@
     ledger-live-desktop
     libnotify
     librewolf
+    lutris
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
     mangohud
@@ -145,6 +148,7 @@
     wget
     wofi
     inputs.zen-browser.packages."${pkgs.system}".default
+    inputs.ghostty.packages."${pkgs.system}".default
   ];
 
   catppuccin.enable = true;
