@@ -1,7 +1,7 @@
 {
   imports = [
     ./i3.nix
-    ./alacritty.nix
+    ./ghostty.nix
     ./rofi.nix
     ./polybar
     ./hyprland.nix

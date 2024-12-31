@@ -69,7 +69,7 @@
       bind =
       [
         ", Print, exec, ~/scripts/screenshot"
-        "$mod, Return, exec, alacritty"
+        "$mod, Return, exec, ghostty"
         "$mod SHIFT, Q, killactive"
         "$mod, left, movefocus, l"
         "$mod, right, movefocus, r"
