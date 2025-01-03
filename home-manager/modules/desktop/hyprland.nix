@@ -1,14 +1,13 @@
 {pkgs, ...}: {
   wayland.windowManager.hyprland = {
     enable = true;
-    package = pkgs.unstable.hyprland;
     settings = {
       "$mod" = "SUPER";
 
       monitor = [
-        "HDMI-A-1, 1920x1080, 0x0, 1"
-        "DP-1, 1920x1080@165, 1929x0, 1"
-        "DP-2, 1920x1080, 3840x0, 1"
+        "HDMI-A-1, 1920x1080@60, 0x0, 1"
+        "DP-1, 1920x1080@165, 1920x0, 1"
+        "DP-2, 1920x1080@60, 3840x0, 1"
       ];
 
       general = {
@@ -63,6 +62,10 @@
           "windowsIn,1,4,mycurve"
           "windowsOut,0,4,mycurve"
         ];
+      };
+
+      debug = {
+        disable_logs = true;
       };
            
 

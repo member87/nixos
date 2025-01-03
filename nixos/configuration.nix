@@ -75,6 +75,10 @@
 
   # TODO: Set your hostname
   networking.hostName = "nixos";
+  networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
+  networking.dhcpcd.extraConfig = ''
+      nohook resolv.conf
+  '';
 
   users.groups.plugdev = {};
 
