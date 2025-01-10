@@ -6,5 +6,6 @@
     ./spotify.nix
     ./dunst.nix
     ./git.nix
+    ./winapps.nix
   ];
 }

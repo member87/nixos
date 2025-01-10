@@ -119,6 +119,9 @@
 
   time.timeZone = "Europe/London";
 
+  hardware.i2c.enable = true;
+  services.hardware.openrgb.enable = true;
+
   environment.systemPackages = with pkgs; [
     agenix
     brave
@@ -142,6 +145,7 @@
     pavucontrol
     playerctl
     python3
+    unstable.protontricks
     ripgrep
     socat
     spotify
@@ -151,8 +155,10 @@
     wl-clipboard
     wget
     wofi
+    freerdp3
     inputs.zen-browser.packages."${pkgs.system}".default
     inputs.ghostty.packages."${pkgs.system}".default
+    inputs.winapps.packages."${pkgs.system}".winapps-launcher
   ];
 
   catppuccin.enable = true;

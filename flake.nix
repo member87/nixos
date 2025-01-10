@@ -32,6 +32,10 @@
     nix-gaming.url = "github:fufexan/nix-gaming";
 
     ghostty.url = "github:ghostty-org/ghostty";
+
+    winapps = {
+      url = "github:winapps-org/winapps";
+    };
   };
 
   outputs = {
@@ -93,7 +97,7 @@
     homeConfigurations = {
       "jack@nixos" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs unstable;};
+        extraSpecialArgs = {inherit inputs outputs unstable ;};
         modules = [
           # > Our main home-manager configuration file <
           catppuccin.homeManagerModules.catppuccin
