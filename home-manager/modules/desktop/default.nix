@@ -5,6 +5,7 @@
     ./rofi.nix
     ./polybar
     ./hyprland.nix
+    ./hyprpaper.nix
     ./eww
     ./gtk.nix
     ./hyprlock.nix

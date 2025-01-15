@@ -129,6 +129,7 @@
     darktable
     ffmpeg
     hyprshot
+    hyprpaper
     jellyfin-media-player
     jq
     gcc
