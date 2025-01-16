@@ -7,7 +7,12 @@
 
     settings = {
       background = {
-        color = "rgba(10, 10, 10, 1.0)";
+        path = "screenshot";
+        blue_passes = 1;
+        color = "rgba(0, 0, 0, 1.0)";
+        blur_passes = 4;
+        noise = 0.008;
+        brightness = 0.5;
       };
 
       input-field = {

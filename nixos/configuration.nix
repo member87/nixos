@@ -125,6 +125,7 @@
   environment.systemPackages = with pkgs; [
     agenix
     brave
+    cargo
     curl
     darktable
     ffmpeg

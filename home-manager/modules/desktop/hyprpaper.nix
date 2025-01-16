@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
 
 let
-  wallpaperUrl = "https://github.com/NixOS/nixos-artwork/blob/master/wallpapers/nixos-wallpaper-catppuccin-mocha.png?raw=true";
+  wallpaperUrl = "https://unsplash.com/photos/lFTtQqVfx6g/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzM2OTg0ODA4fA&force=true";
   wallpaperFile = pkgs.fetchurl {
     url = wallpaperUrl;
-    sha256 = "sha256-fmKFYw2gYAYFjOv4lr8IkXPtZfE1+88yKQ4vjEcax1s=";
+    sha256 = "sha256-PYEm+xn3NJSP8AD/87HaTkAlB+zrEouNg/hoI63ioFs=";
   };
   hyprpaperSettings = {
     ipc = "on";
