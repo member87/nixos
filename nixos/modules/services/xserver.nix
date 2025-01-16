@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   services.displayManager.sddm = {
     catppuccin.enable = false;
     enable = true;

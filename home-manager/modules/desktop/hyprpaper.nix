@@ -26,4 +26,3 @@ in
     settings = hyprpaperSettings;
   };
 }
-

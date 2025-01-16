@@ -6,4 +6,3 @@
     portalPackage = pkgs.unstable.xdg-desktop-portal-hyprland;
   };
 }
-

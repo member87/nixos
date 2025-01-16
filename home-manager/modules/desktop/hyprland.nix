@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
@@ -67,44 +68,47 @@
       debug = {
         disable_logs = true;
       };
-           
 
       bind =
-      [
-        ", Print, exec, ~/scripts/screenshot"
-        "$mod, Return, exec, ghostty"
-        "$mod SHIFT, Q, killactive"
-        "$mod, left, movefocus, l"
-        "$mod, right, movefocus, r"
-        "$mod, up, movefocus, u"
-        "$mod, down, movefocus, d"
-        "$mod SHIFT, left, movewindow, l"
-        "$mod SHIFT, right, movewindow, r"
-        "$mod SHIFT, up, movewindow, u"
-        "$mod SHIFT, down, movewindow, d"
-        "$mod, d, exec, wofi --show run"
-        "$mod SHIFT, e, exit"
-        "$mod, l, exec, hyprlock"
-        "$mod, mouse:272, movewindow"
-        "$mod, f, fullscreen"
-        ", XF86AudioNext, exec, playerctl next"
-        ", XF86AudioPause, exec, playerctl play-pause"
-        ", XF86AudioPlay, exec, playerctl play-pause"
-        ", XF86AudioPrev, exec, playerctl previous"
+        [
+          ", Print, exec, ~/scripts/screenshot"
+          "$mod, Return, exec, ghostty"
+          "$mod SHIFT, Q, killactive"
+          "$mod, left, movefocus, l"
+          "$mod, right, movefocus, r"
+          "$mod, up, movefocus, u"
+          "$mod, down, movefocus, d"
+          "$mod SHIFT, left, movewindow, l"
+          "$mod SHIFT, right, movewindow, r"
+          "$mod SHIFT, up, movewindow, u"
+          "$mod SHIFT, down, movewindow, d"
+          "$mod, d, exec, wofi --show run"
+          "$mod SHIFT, e, exit"
+          "$mod, l, exec, hyprlock"
+          "$mod, mouse:272, movewindow"
+          "$mod, f, fullscreen"
+          ", XF86AudioNext, exec, playerctl next"
+          ", XF86AudioPause, exec, playerctl play-pause"
+          ", XF86AudioPlay, exec, playerctl play-pause"
+          ", XF86AudioPrev, exec, playerctl previous"
 
-      ]
-      ++ (
-        # workspaces
-        # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-        builtins.concatLists (builtins.genList (i:
-            let ws = i + 1;
-            in [
-              "$mod, code:1${toString i}, workspace, ${toString ws}"
-              "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-            ]
+        ]
+        ++ (
+          # workspaces
+          # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+          builtins.concatLists (
+            builtins.genList (
+              i:
+              let
+                ws = i + 1;
+              in
+              [
+                "$mod, code:1${toString i}, workspace, ${toString ws}"
+                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+              ]
+            ) 10
           )
-          10)
-      );
+        );
     };
   };
 }

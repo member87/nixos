@@ -2,7 +2,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   services.dunst = {
     enable = true;
     settings = lib.mkForce {

@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   services.polybar = {
     enable = true;
 
@@ -8,8 +9,6 @@
       i3Support = true;
       i3 = pkgs.i3;
     };
-
-
 
     config = {
       "bar/bottom" = {
@@ -66,7 +65,7 @@
         format-volume = "<ramp-volume><label-volume>";
         ramp-volume-0 = "";
         ramp-volume-1 = "";
-        ramp-volume-2 = " ";     
+        ramp-volume-2 = " ";
       };
 
       "module/memory" = {
@@ -95,7 +94,7 @@
         interface = "enp1s0";
         unkown-as-up = true;
         format-connected = "<label-connected>";
-        label-connected  = "%downspeed:%";
+        label-connected = "%downspeed:%";
         label-connected-foreground = "\${colors.subtext0}";
         label-connected-padding = 1;
         format-connected-prefix = "";
@@ -114,5 +113,3 @@
     };
   };
 }
-
-

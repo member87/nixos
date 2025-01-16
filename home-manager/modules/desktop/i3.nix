@@ -1,6 +1,8 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   mod = "Mod4";
-in {
+in
+{
   xsession.windowManager.i3 = {
     enable = true;
     config = {
@@ -22,7 +24,7 @@ in {
         "${mod}+d" = "exec rofi -show drun";
       };
 
-      bars = [];
+      bars = [ ];
     };
   };
 }

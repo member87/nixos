@@ -1,14 +1,16 @@
-{pkgs, ...}: 
+{ pkgs, ... }:
 
 let
   # spotifyScriptPath = "${pkgs.polybar-spotify-script}/bin/polybar-spotify-script";
   spotifyScriptContent = builtins.readFile ./spotify.sh;
-  spotifyScriptPath = "${(pkgs.writeShellApplication {
-    name = "polybar-spotify-script";
-    runtimeInputs = [ pkgs.playerctl ];
-    text = spotifyScriptContent;
-  })}/bin/polybar-spotify-script";
-in 
+  spotifyScriptPath = "${
+    (pkgs.writeShellApplication {
+      name = "polybar-spotify-script";
+      runtimeInputs = [ pkgs.playerctl ];
+      text = spotifyScriptContent;
+    })
+  }/bin/polybar-spotify-script";
+in
 {
 
   services.polybar = {
@@ -76,7 +78,7 @@ in
         format-volume = "<ramp-volume><label-volume>";
         ramp-volume-0 = "";
         ramp-volume-1 = "";
-        ramp-volume-2 = " ";     
+        ramp-volume-2 = " ";
       };
 
       "module/memory" = {
@@ -105,7 +107,7 @@ in
         interface = "enp1s0";
         unkown-as-up = true;
         format-connected = "<label-connected>";
-        label-connected  = "%downspeed:%";
+        label-connected = "%downspeed:%";
         label-connected-foreground = "\${colors.subtext0}";
         label-connected-padding = 1;
         format-connected-prefix = "";
@@ -124,5 +126,3 @@ in
     };
   };
 }
-
-

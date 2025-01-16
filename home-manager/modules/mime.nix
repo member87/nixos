@@ -1,6 +1,5 @@
-
 {
- xdg.mimeApps = {
+  xdg.mimeApps = {
     enable = true;
     defaultApplications = {
       "application/xhtml+xml" = "zen.desktop";

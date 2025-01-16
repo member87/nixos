@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   nixpkgs.overlays = [
@@ -8,7 +13,7 @@
           ./winapps.patch
         ];
       });
-     })
+    })
   ];
 
   environment.systemPackages = with pkgs; [

@@ -1,8 +1,14 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
-let 
+let
   onnxRuntimePath = pkgs.onnxruntime.outPath;
-in {
+in
+{
   boot.kernel.sysctl = {
     "vm.max_map_count" = 16777216;
     "fs.file-max" = 524288;
@@ -10,7 +16,7 @@ in {
 
   zramSwap = {
     enable = true;
-    memoryMax = 32 * 1024 * 1024 * 1024;  # 32 GB ZRAM
+    memoryMax = 32 * 1024 * 1024 * 1024; # 32 GB ZRAM
   };
 
   nixpkgs.overlays = [
@@ -25,13 +31,12 @@ in {
         ];
       });
 
-
       star-citizen = inputs.nix-gaming.packages.${pkgs.system}.star-citizen.overrideAttrs (oldAttrs: {
         script = ''
-        echo "test"
+          echo "test"
         '';
       });
-     })
+    })
   ];
 
   environment.systemPackages = with pkgs; [
