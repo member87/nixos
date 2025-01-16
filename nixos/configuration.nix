@@ -146,6 +146,7 @@
     gcc
     go
     killall
+    lazygit
     ledger-live-desktop
     libnotify
     librewolf
