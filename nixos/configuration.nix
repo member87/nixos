@@ -134,6 +134,7 @@
 
   environment.systemPackages = with pkgs; [
     agenix
+    bat
     brave
     cargo
     curl

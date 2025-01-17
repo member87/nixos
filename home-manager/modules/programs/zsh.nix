@@ -14,6 +14,7 @@
     shellAliases = {
       vim = "nvim";
       cd = "z";
+      cat = "bat --theme=base16";
     };
 
     history = {
