@@ -9,5 +9,6 @@
     ./eww
     ./gtk.nix
     ./hyprlock.nix
+    ./hypridle.nix
   ];
 }
