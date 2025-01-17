@@ -145,7 +145,9 @@
     jq
     gcc
     go
+    gnumake
     killall
+    lua-language-server
     lazygit
     ledger-live-desktop
     libnotify
