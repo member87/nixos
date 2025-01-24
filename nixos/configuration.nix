@@ -201,6 +201,7 @@
 
   fonts.packages = with pkgs; [
     font-awesome
+    monaspace
     (nerdfonts.override {
       fonts = [
         "RobotoMono"
