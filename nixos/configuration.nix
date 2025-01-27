@@ -130,6 +130,10 @@
   time.timeZone = "Europe/London";
 
   hardware.i2c.enable = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
   services.hardware.openrgb.enable = true;
 
   environment.systemPackages = with pkgs; [
