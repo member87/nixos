@@ -170,7 +170,6 @@
     unstable.protontricks
     ripgrep
     socat
-    spotify
     treefmt
     unzip
     vesktop

@@ -21,7 +21,6 @@
     # ./nvim.nix
     ./modules
 
-    inputs.spicetify-nix.homeManagerModules.default
   ];
 
   nixpkgs = {

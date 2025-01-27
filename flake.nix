@@ -46,6 +46,7 @@
       catppuccin,
       unstable,
       agenix,
+      spicetify-nix,
       ...
     }@inputs:
     let
@@ -106,6 +107,7 @@
             # > Our main home-manager configuration file <
             catppuccin.homeManagerModules.catppuccin
             ./home-manager/home.nix
+            spicetify-nix.homeManagerModules.default
           ];
         };
       };
