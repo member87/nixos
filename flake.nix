@@ -28,7 +28,7 @@
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
-    zen-browser.url = "github:omarcresp/zen-browser-flake";
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
     nix-gaming.url = "github:fufexan/nix-gaming";
 
     ghostty.url = "github:ghostty-org/ghostty";
