@@ -3,7 +3,7 @@
     ./simple.nix
     ./zsh.nix
     ./starship.nix
-    ./spotify.nix
+    #./spotify.nix
     ./dunst.nix
     ./git.nix
     ./winapps.nix
