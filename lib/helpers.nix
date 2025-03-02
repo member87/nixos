@@ -30,7 +30,7 @@
       };
       modules = [
         inputs.catppuccin.homeManagerModules.catppuccin
-        inputs.spicetify-nix.homeManagerModules.default
+        inputs.spicetify-nix.homeManagerModules.spicetify
         ../home
       ];
     };

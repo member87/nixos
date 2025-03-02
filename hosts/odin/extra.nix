@@ -63,6 +63,7 @@
     ledger-live-desktop
     libnotify
     librewolf
+    localstack
     lutris
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
@@ -71,6 +72,7 @@
     nodejs
     nil
     nixfmt-rfc-style
+    obsidian
     pavucontrol
     playerctl
     python3
