@@ -2,6 +2,7 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 {
+  inputs,
   config,
   lib,
   pkgs,
@@ -11,20 +12,9 @@
 
 {
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.disko.nixosModules.disko
+    (import ./disks.nix { inherit lib; })
   ];
-
-  boot.initrd.availableKernelModules = [
-    "nvme"
-    "ahci"
-    "xhci_pci"
-    "thunderbolt"
-    "usbhid"
-    "sd_mod"
-  ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
 
   swapDevices = [ ];
 
