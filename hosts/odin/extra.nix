@@ -43,6 +43,7 @@
   services.hardware.openrgb.enable = true;
   environment.systemPackages = with pkgs; [
     agenix
+    amdvlk
     bat
     brave
     cargo

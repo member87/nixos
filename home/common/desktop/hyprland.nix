@@ -82,7 +82,7 @@
           "$mod SHIFT, right, movewindow, r"
           "$mod SHIFT, up, movewindow, u"
           "$mod SHIFT, down, movewindow, d"
-          "$mod, d, exec, wofi --show run"
+          "$mod, d, exec, wofi --show drun"
           "$mod SHIFT, e, exit"
           "$mod, l, exec, hyprlock"
           "$mod, mouse:272, movewindow"
