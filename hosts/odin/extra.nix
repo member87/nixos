@@ -42,6 +42,7 @@
   };
   services.hardware.openrgb.enable = true;
   environment.systemPackages = with pkgs; [
+    alejandra
     agenix
     amdvlk
     bat

@@ -84,7 +84,7 @@
         };
       };
 
-      formatter = libx.forAllSystems (system: self.packages.${system}.nixfmt-plus);
+      formatter = libx.forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
       overlays = import ./overlays { inherit inputs; };
     };
 }
