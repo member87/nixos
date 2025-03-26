@@ -5,8 +5,7 @@
   hostname,
   pkgs,
   ...
-}:
-{
+}: {
   networking.hostName = hostname;
   networking.nameservers = [
     "1.1.1.1"
@@ -16,7 +15,7 @@
     nohook resolv.conf
   '';
 
-  users.groups.plugdev = { };
+  users.groups.plugdev = {};
 
   systemd.extraConfig = "DefaultTimeoutStopSec=10s";
   services.udev.extraRules = ''
