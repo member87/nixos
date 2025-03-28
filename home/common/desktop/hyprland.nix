@@ -1,6 +1,10 @@
-{ pkgs, ... }:
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   wayland.windowManager.hyprland = {
+    systemd.variables = ["--all"];
     enable = true;
     settings = {
       "$mod" = "SUPER";
@@ -91,22 +95,20 @@
           ", XF86AudioPause, exec, playerctl play-pause"
           ", XF86AudioPlay, exec, playerctl play-pause"
           ", XF86AudioPrev, exec, playerctl previous"
-
         ]
         ++ (
           # workspaces
           # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
           builtins.concatLists (
             builtins.genList (
-              i:
-              let
+              i: let
                 ws = i + 1;
-              in
-              [
+              in [
                 "$mod, code:1${toString i}, workspace, ${toString ws}"
                 "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
               ]
-            ) 10
+            )
+            10
           )
         );
     };

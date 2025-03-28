@@ -94,6 +94,14 @@
     inputs.winapps.packages."${pkgs.system}".winapps-launcher
   ];
 
+  programs.nix-ld.enable = true;
+
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc.lib
+    glibc
+    zlib
+  ];
+
   catppuccin.enable = false;
   catppuccin.accent = "pink";
 

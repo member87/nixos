@@ -30,61 +30,59 @@
 
     ghostty.url = "github:ghostty-org/ghostty";
 
+    hyprland.url = "github:hyprwm/Hyprland";
+
     winapps = {
       url = "github:winapps-org/winapps";
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      catppuccin,
-      unstable,
-      agenix,
-      spicetify-nix,
-      ...
-    }@inputs:
-    let
-      inherit (self) outputs;
-      stateVersion = "24.11";
-      username = "jack";
-      flakePath = "/home/jack/nixos";
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    catppuccin,
+    unstable,
+    agenix,
+    spicetify-nix,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    stateVersion = "24.11";
+    username = "jack";
+    flakePath = "/home/jack/nixos";
 
-      libx = import ./lib {
-        inherit
-          self
-          inputs
-          outputs
-          stateVersion
-          username
-          flakePath
-          ;
-      };
-    in
-    {
-      packages = libx.forAllSystems (
-        system:
-        let
-          pkgs = unstable.legacyPackages.${system};
-        in
-        import ./pkgs { inherit pkgs; }
-      );
-
-      nixosConfigurations = {
-        odin = libx.mkHost {
-          hostname = "odin";
-        };
-      };
-
-      homeConfigurations = {
-        "${username}@odin" = libx.mkHome {
-          hostname = "odin";
-        };
-      };
-
-      formatter = libx.forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-      overlays = import ./overlays { inherit inputs; };
+    libx = import ./lib {
+      inherit
+        self
+        inputs
+        outputs
+        stateVersion
+        username
+        flakePath
+        ;
     };
+  in {
+    packages = libx.forAllSystems (
+      system: let
+        pkgs = unstable.legacyPackages.${system};
+      in
+        import ./pkgs {inherit pkgs;}
+    );
+
+    nixosConfigurations = {
+      odin = libx.mkHost {
+        hostname = "odin";
+      };
+    };
+
+    homeConfigurations = {
+      "${username}@odin" = libx.mkHome {
+        hostname = "odin";
+      };
+    };
+
+    formatter = libx.forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+    overlays = import ./overlays {inherit inputs;};
+  };
 }

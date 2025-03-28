@@ -7,5 +7,6 @@
     ./dunst.nix
     ./git.nix
     ./winapps.nix
+    ./nvim.nix
   ];
 }
