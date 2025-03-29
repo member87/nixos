@@ -69,6 +69,7 @@
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
     mangohud
+    nautilus
     neovim
     nodejs
     nil
