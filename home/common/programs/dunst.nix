@@ -2,8 +2,7 @@
   lib,
   config,
   ...
-}:
-{
+}: {
   services.dunst = {
     enable = true;
     settings = lib.mkForce {
@@ -28,13 +27,13 @@
       };
 
       urgency_low = {
-        background = "#11111b";
+        background = "#26233a";
         foreground = "#ffffff";
         timeout = 10;
       };
 
       urgency_normal = {
-        background = "#11111b";
+        background = "#26233a";
         foreground = "#ffffff";
         timeout = 10;
       };
