@@ -20,8 +20,8 @@
         gaps_out = 0;
         border_size = 2;
 
-        "col.active_border" = "rgba(f2cdcdff) rgba(cba6f7ff) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
+        "col.active_border" = "rgb(f6c177) rgb(ebbcba) 45deg";
+        "col.inactive_border" = "rgb(191724)";
 
         allow_tearing = false;
         layout = "dwindle";
