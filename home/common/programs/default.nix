@@ -8,5 +8,6 @@
     ./git.nix
     ./winapps.nix
     ./nvim.nix
+    ./btop.nix
   ];
 }
