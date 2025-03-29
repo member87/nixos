@@ -7,8 +7,7 @@
   username,
   inputs,
   ...
-}:
-{
+}: {
   imports = [
     ./common
   ];
@@ -35,8 +34,4 @@
       # permittedInsecurePackages = [ "electron-25.9.0" ];
     };
   };
-
-  catppuccin.enable = true;
-  catppuccin.accent = "pink";
-  catppuccin.cursors.enable = true;
 }

@@ -102,9 +102,6 @@
     zlib
   ];
 
-  catppuccin.enable = false;
-  catppuccin.accent = "pink";
-
   virtualisation = {
     docker.enable = true;
   };

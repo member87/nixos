@@ -16,8 +16,6 @@
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "unstable";
 
-    catppuccin.url = "github:catppuccin/nix";
-
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -41,7 +39,6 @@
     self,
     nixpkgs,
     home-manager,
-    catppuccin,
     unstable,
     agenix,
     spicetify-nix,

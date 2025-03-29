@@ -6,15 +6,13 @@
   username,
   flakePath,
   ...
-}:
-{
+}: {
   # Helper function for generating home-manager configs
-  mkHome =
-    {
-      hostname,
-      user ? username,
-      system ? "x86_64-linux",
-    }:
+  mkHome = {
+    hostname,
+    user ? username,
+    system ? "x86_64-linux",
+  }:
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.unstable.legacyPackages.${system};
       extraSpecialArgs = {
@@ -29,19 +27,17 @@
         username = user;
       };
       modules = [
-        inputs.catppuccin.homeManagerModules.catppuccin
         inputs.spicetify-nix.homeManagerModules.spicetify
         ../home
       ];
     };
 
   # Helper function for generating host configs
-  mkHost =
-    {
-      hostname,
-      pkgsInput ? inputs.unstable,
-      system ? "x86_64-linux",
-    }:
+  mkHost = {
+    hostname,
+    pkgsInput ? inputs.unstable,
+    system ? "x86_64-linux",
+  }:
     pkgsInput.lib.nixosSystem {
       specialArgs = {
         inherit
@@ -56,7 +52,6 @@
           ;
       };
       modules = [
-        inputs.catppuccin.nixosModules.catppuccin
         ../hosts
       ];
     };

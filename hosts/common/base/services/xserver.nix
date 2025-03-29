@@ -1,10 +1,4 @@
-{ ... }:
-{
-  services.displayManager.sddm = {
-    catppuccin.enable = false;
-    enable = true;
-  };
-
+{...}: {
   services.xserver = {
     enable = true;
     xkb.layout = "gb";
