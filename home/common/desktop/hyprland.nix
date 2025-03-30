@@ -1,8 +1,4 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
+{pkgs, ...}: {
   wayland.windowManager.hyprland = {
     systemd.variables = ["--all"];
     enable = true;
@@ -26,6 +22,10 @@
         allow_tearing = false;
         layout = "dwindle";
       };
+
+      env = [
+        "HYPRCURSOR_THEME,rose-pine-hyprcursor"
+      ];
 
       input = {
         kb_layout = "gb";

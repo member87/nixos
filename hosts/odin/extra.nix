@@ -69,7 +69,6 @@
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
     mangohud
-    nautilus
     neovim
     nodejs
     nil
@@ -80,6 +79,7 @@
     python3
     unstable.protontricks
     obs-studio
+    unstable.rose-pine-hyprcursor
     ripgrep
     socat
     treefmt
