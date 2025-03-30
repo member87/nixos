@@ -107,6 +107,7 @@
     docker.enable = true;
   };
 
+  services.displayManager.sddm.enable = true;
   services.spice-vdagentd.enable = true;
 
   fonts.packages = with pkgs; [
