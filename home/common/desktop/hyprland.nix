@@ -81,6 +81,11 @@
         disable_logs = true;
       };
 
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
+
       bind =
         [
           ", Print, exec, ~/scripts/screenshot"
@@ -97,7 +102,6 @@
           "$mod, d, exec, wofi --show drun"
           "$mod SHIFT, e, exit"
           "$mod, l, exec, hyprlock"
-          "$mod, mouse:272, movewindow"
           "$mod, f, fullscreen"
           ", XF86AudioNext, exec, playerctl next"
           ", XF86AudioPause, exec, playerctl play-pause"
