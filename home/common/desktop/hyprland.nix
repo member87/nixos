@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   home.pointerCursor = {
     package = pkgs.rose-pine-cursor;
     name = "BreezeX-RosePine-Linux";
@@ -29,6 +33,16 @@
 
         allow_tearing = false;
         layout = "dwindle";
+      };
+
+      group = {
+        "col.border_active" = "rgb(f6c177) rgb(ebbcba) 45deg";
+        "col.border_inactive" = "rgb(191724)";
+
+        groupbar = {
+          "col.active" = "rgb(f6c177)";
+          "col.inactive" = "rgb(191724)";
+        };
       };
 
       env = [
@@ -103,6 +117,9 @@
           "$mod SHIFT, e, exit"
           "$mod, l, exec, hyprlock"
           "$mod, f, fullscreen"
+          "$mod, w, togglegroup"
+          "$mod, tab, changegroupactive"
+          "$mod SHIFT, tab, changegroupactive, b"
           ", XF86AudioNext, exec, playerctl next"
           ", XF86AudioPause, exec, playerctl play-pause"
           ", XF86AudioPlay, exec, playerctl play-pause"

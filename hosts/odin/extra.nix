@@ -24,6 +24,11 @@
     KERNEL=="hidraw*", ATTRS{idVendor}=="2c97", MODE="0666"
   '';
 
+  nix.settings = {
+    substituters = ["https://hyprland.cachix.org"];
+    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  };
+
   fileSystems."/run/1TBSSD" = {
     device = "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_1TB_S3YBNB0K504591D-part1";
     fsType = "ext4";
@@ -38,7 +43,12 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
+
+    extraPackages = [
+      pkgs.amdvlk
+    ];
   };
+
   services.hardware.openrgb.enable = true;
   environment.systemPackages = with pkgs; [
     alejandra
@@ -106,7 +116,21 @@
     docker.enable = true;
   };
 
-  services.displayManager.sddm.enable = true;
+  services.greetd = {
+    enable = true;
+
+    settings = {
+      default_session = {
+        command = ''                  
+          ${pkgs.greetd.tuigreet}/bin/tuigreet \
+            --remember \
+            --remember-session \
+            --asterisks \
+            --time '';
+        user = "greeter";
+      };
+    };
+  };
   services.spice-vdagentd.enable = true;
 
   fonts.packages = with pkgs; [

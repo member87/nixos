@@ -1,5 +1,8 @@
-{ pkgs, lib, ... }:
 {
+  pkgs,
+  lib,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     efibootmgr
   ];
@@ -15,7 +18,7 @@
       "v4l2loopback"
     ];
 
-    kernelModules = [ "kvm-amd" ];
+    kernelModules = ["kvm-amd"];
 
     extraModulePackages = [
       pkgs.unstable.linuxPackages_zen.v4l2loopback

@@ -2,7 +2,9 @@
   services.xserver = {
     enable = true;
     xkb.layout = "gb";
+
     windowManager.i3.enable = true;
+    videoDrivers = ["amdgpu"];
 
     xrandrHeads = [
       {
