@@ -9,5 +9,6 @@
     ./winapps.nix
     ./nvim.nix
     ./btop.nix
+    ./lazygit.nix
   ];
 }

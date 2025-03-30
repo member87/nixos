@@ -60,7 +60,6 @@
     gphoto2
     killall
     lua-language-server
-    lazygit
     ledger-live-desktop
     libnotify
     librewolf
