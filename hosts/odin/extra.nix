@@ -89,6 +89,7 @@
     unstable.protontricks
     obs-studio
     unstable.rose-pine-hyprcursor
+    r2modman
     ripgrep
     socat
     treefmt
@@ -118,10 +119,11 @@
 
   services.greetd = {
     enable = true;
+    vt = 2;
 
     settings = {
       default_session = {
-        command = ''                  
+        command = ''                
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
