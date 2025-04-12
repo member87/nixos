@@ -39,6 +39,8 @@
     ];
   };
 
+  programs.thunar.enable = true;
+
   hardware.i2c.enable = true;
   hardware.graphics = {
     enable = true;
@@ -78,7 +80,7 @@
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
     mangohud
-    neovim
+    unstable.neovim
     nodejs
     nil
     nixfmt-rfc-style
@@ -119,11 +121,10 @@
 
   services.greetd = {
     enable = true;
-    vt = 4;
 
     settings = {
       default_session = {
-        command = ''              
+        command = ''                  
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
