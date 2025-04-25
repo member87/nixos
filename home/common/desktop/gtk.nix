@@ -14,18 +14,13 @@
       '';
     };
 
-    gtk3.extraConfig = {
-      gtk-button-images = 1;
-      gtk-application-prefer-dark-theme = true;
-    };
-
     gtk4.extraConfig = {
       gtk-application-prefer-dark-theme = true;
     };
 
     theme = {
-      package = pkgs.gnome.gnome-themes-extra;
-      name = "Adwaita-dark";
+      package = pkgs.rose-pine-gtk-theme;
+      name = "rose-pine-moon";
     };
   };
 }
