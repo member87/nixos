@@ -27,7 +27,6 @@
         username = user;
       };
       modules = [
-        inputs.spicetify-nix.homeManagerModules.spicetify
         ../home
       ];
     };
