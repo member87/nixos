@@ -4,5 +4,4 @@
   ];
 
   boot.isContainer = true;
-  boot.system.mask = ["sys-kernel-debug.mount"];
 }
