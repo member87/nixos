@@ -6,17 +6,6 @@
   pkgs,
   ...
 }: {
-  networking.hostName = hostname;
-  networking.nameservers = [
-    "1.1.1.1"
-    "1.0.0.1"
-  ];
-  networking.dhcpcd.extraConfig = ''
-    nohook resolv.conf
-  '';
-
-  users.groups.plugdev = {};
-
   systemd.extraConfig = "DefaultTimeoutStopSec=10s";
   services.udev.extraRules = ''
     SUBSYSTEMS=="usb", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="1b7c|2b7c|3b7c|4b7c", TAG+="uaccess", TAG+="udev-acl"
@@ -123,7 +112,7 @@
 
     settings = {
       default_session = {
-        command = ''              
+        command = ''            
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
