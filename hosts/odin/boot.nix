@@ -8,6 +8,7 @@
   ];
 
   boot = {
+    initrd.systemd.enable = true;
     initrd.availableKernelModules = [
       "nvme"
       "ahci"
@@ -25,5 +26,18 @@
     ];
 
     kernelPackages = pkgs.unstable.linuxPackages_zen;
+
+    kernel.sysctl = {
+      "net.ipv4.ip_forward" = 1;
+      "net.ipv6.conf.all.forwarding" = 1;
+    };
+
+    loader = {
+      grub = {
+        enable = true;
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+      };
+    };
   };
 }
