@@ -5,12 +5,10 @@
   inputs,
   config,
   lib,
-  modulesPath,
   ...
 }: {
   imports = [
     inputs.disko.nixosModules.disko
-    "${modulesPath}/virtualisation/lxc-container.nix"
   ];
 
   swapDevices = [];
