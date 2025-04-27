@@ -8,7 +8,7 @@
   ...
 }: {
   imports = [
-    inputs.disko.nixosModules.disko
+    <nixpkgs/nixos/modules/virtualisation/lxc-container.nix>
   ];
 
   swapDevices = [];
