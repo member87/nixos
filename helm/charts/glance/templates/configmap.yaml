@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: glance-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "glance.labels" . | nindent 4 }}
+data:
+  glance.yml: |-
+    pages:
+    - name: Home
+      columns:
+        - size: small
+          widgets:
+            - type: calendar
+              first-day-of-week: monday
+
+            - type: rss
+              limit: 10
+              collapse-after: 3
+              cache: 12h
+              feeds:
+                - url: https://selfh.st/rss/
+                  title: selfh.st
+                  limit: 4
+                - url: https://ciechanow.ski/atom.xml
+                - url: https://www.joshwcomeau.com/rss.xml
+                  title: Josh Comeau
+                - url: https://samwho.dev/rss.xml
+                - url: https://ishadeed.com/feed.xml
+                  title: Ahmad Shadeed
+
+        - size: full
+          widgets:
+            - type: monitor
+              cache: 1m
+              title: Servarr
+              sites:
+                - title: Jellyfin
+                  url: http://192.168.1.123:8096
+                  icon: di:jellyfin
+                - title: Jellyseerr
+                  url: http://192.168.1.123:5055/
+                  icon: di:jellyseerr
+                - title: Radarr
+                  url: http://192.168.1.123:7878/
+                  icon: di:radarr
+                - title: Sonarr
+                  url: http://192.168.1.123:8989/
+                  icon: di:sonarr
+                - title: Prowlarr
+                  url: http://192.168.1.123:9696/
+                  icon: di:prowlarr
+                - title: Bazarr
+                  url: http://192.168.1.123:6767/
+                  icon: di:bazarr
+
+
+            - type: monitor
+              cache: 1m
+              title: Applications
+              sites:
+                - title: Homeassistant
+                  url: https://home.jackhumes.com/
+                  icon: di:home-assistant
+                - title: Your Spotify 
+                  url: http://192.168.1.10:3333/
+                  icon: di:your-spotify
+                - title: Wireguard
+                  url: http://192.168.1.10:51821/
+                  icon: di:wireguard
+                - title: Ubiquiti
+                  url: http://192.168.1.1/
+                  icon: di:ubiquiti
+                - title: Qbittorrent
+                  url: http://192.168.1.123:8080/
+                  icon: di:qbittorrent
+                - title: Speedtest
+                  url: http://192.168.1.10:8090/
+                  icon: di:librespeed
+
+
+        - size: small
+          widgets:
+            - type: weather
+              location: Bournemouth, United Kingdom
+              units: metric
+              hour-format: 24h
+
+            - type: markets
+              markets:
+                - symbol: VUAG.L
+                  name: S&P 500
+                - symbol: BTC-USD
+                  name: Bitcoin
+                - symbol: MATD.L
+                  name: Petro Matad
+
+            - type: releases
+              cache: 1d
+              repositories:
+                - neovim/neovim
+                - home-assistant/core
+                - glanceapp/glance
+

@@ -28,6 +28,18 @@
     ];
   };
 
+  services = {
+    k3s = {
+      enable = true;
+      role = "server";
+      extraFlags = toString [
+        "--disable servicelb"
+        "--disable traefik"
+        "--disable local-storage"
+      ];
+    };
+  };
+
   programs.thunar.enable = true;
 
   hardware.i2c.enable = true;
@@ -42,6 +54,16 @@
 
   services.hardware.openrgb.enable = true;
   environment.systemPackages = with pkgs; [
+    k3s
+    (wrapHelm kubernetes-helm {
+      plugins = with pkgs.kubernetes-helmPlugins; [
+        helm-secrets
+        helm-diff
+        helm-s3
+        helm-git
+      ];
+    })
+    helmfile
     alejandra
     agenix
     amdvlk
@@ -112,7 +134,7 @@
 
     settings = {
       default_session = {
-        command = ''            
+        command = ''          
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
