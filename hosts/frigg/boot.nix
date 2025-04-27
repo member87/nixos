@@ -4,4 +4,11 @@
   ];
 
   boot.isContainer = true;
+
+  systemd.mounts = [
+    {
+      where = "/sys/kernel/debug";
+      enable = false;
+    }
+  ];
 }
