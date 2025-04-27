@@ -71,6 +71,10 @@
       odin = libx.mkHost {
         hostname = "odin";
       };
+
+      frigg = libx.mkHost {
+        hostname = "frigg";
+      };
     };
 
     homeConfigurations = {
