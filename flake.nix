@@ -81,6 +81,10 @@
       "${username}@odin" = libx.mkHome {
         hostname = "odin";
       };
+
+      "${username}@frigg" = libx.mkHome {
+        hostname = "frigg";
+      };
     };
 
     formatter = libx.forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
