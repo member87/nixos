@@ -11,7 +11,6 @@
   imports = [
     inputs.disko.nixosModules.disko
     "${modulesPath}/virtualisation/lxc-container.nix"
-    ./lxd.nix
   ];
 
   swapDevices = [];
