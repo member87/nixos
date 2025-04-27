@@ -104,7 +104,6 @@
     freerdp3
     inputs.zen-browser.packages."${pkgs.system}".default
     inputs.ghostty.packages."${pkgs.system}".default
-    inputs.winapps.packages."${pkgs.system}".winapps-launcher
   ];
 
   programs.nix-ld.enable = true;
@@ -124,7 +123,7 @@
 
     settings = {
       default_session = {
-        command = ''                
+        command = ''              
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
