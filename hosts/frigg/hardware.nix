@@ -7,9 +7,10 @@
   lib,
   ...
 }: {
-  imports = [
-    <nixpkgs/nixos/modules/virtualisation/lxc-container.nix>
-  ];
+  system.activationScripts.installInitScript = lib.mkForce ''
+    mkdir -p /sbin
+    ln -fs $systemConfig/init /sbin/init
+  '';
 
   swapDevices = [];
 
