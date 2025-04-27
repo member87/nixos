@@ -4,6 +4,7 @@
     agenix
     bat
     curl
+    gcc
     jq
     killall
     lua-language-server
