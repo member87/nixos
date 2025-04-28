@@ -97,6 +97,12 @@ readinessProbe:
     path: /
     port: http
 
+env:
+  - name: JELLYFIN_KEY
+    value: "06d9613bae3d4eeeaa6005eb1cbd6784"
+  - name: JELLYFIN_URL
+    value: "http://192.168.1.123:8096"
+
 #This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
   enabled: false
