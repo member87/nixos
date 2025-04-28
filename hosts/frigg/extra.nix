@@ -9,6 +9,7 @@
         helm-git
       ];
     })
+    helmfile
     alejandra
     agenix
     bat
