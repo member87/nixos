@@ -24,7 +24,6 @@
     unzip
     wget
     openiscsi
-    iscsi-initiator-utils
   ];
 
   environment.variables = {
