@@ -31,5 +31,12 @@ spec:
           value: "06d9613bae3d4eeeaa6005eb1cbd6784"
         - name: JELLYFIN_URL
           value: "http://192.168.1.123:8096"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
 
 
