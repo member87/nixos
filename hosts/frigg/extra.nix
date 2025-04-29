@@ -23,11 +23,14 @@
     ripgrep
     unzip
     wget
+    openiscsi
   ];
 
   environment.variables = {
     KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
   };
+
+  services.openiscsi.enable = true;
 
   services = {
     k3s = {
