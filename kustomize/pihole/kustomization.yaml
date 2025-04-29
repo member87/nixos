@@ -9,12 +9,6 @@ resources:
 - namespace.yaml
 
 
-securityContext:
-  capabilities:
-    add:
-      - NET_ADMIN
-      - NET_RAW
-
 # configMapGenerator:
 # - name: pihole-config
 #   files:
