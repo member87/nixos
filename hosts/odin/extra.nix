@@ -52,6 +52,8 @@
     ];
   };
 
+  hardware.opengl.enable = true;
+
   services.hardware.openrgb.enable = true;
   environment.systemPackages = with pkgs; [
     k3s
@@ -134,7 +136,7 @@
 
     settings = {
       default_session = {
-        command = ''                  
+        command = ''                
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \

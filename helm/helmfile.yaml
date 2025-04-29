@@ -1,6 +1,0 @@
-releases:
-- name: glance
-  namespace: openstack
-  chart: ./charts/glance
-  version: "0.1.0"
-
