@@ -24,21 +24,22 @@
     unzip
     wget
     openiscsi
+    iscsi-initiator-utils
   ];
 
   environment.variables = {
     KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
   };
 
+  systemd.tmpfiles.rules = [
+    "d /usr/bin 0755 root root -"
+    "L /usr/bin/iscsiadm - - - - ${pkgs.iscsi-initiator-utils}/sbin/iscsiadm"
+  ];
+
   services.openiscsi = {
     enable = true;
     name = "iqn.2025-04.local.homelab:frigg";
   };
-
-  system.activationScripts.usrlocalbin = ''
-    mkdir -m 0755 -p /usr/local
-    ln -nsf /run/current-system/sw/bin /usr/local/
-  '';
 
   services = {
     k3s = {

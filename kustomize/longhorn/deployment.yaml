@@ -19,18 +19,3 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
-  rules:
-    mutate:
-        patchStrategicMerge:
-          spec:
-            initContainers:
-              - (name): "*"
-                env:
-                  - name: PATH
-                    value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin
-            containers:
-              - (name): "*"
-                env:
-                  - name: PATH
-                    value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin
-
