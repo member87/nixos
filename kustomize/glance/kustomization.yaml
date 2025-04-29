@@ -6,6 +6,7 @@ namespace: glance
 resources:
 - deployment.yaml
 - service.yaml
+- namespace.yaml
 
 configMapGenerator:
 - name: glance-config
