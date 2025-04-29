@@ -5,3 +5,4 @@ namespace: argocd
 
 resources:
 - deployment.yaml
+- longhorn-critical-priorityclass.yaml
