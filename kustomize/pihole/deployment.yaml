@@ -29,7 +29,7 @@ spec:
         - name: JELLYFIN_KEY
           value: "06d9613bae3d4eeeaa6005eb1cbd6784"
         - name: JELLYFIN_URL
-          value: "http://192.1
+          value: "http://192.168.1.123:8096"
         - name: TZ
           value: 'Europe/London'
         - name: FTLCONF_webserver_api_password
