@@ -30,6 +30,8 @@
     KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
   };
 
+  environment.etc."usr/bin/iscsiadm".source = "${pkgs.openiscsi}/bin/iscsiadm";
+
   services = {
     k3s = {
       enable = true;
