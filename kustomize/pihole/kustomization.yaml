@@ -7,9 +7,4 @@ resources:
 - deployment.yaml
 - service.yaml
 - namespace.yaml
-
-
-configMapGenerator:
-- name: pihole-config
-  files:
-
+- pvc-shared-data.yaml

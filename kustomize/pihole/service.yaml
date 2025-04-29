@@ -22,3 +22,7 @@ spec:
     targetPort: 80
     nodePort: 32700
   type: NodePort
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800 
