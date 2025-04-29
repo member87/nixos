@@ -30,7 +30,10 @@
     KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
   };
 
-  services.openiscsi.enable = true;
+  services.openiscsi = {
+    enable = true;
+    name = "iqn.2025-04.local.homelab:frigg";
+  };
 
   services = {
     k3s = {
