@@ -35,6 +35,11 @@
     name = "iqn.2025-04.local.homelab:frigg";
   };
 
+  system.activationScripts.usrlocalbin = ''
+    mkdir -m 0755 -p /usr/local
+    ln -nsf /run/current-system/sw/bin /usr/local/
+  '';
+
   services = {
     k3s = {
       enable = true;
