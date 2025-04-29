@@ -30,7 +30,10 @@
     KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
   };
 
-  environment.etc."usr/bin/iscsiadm".source = "${pkgs.openiscsi}/bin/iscsiadm";
+  system.activationScripts.createIscsiadmLink = ''
+    mkdir -p /usr/local/bin
+    ln -sf $(which iscsiadm) /usr/local/bin/iscsiadm
+  '';
 
   services = {
     k3s = {
