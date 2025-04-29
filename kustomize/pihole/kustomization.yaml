@@ -9,6 +9,7 @@ resources:
 - namespace.yaml
 
 
-# configMapGenerator:
-# - name: pihole-config
-#   files:
+configMapGenerator:
+- name: pihole-config
+  files:
+
