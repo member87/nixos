@@ -21,6 +21,7 @@ spec:
           service:
             ui:
               type: NodePort
+              nodePort: 31000
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
