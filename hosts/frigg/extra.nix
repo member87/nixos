@@ -33,7 +33,7 @@
 
   systemd.tmpfiles.rules = [
     "d /usr/bin 0755 root root -"
-    "L /usr/bin/iscsiadm - - - - ${pkgs.iscsi-initiator-utils}/sbin/iscsiadm"
+    "L /usr/bin/iscsiadm - - - - ${pkgs.openiscsi}/bin/iscsiadm"
   ];
 
   services.openiscsi = {
