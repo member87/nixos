@@ -30,8 +30,6 @@
     KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
   };
 
-  services.openiscsi.enable = true;
-
   services = {
     k3s = {
       enable = true;
