@@ -24,6 +24,7 @@ spec:
         volumeMounts:
         - name: config-volume 
           mountPath: /etc/pihole/
+          readOnly: false
         env:
         - name: JELLYFIN_KEY
           value: "06d9613bae3d4eeeaa6005eb1cbd6784"
