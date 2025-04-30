@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-app # Unique name for this application in Argo CD
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/member87/nixos.git # Your repo
+    targetRevision: home-server
+    path: argocd/nginx/ # <-- Points to the nginx specific directory
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nginx # Target namespace for nginx (will be created if needed)
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true # Ensure namespace is created
