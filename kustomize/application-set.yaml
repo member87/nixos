@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: https://github.com/member87/nix
+        repoURL: https://github.com/member87/nixos
         revision: home-server
         directories:
           - path: kustomize/*
@@ -16,7 +16,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/member87/nix
+        repoURL: https://github.com/member87/nixis
         targetRevision: home-server
         path: '{{path}}'
       destination:
