@@ -4,22 +4,7 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-# - deployment.yaml
+- deployment.yaml
 - longhorn-critical-priorityclass.yaml
 
-helmCharts:
-  - name: longhorn
-    repo: https://charts.longhorn.io/
-    version: v1.8.1 
-    releaseName: longhorn 
-    namespace: longhorn
-    valuesInline:
-      preUpgradeChecker:
-        jobEnabled: false
-      ingress:
-        enabled: false
-      service:
-        ui:
-          type: NodePort
-          nodePort: 31000 
 
