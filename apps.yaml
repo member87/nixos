@@ -16,7 +16,7 @@ spec:
     # The branch or tag to sync from (e.g., 'main', 'HEAD', or a specific tag)
     targetRevision: home-server # Or 'main' or your desired branch/tag
     # The path within the repository containing the application manifests
-    path: argocd/ # Assuming your nginx.yaml is within this path
+    path: argocd/* # Assuming your nginx.yaml is within this path
 
   # Destination where the application should be deployed
   destination:
