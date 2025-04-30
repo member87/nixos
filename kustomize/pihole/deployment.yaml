@@ -17,9 +17,6 @@ spec:
         image: pihole/pihole
         ports:
         - containerPort: 80
-        volumeMounts:
-        - name: pihole-data
-          mountPath: /etc/pihole/
         env:
         - name: JELLYFIN_KEY
           value: "06d9613bae3d4eeeaa6005eb1cbd6784"
