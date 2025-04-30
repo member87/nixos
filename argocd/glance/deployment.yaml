@@ -17,11 +17,6 @@ spec:
     nodePort: 30000
   type: NodePort
 ---
-configMapGenerator:
-- name: glance-config
-  files:
-  - glance.yml
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
