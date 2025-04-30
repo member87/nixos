@@ -4,6 +4,6 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-# - longhorn-critical-priorityclass.yaml
-- base/longhorn.yaml
+- deployment.yaml
+- longhorn-critical-priorityclass.yaml
 

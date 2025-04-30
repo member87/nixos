@@ -9,7 +9,7 @@ spec:
         repoURL: https://github.com/member87/nixos
         revision: home-server
         directories:
-          - path: kustomize/*
+          - path: kustomize/apps/*
   template:
     metadata:
       name: '{{path.basename}}'
