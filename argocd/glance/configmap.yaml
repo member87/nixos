@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: glance-config # This name matches the volume reference in the deployment
+  name: glance-config 
 data:
   glance.yaml: |
     pages:
