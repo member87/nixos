@@ -5,6 +5,7 @@ namespace: argocd
 
 resources:
 - longhorn-critical-priorityclass.yaml
+- base/longhorn.yaml
 
 helmCharts:
   - name: longhorn
