@@ -1,20 +1,75 @@
+# kustomize/ApplicationSet.yaml
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
-  name: bootstrap-applicationsets
+  # Name of the ApplicationSet resource
+  name: kustomized-apps
+  # Namespace where the ApplicationSet controller is running (usually argocd)
   namespace: argocd
 spec:
-  project: default
-  source:
-    repoURL: https://github.com/member87/nixos
-    targetRevision: home-server
-    path: kustomize/*
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true 
+  # Define the generator strategy
+  generators:
+    - git:
+        # Replace with the URL of your Git repository
+      repoURL: https://github/com/member87/nixos
+        # Replace with the branch, tag, or commit SHA you want to track
+        revision: "home-server" # Or 'main', 'master', 'v1.0.0', etc.
+        # Specify directories to search for within the repo
+        directories:
+          # Scan for directories directly under the 'kustomize' path
+          - path: kustomize/*
+  # Template for the Argo CD Application resources that will be generated
+  template:
+    metadata:
+      # Generate Application names based on the directory found (e.g., kustomized-apps-glance)
+      # 'path.basename' extracts the last element of the path (glance, longhorn, pihole)
+      name: '{{path.basename}}-app'
+      # Place the generated Application resources in the argocd namespace
+      namespace: argocd
+      # Optional: Add labels or annotations to the generated Applications
+      # labels:
+      #   app-type: kustomize-deployment
+    spec:
+      # Reference the Argo CD project (default is 'default')
+      project: default
+
+      # Source definition for the application
+      source:
+        # Use the same repo URL as the generator
+        repoURL: '{{repoURL}}' # Use the repoURL from the generator
+        # Use the same revision as the generator
+        targetRevision: '{{revision}}' # Use the revision from the generator
+        # The path to the Kustomize application directory found by the generator
+        path: '{{path}}' # Use the full path discovered by the generator (e.g., kustomize/glance)
+
+        # Specify that Kustomize should be used
+        kustomize: {} # An empty object is sufficient to enable Kustomize
+
+      # Destination cluster and namespace for deployment
+      destination:
+        # Target cluster URL (use kubernetes.default.svc for in-cluster deployment)
+        server: https://kubernetes.default.svc
+        # Target namespace in the cluster where resources will be deployed
+        # We use 'path.basename' to dynamically set the namespace based on the app directory name
+        # (e.g., 'glance', 'longhorn', 'pihole')
+        # This assumes your directory names match your intended namespaces.
+        # If your kustomization.yaml or namespace.yaml defines the namespace,
+        # ensure CreateNamespace=true is set below or adjust this field.
+        namespace: '{{path.basename}}'
+
+      # Synchronization policy
+      syncPolicy:
+        automated:
+          # Automatically prune resources that are no longer defined in Git
+          prune: true
+          # Automatically sync the application when changes are detected in Git
+          selfHeal: true
+        # Sync options
+        syncOptions:
+          # Important: Allows Argo CD to create the target namespace if it doesn't exist.
+          # This is useful when dynamically setting the namespace like above.
+          - CreateNamespace=true
+          # Optional: Apply resources even if they are already managed by another tool (use with caution)
+          # - ApplyOutOfSyncOnly=true
+          # Optional: Prune resources last during the sync operation
+          # - PruneLast=true
