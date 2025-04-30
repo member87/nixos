@@ -12,10 +12,6 @@ spec:
       labels:
         app: pihole 
     spec:
-      volumes:
-      - name: pihole-data
-        persistentVolumeClaim:
-          claimName: pihole-shared-data
       containers:
       - name: pihole 
         image: pihole/pihole
