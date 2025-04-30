@@ -1,14 +1,38 @@
-appVersion: argoproj.io/v1alpha1
+
+apiVersion: argoproj.io/v1alpha1
 kind: Application
-metadata: 
-  name: app-of-apps
-spec: 
-  destination: 
-    name: in-cluster
-    namespace: argocd
-  source:
-    path: argocd
-    repoURL: https://github.com/member87/nixos
-    targetRevision: home-server
+metadata:
+  # Name of the ArgoCD Application resource
+  name: nixos-apps
+  # Namespace where ArgoCD is installed (commonly 'argocd')
+  namespace: argocd
+spec:
+  # The ArgoCD project this application belongs to (usually 'default')
   project: default
+
+  # Source of the application manifests
+  source:
+    # URL of your Git repository
+    repoURL: https://github.com/member87/nixos.git
+    # The branch or tag to sync from (e.g., 'main', 'HEAD', or a specific tag)
+    targetRevision: home-server # Or 'main' or your desired branch/tag
+    # The path within the repository containing the application manifests
+    path: argocd/
+
+  # Destination where the application should be deployed
+  destination:
+    # The Kubernetes API server URL (usually the in-cluster default)
+    server: https://kubernetes.default.svc
+    # The target namespace in your cluster where resources from 'apps/' will be deployed
+    namespace: default # Change this to your desired target namespace
+
+  # Synchronization policy
+  syncPolicy:
+    automated:
+      # Automatically sync when changes are detected in the source
+      prune: true # Delete resources that are no longer defined in Git
+      selfHeal: true # Automatically sync if the live state drifts from the desired state in Git
+    # Alternatively, you could use a manual sync policy by omitting 'automated'
+    # syncOptions:
+    # - CreateNamespace=true # Optional: Create the target namespace if it doesn't exist
 
