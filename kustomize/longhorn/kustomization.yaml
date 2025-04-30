@@ -4,7 +4,21 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-- deployment.yaml
 - longhorn-critical-priorityclass.yaml
 
-
+helmCharts:
+  - name: longhorn
+    repo: https://charts.longhorn.io/
+    version: v1.8.1 # Specify the Longhorn chart version
+    releaseName: longhorn # Name of the Helm release
+    namespace: longhorn # IMPORTANT: This namespace MUST match the ApplicationSet destination
+    valuesInline:
+      # Add any Helm values you need to customize here
+      preUpgradeChecker:
+        jobEnabled: false
+      ingress:
+        enabled: false
+      service:
+        ui:
+          type: NodePort
+          nodePort: 31000
