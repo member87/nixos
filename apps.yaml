@@ -1,0 +1,14 @@
+appVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: app-of-apps
+spec: 
+  destination: 
+    name: in-cluster
+    namespace: argocd
+  source:
+    path: argocd
+    repoURL: https://github.com/member87/nixos
+    targetRevision: home-server
+  project: default
+
