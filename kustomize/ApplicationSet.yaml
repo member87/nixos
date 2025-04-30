@@ -11,7 +11,7 @@ spec:
   generators:
     - git:
         # Replace with the URL of your Git repository
-      repoURL: https://github/com/member87/nixos
+        repoURL: "https://github/com/member87/nixos"
         # Replace with the branch, tag, or commit SHA you want to track
         revision: "home-server" # Or 'main', 'master', 'v1.0.0', etc.
         # Specify directories to search for within the repo
