@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: longhorn
-  namespace: longhorn
+  namespace: argocd
 spec:
   syncPolicy:
     syncOptions:
@@ -22,6 +22,7 @@ spec:
             ui:
               type: NodePort
               nodePort: 31000
+
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
