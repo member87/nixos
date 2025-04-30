@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: glance-config 
 data:
-  glance.yaml: |
+  glance.yml: |
     pages:
       - name: Home
         columns:
