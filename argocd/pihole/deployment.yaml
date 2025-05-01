@@ -37,27 +37,43 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: pihole-service
-  namespace: pihole
+  name: pihole-web
+  labels: 
+    app.kubernetes.io/name: pi-hole
+    pi.hole/role: read-write
 spec:
-  selector:
-    app: pihole
-  ports:
-  - name: dns-tcp
-    protocol: TCP
-    port: 53
-    targetPort: 53
-  - name: dns-udp
-    protocol: UDP
-    port: 53
-    targetPort: 53
-  - name: http-web
-    protocol: TCP
-    port: 80
-    targetPort: 80
-    nodePort: 32700
-  type: NodePort
   sessionAffinity: ClientIP
   sessionAffinityConfig:
     clientIP:
-      timeoutSeconds: 10800
+      timeoutSeconds: 300
+  selector:
+    app.kubernetes.io/name: pihole
+    pi.hole/role: read-write
+  ports:
+  - port: 80
+    targetPort: http
+    name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pihole-dns
+  labels:
+    app.kubernetes.io/name: pi-hole
+  annotations:
+    io.cilium/lb-ipam-sharing-key: "pihole-svc"
+    io.cilium/lb-ipam-ips: "10.2.0.6"
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+  - port: 53
+    targetPort: 53
+    protocol: TCP
+    name: dns-tcp
+  - port: 53
+    targetPort: 53
+    protocol: UDP
+    name: dns-udp
+  selector:
+    app.kubernetes.io/name: pihole
