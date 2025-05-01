@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pihole-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pihole 
+  template:
+    metadata:
+      labels:
+        app: pihole 
+    spec:
+      containers:
+      - name: pihole 
+        image: pihole/pihole
+        ports:
+        - containerPort: 80
+        env:
+        - name: TZ
+          value: 'Europe/London'
+        - name: FTLCONF_webserver_api_password
+          value: 'password'
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pihole 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pihole-service
+spec:
+  selector:
+    app: pihole
+  ports:
+  - name: dns-tcp
+    protocol: TCP
+    port: 53
+    targetPort: 53
+    nodePort: 32701
+  - name: dns-udp
+    protocol: UDP
+    port: 53
+    targetPort: 53
+    nodePort: 32701 
+  - name: http-web
+    protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 32700
+  type: NodePort
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800 
