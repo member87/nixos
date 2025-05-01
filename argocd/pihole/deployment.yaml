@@ -30,13 +30,6 @@ spec:
           value: 'password'
         - name: INTERFACE
           value: 'all'
-        volumeMounts:
-        - name: pihole-storage
-          mountPath: "/etc/pihole/"
-      volumes:
-      - name: pihole-storage
-        persistentVolumeClaim:
-          claimName: pihole-config
 ---
 apiVersion: v1
 kind: Namespace
@@ -101,16 +94,3 @@ metadata:
 spec:
   ipAddressPools:
   - pihole-pool
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pihole-config
-  namespace: pihole
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
-
