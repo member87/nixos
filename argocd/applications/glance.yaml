@@ -11,7 +11,7 @@ spec:
     path: argocd/glance/
   destination:
     server: https://kubernetes.default.svc
-    namespace: nginx
+    namespace: glance
   syncPolicy:
     automated:
       prune: true
