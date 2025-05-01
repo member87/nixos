@@ -11,6 +11,14 @@ spec:
     path: charts/metallb
     helm:
       releaseName: metallb
+      parameters:
+        - name: speaker.enabled
+          value: "true"
+        - name: controller.enabled
+          value: "true"
+        - name: layer2.enabled
+          value: "true"
+
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb-system
