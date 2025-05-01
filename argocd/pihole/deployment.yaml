@@ -39,6 +39,14 @@ spec:
           claimName: pihole-config-logs-pvc 
 
 ---
+apiVersion: longhorn.io/v1beta2
+kind: BackupTarget
+metadata:
+  name: default
+spec:
+  credentialSecret: ""
+  endpoint: ""
+---
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -51,7 +59,7 @@ metadata:
   namespace: pihole            
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
