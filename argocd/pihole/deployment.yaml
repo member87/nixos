@@ -28,6 +28,15 @@ spec:
           value: 'Europe/London'
         - name: FTLCONF_webserver_api_password
           value: 'password'
+        - name: INTERFACE
+          value: 'all'
+        volumeMounts:
+        - name: pihole-storage
+          mountPath: "/etc/pihole/"
+      volumes:
+      - name: pihole-storage
+        persistentVolumeClaim:
+          claimName: pihole-config
 ---
 apiVersion: v1
 kind: Namespace
