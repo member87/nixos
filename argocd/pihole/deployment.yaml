@@ -30,11 +30,32 @@ spec:
           value: 'password'
         - name: INTERFACE
           value: 'all'
+        volumeMounts:
+        - name: pihole-persistent-storage
+          mountPath: /etc/pihole         
+      volumes:
+      - name: pihole-persistent-storage
+        persistentVolumeClaim:
+          claimName: pihole-config-logs-pvc 
+
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: pihole
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pihole-config-logs-pvc 
+  namespace: pihole            
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: longhorn 
 ---
 apiVersion: v1
 kind: Service
