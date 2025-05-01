@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/metallb/metallb.git
     targetRevision: v0.14.9
-    path: config/manifests/metallb-native.yaml 
+    path: config/manifests/
   destination:
     server: https://kubernetes.default.svc 
     namespace: metallb-system  
