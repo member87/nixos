@@ -57,6 +57,6 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 80
-    nodePort: 32700 
-  type: NodePort 
+    # nodePort: 32700 
+  type: LoadBalancer
   sessionAffinity: ClientIP 
