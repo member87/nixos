@@ -39,7 +39,7 @@ kind: Service
 metadata:
   name: pihole-web
   labels: 
-    app.kubernetes.io/name: pi-hole
+    app.kubernetes.io/name: pihole
     pi.hole/role: read-write
 spec:
   sessionAffinity: ClientIP
@@ -59,7 +59,7 @@ kind: Service
 metadata:
   name: pihole-dns
   labels:
-    app.kubernetes.io/name: pi-hole
+    app.kubernetes.io/name: pihole
   annotations:
     io.cilium/lb-ipam-sharing-key: "pihole-svc"
     io.cilium/lb-ipam-ips: "10.2.0.6"
