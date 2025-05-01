@@ -39,16 +39,14 @@ kind: Service
 metadata:
   name: pihole-web
   labels: 
-    app.kubernetes.io/name: pihole
-    pi.hole/role: read-write
+    name: pihole
 spec:
   sessionAffinity: ClientIP
   sessionAffinityConfig:
     clientIP:
       timeoutSeconds: 300
   selector:
-    app.kubernetes.io/name: pihole
-    pi.hole/role: read-write
+    name: pihole
   ports:
   - port: 80
     targetPort: http
@@ -59,10 +57,7 @@ kind: Service
 metadata:
   name: pihole-dns
   labels:
-    app.kubernetes.io/name: pihole
-  annotations:
-    io.cilium/lb-ipam-sharing-key: "pihole-svc"
-    io.cilium/lb-ipam-ips: "10.2.0.6"
+    name: pihole
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
