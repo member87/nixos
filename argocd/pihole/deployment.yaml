@@ -71,4 +71,4 @@ spec:
     protocol: UDP
     name: dns-udp
   selector:
-    app.kubernetes.io/name: pihole
+    name: pihole
