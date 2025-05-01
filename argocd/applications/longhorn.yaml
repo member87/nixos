@@ -14,6 +14,12 @@ spec:
       targetRevision: v1.8.1 
       helm:
         values: |
+          ingress:
+            enabled: false
+          service:
+            ui:
+              type: NodePort
+              nodePort: 32699
           preUpgradeChecker:
             jobEnabled: false
   destination:
