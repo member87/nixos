@@ -36,7 +36,7 @@ spec:
       volumes:
       - name: pihole-persistent-storage
         persistentVolumeClaim:
-          claimName: pihole-config-logs-pvc-rwx
+          claimName: pihole-config-logs-pvcrwx
 
 ---
 apiVersion: v1
@@ -47,11 +47,11 @@ metadata:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pihole-config-logs-pvc-rwx
+  name: pihole-config-logs-pvcrwx
   namespace: pihole            
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 5Mi
