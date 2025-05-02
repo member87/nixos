@@ -86,7 +86,7 @@ metadata:
     app: pihole
 spec:
   type: LoadBalancer
-  externalTrafficPolicy: Cluster
+  externalTrafficPolicy: Local
   selector:
     app: pihole
   ports:
