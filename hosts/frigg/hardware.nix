@@ -7,6 +7,11 @@
   lib,
   ...
 }: {
+  imports = [
+    inputs.disko.nixosModules.disko
+    (import ./disks.nix {inherit lib;})
+  ];
+
   system.activationScripts.installInitScript = lib.mkForce ''
     mkdir -p /sbin
     ln -fs $systemConfig/init /sbin/init
