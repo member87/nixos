@@ -4,7 +4,7 @@ set -euo pipefail
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 TARGET_HOST="${1:-}"
-TARGET_USER="${2:-paul}"
+TARGET_USER="${2:-jack}"
 
 if [ "$(id -u)" -eq 0 ]; then
   echo "ERROR! $(basename "${0}") should be run as a regular user"
@@ -46,13 +46,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     sudo nixos-install --flake ".#${TARGET_HOST}"
 
     # Rsync my nix-config to the target install
-    mkdir -p "/mnt/home/${TARGET_USER}/.dotfiles"
-    rsync -a --delete "${DIR}/.." "/mnt/home/${TARGET_USER}/.dotfiles"
-
-    # If there is a keyfile for a data disk, put copy it to the root partition and
-    # ensure the permissions are set appropriately.
-    if [[ -f "/tmp/data.keyfile" ]]; then
-      sudo cp /tmp/data.keyfile /mnt/etc/data.keyfile
-      sudo chmod 0400 /mnt/etc/data.keyfile
-    fi
+    mkdir -p "/mnt/home/${TARGET_USER}/nixos"
+    rsync -a --delete "${DIR}/.." "/mnt/home/${TARGET_USER}/nixos"
 fi

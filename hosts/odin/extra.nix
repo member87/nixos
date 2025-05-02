@@ -109,7 +109,7 @@
     socat
     treefmt
     unzip
-    vesktop
+    legcord
     wineWowPackages.stable
     wl-clipboard
     wget
@@ -136,7 +136,7 @@
 
     settings = {
       default_session = {
-        command = ''                
+        command = ''              
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
