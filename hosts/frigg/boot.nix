@@ -3,8 +3,6 @@
     efibootmgr
   ];
 
-  boot.isContainer = true;
-
   boot = {
     initrd.systemd.enable = true;
     initrd.availableKernelModules = [
