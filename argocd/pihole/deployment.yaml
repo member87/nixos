@@ -47,7 +47,7 @@ metadata:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pihole-config-logs-pvc 
+  name: pihole-config-logs-pvc-rwx
   namespace: pihole            
 spec:
   accessModes:
