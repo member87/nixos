@@ -5,26 +5,15 @@
 
   boot.isContainer = true;
 
-  systemd.mounts = [
-    {
-      where = "/sys/kernel/debug";
-      enable = false;
-    }
-  ];
-
   boot = {
     initrd.systemd.enable = true;
     initrd.availableKernelModules = [
-      "nvme"
       "ahci"
       "xhci_pci"
       "thunderbolt"
       "usbhid"
       "sd_mod"
-      "v4l2loopback"
     ];
-
-    kernelModules = ["kvm-amd"];
 
     extraModulePackages = [
       pkgs.unstable.linuxPackages_zen.v4l2loopback
