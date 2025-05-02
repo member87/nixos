@@ -68,10 +68,6 @@ metadata:
     app: pihole 
 spec:
   type: NodePort 
-  sessionAffinity: ClientIP
-  sessionAffinityConfig:
-    clientIP:
-      timeoutSeconds: 300
   selector:
     app: pihole
   ports:
