@@ -26,6 +26,8 @@ spec:
         env:
         - name: TZ
           value: 'Europe/London'
+        - name: FTLCONF_dns_special_domains_iCloudPrivateRelay
+          value: false
         - name: FTLCONF_webserver_api_password
           value: 'password'
         - name: INTERFACE
