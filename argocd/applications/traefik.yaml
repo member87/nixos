@@ -44,6 +44,13 @@ spec:
             metrics:
               address: ":9100"
 
+          ports:
+            web:
+              redirectTo: websecure
+            websecure:
+              tls:
+                enabled: true
+
           metrics:
             prometheus:
               entryPoint: metrics 
