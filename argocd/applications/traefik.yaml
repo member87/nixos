@@ -52,12 +52,12 @@ spec:
               externalTrafficPolicy: Local 
           
           ports:
-            web:
-              redirections:
-                entryPoint:
-                  to: websecure
-                  scheme: https
-                  permanent: true
+            # web:
+            #   redirections:
+            #     entryPoint:
+            #       to: websecure
+            #       scheme: https
+            #       permanent: true
             websecure:
               tls:
                 enabled: true
@@ -81,6 +81,7 @@ metadata:
 spec:
   entryPoints:
     - websecure
+    - web
   routes:
     - match: Host(`traefik.lab.member87.xyz`)
       kind: Rule
