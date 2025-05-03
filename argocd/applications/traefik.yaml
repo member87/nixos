@@ -53,7 +53,7 @@ spec:
           
           ports:
             web:
-              redirectTo websecure
+              redirectTo: websecure
             websecure:
               tls:
                 enabled: true
