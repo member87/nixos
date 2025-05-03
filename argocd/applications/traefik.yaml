@@ -20,7 +20,6 @@ spec:
           additionalArguments:
             - "--serversTransport.insecureSkipVerify=true"
             - "--log.level=DEBUG"
-            - "--tls.options.default.cipherSuites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256"
 
           providers:
             kubernetesCRD:
@@ -51,6 +50,15 @@ spec:
               http:
                 tls:
                   enabled: true
+                  options: {}
+                  cipherSuites:
+                    - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+                    - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+                    - "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
+                    - "TLS_AES_128_GCM_SHA256"
+                    - "TLS_AES_256_GCM_SHA384"
+                    - "TLS_CHACHA20_POLY1305_SHA256"
+
             metrics:
               address: ":9100"
 
