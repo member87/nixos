@@ -35,11 +35,11 @@ spec:
             replicas: 1
 
           dashboard:
-            enable: true
+            enabled: true
 
           ingressRoute:
             dashboard:
-              enabled: false
+              enabled: true
 
           rbac:
             enabled: true
