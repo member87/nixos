@@ -20,6 +20,15 @@ spec:
           additionalArguments:
             - "--serversTransport.insecureSkipVerify=true"
 
+          providers:
+            kubernetesCRD:
+              enabled: true
+              ingressClass: traefik-external
+            kubernetesIngress:
+              enabled: true
+              publishedService:
+                enabled: false
+
           deployment:
             enabled: true
             replicas: 3
