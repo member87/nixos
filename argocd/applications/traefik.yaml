@@ -19,6 +19,7 @@ spec:
         values: |
           additionalArguments:
             - "--serversTransport.insecureSkipVerify=true"
+            - "--log.level=DEBUG"
 
           providers:
             kubernetesCRD:
@@ -31,9 +32,8 @@ spec:
 
           deployment:
             enabled: true
-            replicas: 3
+            replicas: 1
 
-          # Enable the Traefik dashboard service (internal)
           dashboard:
             enabled: true
 
