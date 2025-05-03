@@ -1,0 +1,51 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+spec:
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  project: default
+  sources:
+    - chart: traefik
+      repoURL: https://traefik.github.io/charts
+      targetRevision: 35.2.0
+      helm:
+        values: |
+          additionalArguments:
+            - "--serversTransport.insecureSkipVerify=true"
+
+          deployment:
+            enabled: true
+            replicas: 3
+
+          dashboard:
+            enabled: true
+
+          entryPoints:
+            web:
+              address: ":80"
+            websecure:
+              address: ":443"
+            metrics:
+              address: ":9100"
+
+          metrics:
+            prometheus:
+              entryPoint: metrics 
+              enabled: true
+
+          service:
+            type: LoadBalancer
+            spec:
+              externalTrafficPolicy: Local 
+
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: traefik
