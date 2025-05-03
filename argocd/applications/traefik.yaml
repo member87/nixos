@@ -50,8 +50,8 @@ spec:
     server: https://kubernetes.default.svc
     namespace: traefik
 ---
-apiVersion: traefik.containo.us/v1
-kind: Ingress
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: traefik-dashboard
   namespace: traefik
@@ -62,7 +62,7 @@ spec:
     - web
   routes:
     - match: Host(`traefik.lab.member87.xyz`)
-      kind: rule
+      kind: Rule
       services:
         - name: api@internal
           kind: TraefikService
