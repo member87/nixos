@@ -33,14 +33,23 @@ spec:
             enabled: true
             replicas: 3
 
+          # Enable the Traefik dashboard service (internal)
           dashboard:
             enabled: true
 
           entryPoints:
             web:
               address: ":80"
+              http:
+                redirections:
+                  entryPoint:
+                    to: websecure
+                    scheme: https
             websecure:
               address: ":443"
+              http:
+                tls:
+                  enabled: true
             metrics:
               address: ":9100"
 
@@ -54,26 +63,24 @@ spec:
           service:
             enabled: true
             type: LoadBalancer
-            spec: 
-              loadBalancerIP: 192.168.1.250
-
+            spec:
+              loadBalancerIP: 192.168.1.250 
+              externalTrafficPolicy: Local 
+          
           ports:
             web:
-              redirectTo: websecure
+              port: 80
+              expose: true
+              exposedPort: 80
             websecure:
-              tls:
-                enabled: true
+              port: 443
+              expose: true
+              exposedPort: 443
 
           metrics:
             prometheus:
-              entryPoint: metrics 
+              entryPoint: metrics
               enabled: true
-
-          service:
-            type: LoadBalancer
-            spec:
-              externalTrafficPolicy: Local 
-
 
   destination:
     server: https://kubernetes.default.svc
