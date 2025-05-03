@@ -37,31 +37,6 @@ spec:
           dashboard:
             enabled: true
 
-          entryPoints:
-            web:
-              address: ":80"
-              http:
-                redirections:
-                  entryPoint:
-                    to: websecure
-                    scheme: https
-            websecure:
-              address: ":443"
-              http:
-                tls:
-                  enabled: true
-                  options: {}
-                  cipherSuites:
-                    - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
-                    - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
-                    - "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
-                    - "TLS_AES_128_GCM_SHA256"
-                    - "TLS_AES_256_GCM_SHA384"
-                    - "TLS_CHACHA20_POLY1305_SHA256"
-
-            metrics:
-              address: ":9100"
-
           ingressRoute:
             dashboard:
               enabled: false
@@ -78,11 +53,10 @@ spec:
           
           ports:
             web:
-              port: 80
-              exposedPort: 80
+              redirectTo websecure
             websecure:
-              port: 443
-              exposedPort: 443
+              tls:
+                enabled: true
 
           metrics:
             prometheus:
