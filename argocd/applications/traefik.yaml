@@ -59,7 +59,7 @@ metadata:
     kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - match: Host(`traefik.lab.member87.xyz`)
       kind: Rule
