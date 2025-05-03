@@ -50,7 +50,7 @@ spec:
     server: https://kubernetes.default.svc
     namespace: traefik
 ---
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.containo.us/v1
 kind: Ingress
 metadata:
   name: traefik-dashboard
