@@ -35,7 +35,7 @@ spec:
             replicas: 1
 
           dashboard:
-            enabled: true
+            enable: true
 
           ingressRoute:
             dashboard:
@@ -60,7 +60,7 @@ spec:
                   permanent: true
             websecure:
               tls:
-                enabled: false
+                enabled: true
 
           metrics:
             prometheus:
