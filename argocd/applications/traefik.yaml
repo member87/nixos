@@ -60,7 +60,7 @@ spec:
                   permanent: true
             websecure:
               tls:
-                enabled: true
+                enabled: false
 
           metrics:
             prometheus:
