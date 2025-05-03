@@ -49,7 +49,6 @@ spec:
             type: LoadBalancer
             spec:
               loadBalancerIP: 192.168.1.250 
-              externalTrafficPolicy: Local 
           
           ports:
             # web:
@@ -81,10 +80,29 @@ metadata:
 spec:
   entryPoints:
     - websecure
-    - web
   routes:
     - match: Host(`traefik.lab.member87.xyz`)
       kind: Rule
       services:
         - name: api@internal
           kind: TraefikService
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-dashboard
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: default-traefik-dashboard-auth@kubernetescrd
+spec:
+  rules:
+  - host: traefik-dashboard.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: traefik-api
+            port:
+              name: traefik
