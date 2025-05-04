@@ -6,6 +6,8 @@ spec:
   acme:
     email: lab@member87.xyz
     server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: cloudflare-cluster-issuer-key
     solvers:
       - dns01:
           cloudflare:
