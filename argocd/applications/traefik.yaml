@@ -31,6 +31,10 @@ spec:
             enabled: true
             replicas: 1
 
+          service:
+            spec:
+              loadBalancerIP: 192.168.1.250
+
   destination:
     server: https://kubernetes.default.svc
     namespace: traefik
