@@ -23,6 +23,9 @@ spec:
               entryPoints: [web, websecure]
               matchRule: Host(`traefik.lab.member87.xyz`)
 
+          rbac:
+            enabled: true
+
           additionalArguments:
             - "--serverstransport.insecureskipverify=true"
             - "--log.level=DEBUG"
