@@ -27,6 +27,14 @@ spec:
             - "--serverstransport.insecureskipverify=true"
             - "--log.level=DEBUG"
 
+          entryPoints:
+            websecure:
+              address: ":8443"
+              http:
+                tls: {}
+                http3: {}
+
+
           deployment:
             enabled: true
             replicas: 1

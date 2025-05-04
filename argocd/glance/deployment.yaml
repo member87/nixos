@@ -30,6 +30,10 @@ spec:
       services:
         - name: glance-service
           port: 8080
+          healthCheck:
+            path: / 
+            interval: "15s"
+            timeout: "5s"
   tls:
     secretName: glance-certificate-secret
 ---
