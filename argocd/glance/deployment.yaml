@@ -17,6 +17,21 @@ spec:
     nodePort: 30000
   type: NodePort
 ---
+apiVesrion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: glance-ingressroute
+  namespace: glance
+spec:
+  entryPoitns:
+    - websecure
+  routes:
+    - match: Host(`dashboard.lab.member87.xyz`)
+      kind: Rule
+      services:
+        - name: nginx
+          port: 8080
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
