@@ -21,7 +21,7 @@ spec:
             dashboard:
               enabled: true
               entryPoints: [web, websecure]
-              matchRule: Host(`traefik.lab.member87.xyz`)
+              matchRule: Host(`traefik-dashboard.lab.member87.xyz`)
           # additionalArguments:
           #   - "--serverstransport.insecureskipverify=true"
           #   - "--log.level=DEBUG"
