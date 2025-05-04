@@ -31,7 +31,7 @@ spec:
         - name: glance-service
           port: 8080
   tls:
-    secretName: wildcard-certificate-secret
+    secretName: cert-manager/wildcard-certificate-secret
     options:
       name: ""
     domains:
