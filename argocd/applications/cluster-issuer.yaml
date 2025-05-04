@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-issuer 
+  namespace: cluster-issuer
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/member87/nixos.git 
+    targetRevision: home-server
+    path: argocd/cluster-issuer/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cluster-issuer
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true 

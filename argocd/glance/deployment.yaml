@@ -30,11 +30,27 @@ spec:
       services:
         - name: glance-service
           port: 8080
+  tls:
+    secretName: glance-certificate-secret
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: glance-ingressroute-certificate
+  namespace: glance
+spec:
+  secretName: glance-certificate-secret
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - dashboard.lab.member87.xyz
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: glance-deployment
+  namespace: glance
 spec:
   replicas: 3
   selector:
