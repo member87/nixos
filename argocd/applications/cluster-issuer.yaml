@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: cluster-issuer 
-  namespace: cluster-issuer
+  namespace: argocd
 spec:
   project: default
   source:
@@ -11,7 +11,7 @@ spec:
     path: argocd/cluster-issuer/
   destination:
     server: https://kubernetes.default.svc
-    namespace: cluster-issuer
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
