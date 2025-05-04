@@ -21,75 +21,16 @@ spec:
             dashboard:
               enabled: true
               entryPoints: [web, websecure]
-              matchRule: Host(`traefik-dashboard.lab.member87.xyz`)
-          # additionalArguments:
-          #   - "--serverstransport.insecureskipverify=true"
-          #   - "--log.level=DEBUG"
-          #
-          # providers:
-          #   kubernetesCRD:
-          #     enabled: true
-          #     ingressClass: traefik-external
-          #   kubernetesIngress:
-          #     enabled: true
-          #     publishedService:
-          #       enabled: false
-          #
-          # deployment:
-          #   enabled: true
-          #   replicas: 1
-          #
-          # dashboard:
-          #   enabled: true
-          #
-          # ingressRoute:
-          #   dashboard:
-          #     enabled: true
-          #
-          # rbac:
-          #   enabled: true
-          #
-          # service:
-          #   enabled: true
-          #   type: LoadBalancer
-          #   spec:
-          #     loadBalancerIP: 192.168.1.250 
-          #
-          # ports:
-          #   web:
-          #     enabled: true
-          #     redirections:
-          #       entryPoint:
-          #         to: websecure
-          #         scheme: https
-          #         permanent: true
-          #   websecure:
-          #     tls:
-          #       enabled: false
-          #
-          # metrics:
-          #   prometheus:
-          #     entryPoint: metrics
-          #     enabled: true
+              matchRule: Host(`traefik.lab.member87.xyz`)
+
+          additionalArguments:
+            - "--serverstransport.insecureskipverify=true"
+            - "--log.level=DEBUG"
+
+          deployment:
+            enabled: true
+            replicas: 3
 
   destination:
     server: https://kubernetes.default.svc
     namespace: traefik
-# ---
-# apiVersion: traefik.io/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: traefik-dashboard
-#   namespace: traefik
-#   annotations:
-#     kubernetes.io/ingress.class: traefik-external
-# spec:
-#   entryPoints:
-#     - websecure
-#   routes:
-#     - match: Host(`traefik.lab.member87.xyz`)
-#       kind: Rule
-#       services:
-#         - name: api@internal
-#           kind: TraefikService
-
