@@ -31,16 +31,13 @@ spec:
         - name: glance-service
           port: 8080
   tls:
-    secretName: cert-manager/wildcard-certificate-secret
+    secretName: wildcard-certificate-secret
     options:
       name: ""
     domains:
       - main: dashboard.lab.member87.xyz
         sans:
           - '*.lab.member87.xyz'
-    store:
-      name: default
-      namespace: cert-manager
 ---
 apiVersion: apps/v1
 kind: Deployment
