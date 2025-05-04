@@ -17,13 +17,13 @@ spec:
     nodePort: 30000
   type: NodePort
 ---
-apiVesrion: traefik.io/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: glance-ingressroute
   namespace: glance
 spec:
-  entryPoitns:
+  entryPoints:
     - websecure
   routes:
     - match: Host(`dashboard.lab.member87.xyz`)
