@@ -18,7 +18,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: glance-ingressroute-certificate
+  name: ingressroute-certificate
   namespace: argocd
 spec:
   secretName: certificate-secret
