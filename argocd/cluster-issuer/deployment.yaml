@@ -18,10 +18,10 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ingressroute-certificate
-  namespace: argocd
+  name: wildcard-lab-member87-xyz
+  namespace: cert-manager
 spec:
-  secretName: certificate-secret
+  secretName: wildcard-certificate-secret
   issuerRef:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
