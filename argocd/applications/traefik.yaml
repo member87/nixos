@@ -52,14 +52,15 @@ spec:
           
           ports:
             web:
-              redirections:
-                entryPoint:
-                  to: websecure
-                  scheme: https
-                  permanent: true
+              enabled: true
+              # redirections:
+              #   entryPoint:
+              #     to: websecure
+              #     scheme: https
+              #     permanent: true
             websecure:
               tls:
-                enabled: true
+                enabled: false
 
           metrics:
             prometheus:
@@ -79,7 +80,7 @@ metadata:
     kubernetes.io/ingress.class: traefik-external
 spec:
   entryPoints:
-    - websecure
+    - web
   routes:
     - match: Host(`traefik.lab.member87.xyz`)
       kind: Rule
