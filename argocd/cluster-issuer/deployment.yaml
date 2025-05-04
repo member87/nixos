@@ -26,4 +26,4 @@ spec:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - *.lab.member87.xyz
+    - '*.lab.member87.xyz'
