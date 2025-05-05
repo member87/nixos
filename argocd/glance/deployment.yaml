@@ -16,6 +16,19 @@ spec:
       port: 8080
       targetPort: 8080
 ---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: glance-lab-member87-xyz
+  namespace: glance
+spec:
+  secretName: glance-certificate-secret
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - dashboard.lab.member87.xyz
+---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -31,7 +44,7 @@ spec:
         - name: glance-service
           port: 8080
   tls:
-    secretName: wildcard-certificate-secret
+    secretName: glance-certificate-secret
     options:
       name: ""
     domains:

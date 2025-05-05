@@ -15,15 +15,4 @@ spec:
               name: cloudflare-api-token-secret
               key: api-token
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: wildcard-lab-member87-xyz
-  namespace: cert-manager
-spec:
-  secretName: wildcard-certificate-secret
-  issuerRef:
-    name: cloudflare-cluster-issuer
-    kind: ClusterIssuer
-  dnsNames:
-    - '*.lab.member87.xyz'
+
