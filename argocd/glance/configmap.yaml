@@ -41,6 +41,9 @@ data:
                   - title: ArgoCD
                     url: https://192.168.1.110:32316/
                     icon: di:argo-cd
+                  - title: Traefik
+                    url: httpss://traefik.lab.member87.xyz
+                    icon: di:traefik
 
               - type: monitor
                 cache: 1m
