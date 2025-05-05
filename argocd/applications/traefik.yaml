@@ -22,6 +22,8 @@ spec:
               enabled: true
               entryPoints: [web, websecure]
               matchRule: Host(`traefik.lab.member87.xyz`)
+              tls:
+                secretName: traefik-dashboard-tls-secret
 
           rbac:
             enabled: true
@@ -34,18 +36,7 @@ spec:
             websecure:
               address: ":8443"
               http:
-                tls:
-                  certResolver: myresolver
-
-          certificatesResolvers:
-            myresolver:
-              acme:
-                email: "traefik@member87.xyz" 
-                storage: "k8s://traefik/acme" 
-                issuerRef:
-                  name: cloudflare-cluster-issuer 
-                  kind: ClusterIssuer
-
+                tls: {}
 
           deployment:
             enabled: true
@@ -58,3 +49,16 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: traefik
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: traefik-dashboard-cert
+  namespace: traefik
+spec:
+  secretName: traefik-dashboard-tls-secret 
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - traefik.lab.member87.xyz
