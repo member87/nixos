@@ -1,36 +1,25 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  # Name of the ArgoCD Application resource
-  name: nixos-apps
-  # Namespace where ArgoCD is installed (commonly 'argocd')
+  name: root-application
   namespace: argocd
 spec:
-  # The ArgoCD project this application belongs to (usually 'default')
   project: default
-
-  # Source of the application manifests
   source:
-    # URL of your Git repository
-    repoURL: https://github.com/member87/nixos.git
-    # The branch or tag to sync from (e.g., 'main', 'HEAD', or a specific tag)
-    targetRevision: home-server # Or 'main' or your desired branch/tag
-    # The path within the repository containing the application manifests
-    path: argocd/applications/ # Assuming your nginx.yaml is within this path
-
-  # Destination where the application should be deployed
+    repoURL: 'https://github.com/member87/nixos.git'
+    path: argocd/
+    targetRevision: HEAD 
+    directory:
+      recurse: true
+      jsonnet: {}
+      kustomize:
+        commonLabels:
+          app.kubernetes.io/managed-by: argocd-apps 
+          app.kubernetes.io/part-of: root-application 
   destination:
-    # The Kubernetes API server URL (usually the in-cluster default)
-    server: https://kubernetes.default.svc
-    # The target namespace in your cluster where resources from 'apps/' will be deployed
-    # ArgoCD will use the namespace defined in the resource's metadata if CreateNamespace=true is set
-    namespace: default # This namespace is less critical when CreateNamespace=true is used and resources define their own namespace
-
-  # Synchronization policy
+    server: 'https://kubernetes.default.svc'
+    namespace: argocd
   syncPolicy:
     automated:
-      # Automatically sync when changes are detected in the source
-      prune: true # Delete resources that are no longer defined in Git
-      selfHeal: true # Automatically sync if the live state drifts from the desired state in Git
-    syncOptions:
-      - CreateNamespace=true # <-- Uncommented and enabled!
+      prune: true
+      selfHeal: true
