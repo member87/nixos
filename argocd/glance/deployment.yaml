@@ -45,12 +45,6 @@ spec:
           port: 8080
   tls:
     secretName: glance-certificate-secret
-    options:
-      name: ""
-    domains:
-      - main: dashboard.lab.member87.xyz
-        sans:
-          - '*.lab.member87.xyz'
 ---
 apiVersion: apps/v1
 kind: Deployment
