@@ -44,9 +44,9 @@ data:
                   - title: Traefik
                     url: https://traefik.lab.member87.xyz
                     icon: di:traefik
-                  - title: Pihole
-                    url: https://pihole.lab.member87.xyz
-                    icon: di:pihole
+                  - title: Pi Hole
+                    url: https://pihole.lab.member87.xyz/admin
+                    icon: di:pi-hole
 
               - type: monitor
                 cache: 1m
