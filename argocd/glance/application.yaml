@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/member87/nixos.git'
     targetRevision: home-server 
-    path: argocd/apps/glance
+    path: argocd/glance
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: glance
