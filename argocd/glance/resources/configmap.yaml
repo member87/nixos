@@ -45,7 +45,7 @@ data:
                     url: https://traefik.lab.member87.xyz
                     icon: di:traefik
                   - title: Pi Hole
-                    url: https://pihole.lab.member87.xyz/admin
+                    url: https://pihole.lab.member87.xyz/admin/login
                     icon: di:pi-hole
 
               - type: monitor
