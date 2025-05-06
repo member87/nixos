@@ -9,13 +9,9 @@ spec:
     repoURL: 'https://github.com/member87/nixos.git'
     path: argocd/
     targetRevision: HEAD 
-    directory:
-      recurse: true
-      jsonnet: {}
-      kustomize:
-        commonLabels:
-          app.kubernetes.io/managed-by: argocd-apps 
-          app.kubernetes.io/part-of: root-application 
+    kustomize: 
+      commonLabels:
+        app.kubernetes.io/managed-by: argocd
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
