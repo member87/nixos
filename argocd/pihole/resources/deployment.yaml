@@ -30,6 +30,12 @@ spec:
           value: "false"
         - name: FTLCONF_webserver_api_password
           value: 'password'
+        - name: FTLCONF_dns_domain
+          value: 'lab.member87.xyz'
+        - name: FTLCONF_misc_etc_dnsmasq_d
+          value: true
+        - name: FTLCONF_misc_dnsmasq_lines
+          value: "address=/lab.member87.xyz/192.168.1.250"
         - name: INTERFACE
           value: 'all'
         volumeMounts:
