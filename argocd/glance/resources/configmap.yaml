@@ -12,8 +12,8 @@ data:
             widgets:
               - type: dns-stats
                 service: pihole-v6
-                url: http://192.168.1.110:32700
-                password: cIvxoYvi0PJTfJs6IpiVZQRmymTPg3kzdnBZmXMgAQI=
+                url: https://pihole.lab.member87.xyz/
+                password: SKXQBEGuF9+rrWOu94mEtN0a/Ng+PEhe/JET69RDjK0==
 
               - type: calendar
                 first-day-of-week: monday
@@ -44,6 +44,9 @@ data:
                   - title: Traefik
                     url: https://traefik.lab.member87.xyz
                     icon: di:traefik
+                  - title: Pihole
+                    url: https://pihole.lab.member87.xyz
+                    icon: di:pihole
 
               - type: monitor
                 cache: 1m
