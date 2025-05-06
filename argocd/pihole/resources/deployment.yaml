@@ -67,23 +67,35 @@ spec:
       storage: 1Gi
   storageClassName: longhorn 
 ---
-apiVersion: v1
-kind: Service
+apiVersion: cert-manager.io/v1
+kind: Certificate
 metadata:
-  name: pihole-web
-  namespace: pihole 
-  labels:
-    app: pihole 
+  name: pihole-lab-member87-xyz
+  namespace: pihole
 spec:
-  type: NodePort 
-  sessionAffinity: ClientIP
-  selector:
-    app: pihole
-  ports:
-  - port: 80
-    targetPort: 80
-    name: http
-    nodePort: 32700 
+  secretName: pihole-certificate-secret
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - pihole.lab.member87.xyz
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pihole-ingressroute
+  namespace: pihole
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`pihole.lab.member87.xyz`)
+      kind: Rule
+      services:
+        - name: pihole-service
+          port: 80
+  tls:
+    secretName: pihole-certificate-secret
 ---
 apiVersion: v1
 kind: Service
