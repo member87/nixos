@@ -18,16 +18,4 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: prometheus
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: prometheus-dashboard-cert
-  namespace: prometheus
-spec:
-  secretName: prometheus-dashboard-tls-secret 
-  issuerRef:
-    name: cloudflare-cluster-issuer
-    kind: ClusterIssuer
-  dnsNames:
-    - prometheus.lab.member87.xyz
+

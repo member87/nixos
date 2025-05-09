@@ -1,19 +1,5 @@
 
 
-server:
-  ingress:
-    enabled: true
-    className: traefik 
-    hosts:
-      - host: prometheus.lab.member87.xyz
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - hosts:
-          - prometheus.lab.member87.xyz
-        secretName: prometheus-dashboard-tls-secret 
+namespaceOverride: prometheus
 
-  serviceAccount:
-    create: true
-    name: prometheus-server
+
