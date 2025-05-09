@@ -20,6 +20,11 @@ spec:
     namespace: prometheus 
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: prometheus
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: prometheus-service
@@ -38,6 +43,29 @@ metadata:
   name: prometheus-cert 
   namespace: prometheus
 spec:
+  secretName: prometheus-certificate-secret
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - prometheus.lab.member87.xyz
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus-ingressroute 
+  namespace: prometheus 
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`prometheus.lab.member87.xyz`)
+      kind: Rule
+      services:
+        - name: prometheus-service
+          port: 80 
+  tls:
+    secretName: prometheus-certificate-secret
   secretName: prometheus-certificate-secret
   issuerRef:
     name: cloudflare-cluster-issuer
