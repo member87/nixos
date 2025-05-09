@@ -7,10 +7,9 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
-      - Replace=true
   project: default
   sources:
-    - chart: kube-prometheus-stack
+    - chart: prometheus
       repoURL: https://prometheus-community.github.io/helm-charts
       targetRevision: 72.3.0
       helm:
