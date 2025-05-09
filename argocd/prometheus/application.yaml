@@ -9,61 +9,25 @@ spec:
       - CreateNamespace=true
   project: default
   sources:
-    - chart: prometheus
+    - chart: kube-prometheus-stack
       repoURL: https://prometheus-community.github.io/helm-charts
-      targetRevision: 27.12.1
+      targetRevision: 72.1.1
       helm:
         valueFiles:
-          - prometheus-values.yaml 
+          - prometheus-values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: prometheus 
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: prometheus
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: prometheus-service
-  namespace: prometheus
-spec:
-  selector:
-    app: prometheus-server 
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 9090 
+    namespace: prometheus
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: prometheus-cert 
+  name: prometheus-dashboard-cert
   namespace: prometheus
 spec:
-  secretName: prometheus-certificate-secret
+  secretName: prometheus-dashboard-tls-secret 
   issuerRef:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
     - prometheus.lab.member87.xyz
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: prometheus-ingressroute 
-  namespace: prometheus 
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`prometheus.lab.member87.xyz`)
-      kind: Rule
-      services:
-        - name: prometheus-service
-          port: 80 
-  tls:
-    secretName: prometheus-certificate-secret
-
