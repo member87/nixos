@@ -20,20 +20,11 @@ spec:
       prune: true
       selfHeal: true
   destination:
+    destination:
     server: https://kubernetes.default.svc
-    namespace: monitoring
+    namespace: prometheus
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
+apiVersion: v1
+kind: Namespace
 metadata:
-  name: monitoring-dashboard-cert
-  namespace: monitoring
-spec:
-  secretName: monitoring-dashboard-tls-secret 
-  issuerRef:
-    name: cloudflare-cluster-issuer
-    kind: ClusterIssuer
-  dnsNames:
-    - grafana.lab.member87.xyz
-    - alertmanager.lab.member87.xyz
-    - prometheus.lab.member87.xyz
+  name: prometheus

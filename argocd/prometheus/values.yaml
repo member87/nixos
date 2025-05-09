@@ -5,12 +5,13 @@ prometheus:
       ingressClassName: traefik
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        cert-manager.io/cluster-issuer: "cloudflare-cluster-issuer"
       hosts:
         - prometheus.lab.member87.xyz
       tls:
-        - secretName: monitoring-dashboard-tls-secret 
+        - secretName: prometheus-certificate-secret
           hosts:
-            - prometheus.lab.member87.xyz 
+            - prometheus.lab.member87.xyz
 
 alertmanager:
   ingress:
@@ -18,10 +19,11 @@ alertmanager:
     ingressClassName: traefik
     annotations:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: "cloudflare-cluster-issuer"
     hosts:
       - alertmanager.lab.member87.xyz
     tls:
-      - secretName: monitoring-dashboard-tls-secret 
+      - secretName: alertmanager-certificate-secret
         hosts:
           - alertmanager.lab.member87.xyz
 
@@ -31,9 +33,10 @@ grafana:
     ingressClassName: traefik
     annotations:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: "cloudflare-cluster-issuer"
     hosts:
-      - grafana.lab.member87.xyz 
+      - grafana.lab.member87.xyz
     tls:
-      - secretName: monitoring-dashboard-tls-secret 
+      - secretName: grafana-certificate-secret
         hosts:
           - grafana.lab.member87.xyz
