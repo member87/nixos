@@ -1,0 +1,14 @@
+server:
+  persistentVolume:
+    enabled: true
+    size: 10Gi
+    storageClass: longhorn
+    accessModes:
+      - ReadWriteOnce
+alertmanager:
+  persistentVolume:
+    enabled: true
+    size: 1Gi
+    storageClass: longhorn
+    accessModes:
+      - ReadWriteOnce

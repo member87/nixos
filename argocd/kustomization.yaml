@@ -10,3 +10,4 @@ resources:
   - metallb/application.yaml
   - pihole/application.yaml
   - traefik/application.yaml
+  - prometheus/application.yaml
