@@ -1,4 +1,39 @@
+prometheus:
+  prometheusSpec:
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      hosts:
+        - prometheus.lab.member87.xyz
+      tls:
+        - secretName: monitoring-dashboard-tls-secret 
+          hosts:
+            - prometheus.lab.member87.xyz 
 
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hosts:
+      - alertmanager.lab.member87.xyz
+    tls:
+      - secretName: monitoring-dashboard-tls-secret 
+        hosts:
+          - alertmanager.lab.member87.xyz
 
-
-
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hosts:
+      - grafana.lab.member87.xyz 
+    tls:
+      - secretName: monitoring-dashboard-tls-secret 
+        hosts:
+          - grafana.lab.member87.xyz

@@ -22,4 +22,18 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
-
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: monitoring-dashboard-cert
+  namespace: monitoring
+spec:
+  secretName: monitoring-dashboard-tls-secret 
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - grafana.lab.member87.xyz
+    - alertmanager.lab.member87.xyz
+    - prometheus.lab.member87.xyz
