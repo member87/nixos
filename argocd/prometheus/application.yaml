@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus
+  name: monitoring
   namespace: argocd
 spec:
   syncPolicy:
@@ -9,9 +9,9 @@ spec:
       - CreateNamespace=true
   project: default
   sources:
-    - chart: prometheus
+    - chart: kube-prometheus-stack
       repoURL: https://prometheus-community.github.io/helm-charts
-      targetRevision: 27.13.0
+      targetRevision: 72.3.0
       helm:
         valueFiles:
           - values.yaml
