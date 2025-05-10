@@ -74,6 +74,17 @@ data:
 
               - type: monitor
                 cache: 1m
+                title: Monitoring
+                sites:
+                  - title: Grafana
+                    url: https://grafana.lab.member87.xyz
+                    icon: di:grafana
+                  - title: Prometheus
+                    url: https://prometheus.lab.member87.xyz
+                    icon: di:prometheus
+
+              - type: monitor
+                cache: 1m
                 title: Applications
                 sites:
                   - title: Homeassistant
