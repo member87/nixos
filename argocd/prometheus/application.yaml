@@ -63,12 +63,14 @@ spec:
                   exemplarTraceIdDestinations:
                     - name: traceID
                       datasourceUid: tempo
+                  tlsSkipVerify: true
+                  timeInterval: "30s"
 
             grafana.ini:
               auth:
                 disable_login_form: false
               auth.anonymous:
-                enabled: true
+                enabled: false
            
           prometheus:
             ingress:
