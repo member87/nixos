@@ -42,6 +42,7 @@ spec:
               externalUrl: "https://prometheus.lab.member87.xyz"
 
           alertmanager:
+            enabled: false
             ingress:
               enabled: false 
 
