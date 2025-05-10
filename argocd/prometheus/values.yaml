@@ -6,24 +6,21 @@ grafana:
   adminUser: admin
   adminPassword: prom-operator
   
+  defaultDatasourceEnabled: true
+  defaultDatasourceUrl: https://prometheus.lab.member87.xyz
+
   grafana.ini:
     auth:
       disable_login_form: false
     auth.anonymous:
       enabled: false
-      
-  additionalDataSources:
-    - name: Prometheus
-      type: prometheus
-      url: https://prometheus.lab.member87.xyz
-      access: proxy
-      isDefault: true
 
 prometheus:
   ingress:
     enabled: false 
   prometheusSpec:
     externalUrl: https://prometheus.lab.member87.xyz
+    url: https://prometheus.lab.member87.xyz
 
 alertmanager:
   ingress:
