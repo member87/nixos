@@ -18,10 +18,13 @@ spec:
       targetRevision: 35.2.0
       helm:
         values: |
+          dashboard:
+            enabled: true
+
           ingressRoute:
             dashboard:
               enabled: true
-              entryPoints: [web, websecure]
+              entryPoints: [websecure]
               matchRule: Host(`traefik.lab.member87.xyz`)
               tls:
                 secretName: traefik-dashboard-tls-secret
