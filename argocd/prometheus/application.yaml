@@ -28,6 +28,12 @@ spec:
               datasources:
                 enabled: true
                 defaultDatasourceEnabled: false
+            additionalDataSources:
+              - name: Prometheus
+                type: prometheus
+                url: https://prometheus.lab.member87.xyz
+                access: proxy
+                isDefault: true
 
             grafana.ini:
               auth:
