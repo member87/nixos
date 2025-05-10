@@ -5,6 +5,11 @@ grafana:
   
   adminUser: admin
   adminPassword: prom-operator
+
+  sidecar:
+    datasources:
+      url: "https://prometheus.lab.member87.xyz"
+
   
   grafana.ini:
     auth:
@@ -12,26 +17,7 @@ grafana:
     auth.anonymous:
       enabled: false
 
-  datasources:
-    datasources.yaml:
-      apiVersion: 1
-      datasources:
-        - name: Prometheus
-          type: prometheus
-          url: https://prometheus.lab.member87.xyz
-          access: proxy
-          isDefault: true
-          jsonData:
-            httpMethod: POST
-            timeInterval: 30s
-        - name: Alertmanager
-          type: alertmanager
-          url: https://alertmanager.lab.member87.xyz
-          access: proxy
-          jsonData:
-            handleGrafanaManagedAlerts: false
-            implementation: prometheus
-
+ 
 prometheus:
   ingress:
     enabled: false 
