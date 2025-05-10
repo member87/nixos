@@ -10,23 +10,19 @@ spec:
       - CreateNamespace=true
   project: default
   sources:
-    - chart: kube-prometheus-stack
-      repoURL: https://prometheus-community.github.io/helm-charts
-      targetRevision: 72.2.0
-      ref: kube-prom-chart
-
     - repoURL: https://github.com/member87/nixos.git
       targetRevision: home-server
       path: argocd/prometheus/
       ref: custom-prom-values
 
-  helm:
-    chart: kube-prom-chart
-    valueFiles:
-      - $custom-prom-values/values.yaml
+    - chart: kube-prometheus-stack
+      repoURL: https://prometheus-community.github.io/helm-charts
+      targetRevision: 72.2.0
+      helm:
+        chart: kube-prom-chart
+        valueFiles:
+          - $custom-prom-values/values.yaml
 
-
-  
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
