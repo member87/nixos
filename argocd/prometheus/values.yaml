@@ -11,16 +11,7 @@ grafana:
     datasources:
       enabled: true
       defaultDatasourceEnabled: false
-
-  additionalDataSources:
-    - name: 'Prometheus'
-      type: 'prometheus'
-      url: 'https://prometheus.lab.member87.xyz'
-      access: 'proxy'
-      isDefault: true
-      uid: 'prometheus-stack-default'
-      jsonData:
-        timeInterval: "30s"
+      createPrometheusReplicasDatasources: false
 
   grafana.ini:
     auth:
