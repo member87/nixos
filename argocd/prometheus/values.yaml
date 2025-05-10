@@ -2,6 +2,15 @@ grafana:
   enabled: true
   ingress:
     enabled: false 
+  
+  adminUser: admin
+  adminPassword: admin
+  
+  grafana.ini:
+    auth:
+      disable_login_form: false
+    auth.anonymous:
+      enabled: false
 
 prometheus:
   ingress:
@@ -9,4 +18,4 @@ prometheus:
 
 alertmanager:
   ingress:
-    enabled: false  
+    enabled: false 
