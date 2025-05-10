@@ -46,7 +46,7 @@ spec:
 
             sidecar:
               datasources:
-                defaultDatasourceEnabled: true
+                defaultDatasourceEnabled: false
 
           prometheus:
             prometheusSpec:
