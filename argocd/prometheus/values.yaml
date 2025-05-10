@@ -1,42 +1,12 @@
+grafana:
+  enabled: true
+  ingress:
+    enabled: false 
+
 prometheus:
-  prometheusSpec:
-    ingress:
-      enabled: true
-      ingressClassName: traefik
-      annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        cert-manager.io/cluster-issuer: "cloudflare-cluster-issuer"
-      hosts:
-        - prometheus.lab.member87.xyz
-      tls:
-        - secretName: prometheus-certificate-secret
-          hosts:
-            - prometheus.lab.member87.xyz
+  ingress:
+    enabled: false 
 
 alertmanager:
   ingress:
-    enabled: true
-    ingressClassName: traefik
-    annotations:
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      cert-manager.io/cluster-issuer: "cloudflare-cluster-issuer"
-    hosts:
-      - alertmanager.lab.member87.xyz
-    tls:
-      - secretName: alertmanager-certificate-secret
-        hosts:
-          - alertmanager.lab.member87.xyz
-
-grafana:
-  ingress:
-    enabled: true
-    ingressClassName: traefik
-    annotations:
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      cert-manager.io/cluster-issuer: "cloudflare-cluster-issuer"
-    hosts:
-      - grafana.lab.member87.xyz
-    tls:
-      - secretName: grafana-certificate-secret
-        hosts:
-          - grafana.lab.member87.xyz
+    enabled: false  

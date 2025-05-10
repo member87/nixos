@@ -16,9 +16,7 @@ spec:
       helm:
         valueFiles:
           - values.yaml
-  automated:
-      prune: true
-      selfHeal: true
+  
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
@@ -46,7 +44,22 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: monitoring-ingressroute
+  name: monitoring-prometheus
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`prometheus.lab.member87.xyz`)
+      kind: Rule
+      services:
+        - name: prometheus-kube-prometheus-prometheus
+          port: 9090
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: monitoring-grafana
   namespace: monitoring
 spec:
   entryPoints:
@@ -55,17 +68,6 @@ spec:
     - match: Host(`grafana.lab.member87.xyz`)
       kind: Rule
       services:
-        - name: kube-prometheus-stack-grafana
+        - name: prometheus-grafana
           port: 80
-    - match: Host(`prometheus.lab.member87.xyz`)
-      kind: Rule
-      services:
-        - name: kube-prometheus-stack-prometheus
-          port: 9090
-    - match: Host(`alertmanager.lab.member87.xyz`)
-      kind: Rule
-      services:
-        - name: kube-prometheus-stack-alertmanager
-          port: 9093
-  tls:
-    secretName: monitoring-certificate-secret
+
