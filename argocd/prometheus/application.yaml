@@ -10,17 +10,41 @@ spec:
       - CreateNamespace=true
   project: default
   sources:
-    - repoURL: https://github.com/member87/nixos.git
-      targetRevision: home-server
-      path: argocd/prometheus/
-      ref: custom-prom-values
-
     - chart: kube-prometheus-stack
       repoURL: https://prometheus-community.github.io/helm-charts
       targetRevision: 72.2.0
       helm:
-        valueFiles:
-          - $custom-prom-values/values.yaml
+        values: |
+          grafana:
+            enabled: true
+            ingress:
+              enabled: false 
+            
+            adminUser: admin
+            adminPassword: prom-operator
+
+
+            sidecar:
+              datasources:
+                enabled: true
+                defaultDatasourceEnabled: false
+
+            grafana.ini:
+              auth:
+                disable_login_form: true
+              auth.anonymous:
+                enabled: false
+
+           
+          prometheus:
+            ingress:
+              enabled: false 
+            prometheusSpec:
+              externalUrl: "https://prometheus.lab.member87.xyz"
+
+          alertmanager:
+            ingress:
+              enabled: false 
 
   destination:
     server: https://kubernetes.default.svc
