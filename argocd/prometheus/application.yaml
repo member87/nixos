@@ -19,7 +19,6 @@ spec:
       repoURL: https://prometheus-community.github.io/helm-charts
       targetRevision: 72.2.0
       helm:
-        chart: kube-prom-chart
         valueFiles:
           - $custom-prom-values/values.yaml
 
