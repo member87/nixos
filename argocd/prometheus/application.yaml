@@ -83,4 +83,16 @@ spec:
           port: 9093
   tls:
     secretName: monitoring-certificate-secret
+metadata:
+  name: monitoring-grafana
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`grafana.lab.member87.xyz`)
+      kind: Rule
+      services:
+        - name: prometheus-grafana
+          port: 80
 
