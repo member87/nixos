@@ -6,16 +6,6 @@ grafana:
   adminUser: admin
   adminPassword: prom-operator
 
-  sidecar:
-    datasources:
-      enabled: true
-      defaultDatasourceEnabled: true
-      isDefaultDatasource: true
-      name: Prometheus
-      uid: prometheus
-      url: "https://prometheus.lab.member87.xyz"
-
-  
   grafana.ini:
     auth:
       disable_login_form: true
@@ -26,6 +16,8 @@ grafana:
 prometheus:
   ingress:
     enabled: false 
+  prometheusSpec:
+    externalUrl: "https://prometheus.lab.member87.xyz"
 
 alertmanager:
   ingress:
