@@ -8,6 +8,11 @@ grafana:
 
   sidecar:
     datasources:
+      enabled: true
+      defaultDatasourceEnabled: true
+      isDefaultDatasource: true
+      name: Prometheus
+      uid: prometheus
       url: "https://prometheus.lab.member87.xyz"
 
   
