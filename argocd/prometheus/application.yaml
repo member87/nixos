@@ -34,6 +34,7 @@ spec:
                 url: https://prometheus.lab.member87.xyz
                 access: proxy
                 isDefault: true
+                version: 2
 
             grafana.ini:
               auth:
