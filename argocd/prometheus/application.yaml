@@ -20,11 +20,52 @@ spec:
       prune: true
       selfHeal: true
   destination:
-    destination:
     server: https://kubernetes.default.svc
-    namespace: prometheus
+    namespace: monitoring
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: prometheus
+  name: monitoring
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: monitoring-lab-member87-xyz
+  namespace: monitoring
+spec:
+  secretName: monitoring-certificate-secret
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - prometheus.lab.member87.xyz
+    - grafana.lab.member87.xyz
+    - alertmanager.lab.member87.xyz
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: monitoring-ingressroute
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`grafana.lab.member87.xyz`)
+      kind: Rule
+      services:
+        - name: kube-prometheus-stack-grafana
+          port: 80
+    - match: Host(`prometheus.lab.member87.xyz`)
+      kind: Rule
+      services:
+        - name: kube-prometheus-stack-prometheus
+          port: 9090
+    - match: Host(`alertmanager.lab.member87.xyz`)
+      kind: Rule
+      services:
+        - name: kube-prometheus-stack-alertmanager
+          port: 9093
+  tls:
+    secretName: monitoring-certificate-secret
