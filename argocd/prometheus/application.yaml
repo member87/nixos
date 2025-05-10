@@ -37,17 +37,17 @@ spec:
                   argocd.argoproj.io/hook: PreSync
 
           grafana:
-            datasources:
+            additionalDataSources:
               - name: Prometheus
                 type: prometheus
-                url: "http://prometheus.lab.member87.xyz"
+                url: "https://prometheus.lab.member87.xyz"
                 access: proxy
                 isDefault: true
 
             sidecar:
               datasources:
                 defaultDatasourceEnabled: true
-           
+
           prometheus:
             prometheusSpec:
               externalUrl: "https://prometheus.lab.member87.xyz"
