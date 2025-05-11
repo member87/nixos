@@ -21,6 +21,12 @@ spec:
           dashboard:
             enabled: true
 
+          metrics:
+            prometheus:
+              enabled: true
+              # Enabling metrics exposition through an entrypoint
+              entryPoint: metrics
+
           ingressRoute:
             dashboard:
               enabled: true
@@ -28,6 +34,14 @@ spec:
               matchRule: Host(`traefik.lab.member87.xyz`)
               tls:
                 secretName: traefik-dashboard-tls-secret
+            
+            metrics:
+              enabled: true
+              entryPoints: [websecure]
+              matchRule: Host(`metrics.traefik.lab.member87.xyz`)
+              service: api@internal
+              tls:
+                secretName: traefik-metrics-tls-secret
 
           rbac:
             enabled: true
@@ -66,3 +80,16 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - traefik.lab.member87.xyz
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: traefik-metrics-cert
+  namespace: traefik
+spec:
+  secretName: traefik-metrics-tls-secret 
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - metrics.traefik.lab.member87.xyz

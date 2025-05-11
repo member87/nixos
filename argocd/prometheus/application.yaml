@@ -19,23 +19,6 @@ spec:
       targetRevision: 72.3.0
       helm:
         values: |
-          # prometheusOperator:
-          #   admissionWebhooks:
-          #     enabled: true
-          #     annotations:
-          #       argocd.argoproj.io/hook: PreSync
-          #       argocd.argoproj.io/hook-delete-policy: HookSucceeded
-          #     patch:
-          #       annotations:
-          #         argocd.argoproj.io/hook: PreSync
-          #         argocd.argoproj.io/hook-delete-policy: HookSucceeded
-          #     mutatingWebhookConfiguration:
-          #       annotations:
-          #         argocd.argoproj.io/hook: PreSync
-          #     validatingWebhookConfiguration:
-          #       annotations:
-          #         argocd.argoproj.io/hook: PreSync
-
           grafana:
             enabled: true
             ingress:
@@ -80,6 +63,13 @@ spec:
                   metrics_path: /metrics
                   scrape_interval: 4m
                   scrape_timeout: 90s
+                - job_name: 'traefik-metrics'
+                  static_configs:
+                    - targets: ['metrics.traefik.lab.member87.xyz']
+                  scheme: https
+                  metrics_path: /metrics
+                  scrape_interval: 1m
+                  scrape_timeout: 30s
 
           alertmanager:
             enabled: false
