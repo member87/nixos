@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: monitoring
+  name: prometheus
   namespace: argocd
 spec:
   syncPolicy:
@@ -47,8 +47,6 @@ spec:
             sidecar:
               datasources:
                 url:  https://prometheus.lab.member87.xyz
-                configMaps:
-                  - name: monitoring-kube-prometheus-grafana-datasource
 
           prometheus:
             prometheusSpec:
@@ -59,20 +57,20 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: monitoring
+    namespace: prometheus
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: monitoring
+  name: prometheus
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: monitoring-lab-member87-xyz
-  namespace: monitoring
+  name: prometheus-lab-member87-xyz
+  namespace: prometheus
 spec:
-  secretName: monitoring-certificate-secret
+  secretName: prometheus-certificate-secret
   issuerRef:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
@@ -84,8 +82,8 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: monitoring-prometheus
-  namespace: monitoring
+  name: prometheus-prometheus
+  namespace: prometheus
 spec:
   entryPoints:
     - websecure
@@ -93,16 +91,16 @@ spec:
     - match: Host(`prometheus.lab.member87.xyz`)
       kind: Rule
       services:
-        - name: monitoring-kube-prometheus-prometheus
+        - name: prometheus-kube-prometheus-prometheus
           port: 9090
   tls:
-    secretName: monitoring-certificate-secret
+    secretName: prometheus-certificate-secret
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: monitoring-grafana
-  namespace: monitoring
+  name: prometheus-grafana
+  namespace: prometheus
 spec:
   entryPoints:
     - websecure
@@ -110,8 +108,8 @@ spec:
     - match: Host(`grafana.lab.member87.xyz`)
       kind: Rule
       services:
-        - name: monitoring-grafana
+        - name: prometheus-grafana
           port: 80
   tls:
-    secretName: monitoring-certificate-secret
+    secretName: prometheus-certificate-secret
 
