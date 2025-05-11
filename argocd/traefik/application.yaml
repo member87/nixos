@@ -37,6 +37,9 @@ spec:
               enabled: true
               entryPoints: [websecure]
               matchRule: Host(`metrics.traefik.lab.member87.xyz`)
+              services:
+                - name: api@internal
+                  kind: TraefikService
               tls:
                 secretName: traefik-metrics-tls-secret
 
