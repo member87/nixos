@@ -47,6 +47,8 @@ spec:
             sidecar:
               datasources:
                 url:  https://prometheus.lab.member87.xyz
+                configMaps:
+                  - name: monitoring-kube-prometheus-grafana-datasource
 
           prometheus:
             prometheusSpec:
