@@ -39,7 +39,10 @@ spec:
               enabled: true
               entryPoints: [websecure]
               matchRule: Host(`metrics.traefik.lab.member87.xyz`)
-              service: api@internal
+              middlewares: []
+              service:
+                name: traefik
+                port: 9100
               tls:
                 secretName: traefik-metrics-tls-secret
 
