@@ -13,7 +13,7 @@ data:
               - type: dns-stats
                 service: pihole-v6
                 url: https://pihole.lab.member87.xyz/
-                password: FUV0i02kk4wl2EOrIXJKrWgvtvpmueiXk8O0FeUAe+E=
+                password: ntjL1reXlfV035OrKt2bcyIRajoU4Ngrfrj6TKqS5Dk=
 
               - type: calendar
                 first-day-of-week: monday
