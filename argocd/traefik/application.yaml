@@ -24,6 +24,7 @@ spec:
           metrics:
             prometheus:
               enabled: true
+              entryPoint: metrics
 
           ingressRoute:
             dashboard:
@@ -36,7 +37,7 @@ spec:
             metrics:
               enabled: true
               entryPoints: [websecure]
-              matchRule: Host(`metrics.traefik.lab.member87.xyz`)
+              matchRule: Host(`metrics.traefik.lab.member87.xyz`) && PathPrefix(`/metrics`)
               services:
                 - name: api@internal
                   kind: TraefikService
@@ -51,6 +52,8 @@ spec:
             - "--log.level=DEBUG"
 
           entryPoints:
+            metrics:
+              address: ":9100"
             websecure:
               address: ":8443"
               http:
