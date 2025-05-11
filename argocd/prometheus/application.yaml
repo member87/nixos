@@ -70,6 +70,13 @@ spec:
                   metrics_path: /metrics
                   scrape_interval: 1m
                   scrape_timeout: 30s
+                - job_name: 'qbittorrent-metrics'
+                  static_configs:
+                    - targets: ['qbittorrent.metrics.lab.member87.xyz']
+                  scheme: https
+                  metrics_path: /metrics
+                  scrape_interval: 4m
+                  scrape_timeout: 90s
 
           alertmanager:
             enabled: false
