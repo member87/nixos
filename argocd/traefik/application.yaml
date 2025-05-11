@@ -37,11 +37,10 @@ spec:
             metrics:
               enabled: true
               entryPoints: [websecure]
-              matchRule: Host(`metrics.traefik.lab.member87.xyz`)
+              matchRule: Host(`metrics.traefik.lab.member87.xyz`) && PathPrefix(`/metrics`)
               services:
-                - name: traefik
-                  port: 9100
-                  kind: Service
+                - name: api@internal
+                  kind: TraefikService
               tls:
                 secretName: traefik-metrics-tls-secret
 
