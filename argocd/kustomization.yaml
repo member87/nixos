@@ -11,4 +11,4 @@ resources:
   - pihole/application.yaml
   - traefik/application.yaml
   - prometheus/application.yaml
-  - exportarr/radarr-exporter.yaml
+  - exportarr/application.yaml
