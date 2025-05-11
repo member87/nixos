@@ -19,22 +19,22 @@ spec:
       targetRevision: 72.3.0
       helm:
         values: |
-          prometheusOperator:
-            admissionWebhooks:
-              enabled: true
-              annotations:
-                argocd.argoproj.io/hook: PreSync
-                argocd.argoproj.io/hook-delete-policy: HookSucceeded
-              patch:
-                annotations:
-                  argocd.argoproj.io/hook: PreSync
-                  argocd.argoproj.io/hook-delete-policy: HookSucceeded
-              mutatingWebhookConfiguration:
-                annotations:
-                  argocd.argoproj.io/hook: PreSync
-              validatingWebhookConfiguration:
-                annotations:
-                  argocd.argoproj.io/hook: PreSync
+          # prometheusOperator:
+          #   admissionWebhooks:
+          #     enabled: true
+          #     annotations:
+          #       argocd.argoproj.io/hook: PreSync
+          #       argocd.argoproj.io/hook-delete-policy: HookSucceeded
+          #     patch:
+          #       annotations:
+          #         argocd.argoproj.io/hook: PreSync
+          #         argocd.argoproj.io/hook-delete-policy: HookSucceeded
+          #     mutatingWebhookConfiguration:
+          #       annotations:
+          #         argocd.argoproj.io/hook: PreSync
+          #     validatingWebhookConfiguration:
+          #       annotations:
+          #         argocd.argoproj.io/hook: PreSync
 
           grafana:
             enabled: true
