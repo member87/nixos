@@ -51,6 +51,14 @@ spec:
           prometheus:
             prometheusSpec:
               externalUrl: "https://prometheus.lab.member87.xyz"
+              additionalScrapeConfigs:
+                - job_name: 'radarr-metrics'
+                  static_configs:
+                    - targets: ['radarr.metrics.lab.member87.xyz']
+                  scheme: https
+                  metrics_path: /metrics
+                  scrape_interval: 4m
+                  scrape_timeout: 90s
 
           alertmanager:
             enabled: false
