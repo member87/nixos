@@ -98,7 +98,7 @@ spec:
             - name: PORT
               value: "9707"
             - name: URL
-              value: "http://192.168.1.123:6767/series"
+              value: "http://192.168.1.123:6767/"
             - name: APIKEY
               valueFrom:
                 secretKeyRef:
