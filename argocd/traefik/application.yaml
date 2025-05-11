@@ -24,8 +24,6 @@ spec:
           metrics:
             prometheus:
               enabled: true
-              # Enabling metrics exposition through an entrypoint
-              entryPoint: metrics
 
           ingressRoute:
             dashboard:
