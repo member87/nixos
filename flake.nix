@@ -75,6 +75,10 @@
       frigg = libx.mkHost {
         hostname = "frigg";
       };
+
+      thor = libx.mkHost {
+        hostname = "frigg";
+      };
     };
 
     homeConfigurations = {
@@ -84,6 +88,10 @@
 
       "${username}@frigg" = libx.mkHome {
         hostname = "frigg";
+      };
+
+      "${username}@thor" = libx.mkHome {
+        hostname = "thor";
       };
     };
 
