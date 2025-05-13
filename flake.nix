@@ -77,7 +77,7 @@
       };
 
       thor = libx.mkHost {
-        hostname = "frigg";
+        hostname = "thor";
       };
     };
 
