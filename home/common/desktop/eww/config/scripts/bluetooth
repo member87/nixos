@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+# Function to check if bluetooth is enabled (adapter present and recognized)
+get_enabled() {
+    if bluetoothctl list | grep -q "Controller"; then
+        echo "true"
+    else
+        echo "false"
+    fi
+}
+
+# Function to check if bluetooth is powered on
+get_power() {
+    if bluetoothctl show | grep -q "Powered: yes"; then
+        echo "on"
+    else
+        echo "off"
+    fi
+}
+
+# Function to check if any device is connected
+get_connected() {
+    if bluetoothctl devices Connected | grep -q "^Device"; then
+        echo "true"
+    else
+        echo "false"
+    fi
+}
+
+# Get the name of the connected device
+get_device_name() {
+    local device
+    device=$(bluetoothctl devices Connected | head -n 1 | cut -d ' ' -f 3-)
+    if [ -n "$device" ]; then
+        echo "$device"
+    else
+        echo "No device"
+    fi
+}
+
+case "$1" in
+    "--power")
+        get_power
+        ;;
+    "--connected")
+        get_connected
+        ;;
+    "--device-name")
+        get_device_name
+        ;;
+    *)
+        echo "Usage: $0 [--power|--connected|--device-name]"
+        exit 1
+        ;;
+esac

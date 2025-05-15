@@ -18,36 +18,6 @@
   margin: 4px;
 }
 
-.system_bar_container {
-  margin: 5px;
-}
-
-.system_bar {
-  background-color: #191724;
-  border-radius: 10px;
-  color: #ebbcba;
-}
-
-.system_icon {
-  margin: 7px;
-  font-size: 7px;
-  color: #ebbcba;
-  font-family: "Font Awesome 6 Free Solid";
-}
-
-scale trough {
-  all: unset;
-  background-color: #22242b;
-  border-radius: 16px;
-  min-height: 6px;
-  min-width: 70px;
-}
-
-.volbar trough highlight {
-  background-color: #ebbcba;
-  border-radius: 10px;
-}
-
 .workspace-wrapper {
   margin-top: 5px;
   margin-bottom: 5px
@@ -64,6 +34,7 @@ scale trough {
 }
 
 
+// system tray menu
 menu {
   background-color: rgba(30, 30, 30, 0.9);
   color: #f0f0f0;
@@ -72,13 +43,13 @@ menu {
   padding: 5px;
 }
 
-.battery {
-  margin: 0px 2px;
-}
-
 .icon {
   font-size: 15px;
   color: #ebbcba;
+}
+
+.icon.popup {
+  font-size: 18px;
 }
 
 tooltip {
@@ -92,3 +63,173 @@ tooltip {
   font-size: 13px;
 }
 
+.system-container {
+  padding: 5px 10px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.system-hover {
+  background-color: rgba(235, 188, 186, 0.1);
+}
+
+.system-menu-box {
+  background-color: rgb(17, 17, 27);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.system-menu-section {
+  background-color: rgba(30, 30, 46, 0.6);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+scale {
+  margin-left: 10px;
+  min-width: 120px;
+}
+
+scale trough {
+  min-height: 6px;
+  border-radius: 10px;
+  background-color: rgba(235, 188, 186, 0.2);
+}
+
+scale trough highlight {
+  min-height: 6px;
+  border-radius: 10px;
+  background-color: #ebbcba;
+}
+
+.section-text {
+  color: #cdd6f4;
+  margin-left: 10px;
+}
+
+.menu-grid-item {
+  background-color: rgba(30, 30, 46, 0.6);
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 70px;
+  transition: all 0.2s ease;
+}
+
+.menu-grid-item:hover {
+  background-color: rgba(235, 188, 186, 0.1);
+}
+
+.menu-grid-item.active {
+  background-color: rgba(235, 188, 186, 0.2);
+}
+
+.menu-grid-item.active:hover {
+  background-color: rgba(235, 188, 186, 0.3);
+}
+
+.menu-grid-item.active-connected {
+  background-color: #ebbcba;
+}
+
+.menu-grid-item.active-connected .grid-item-icon,
+.menu-grid-item.active-connected .grid-item-label {
+  color: #1e1e2e;
+}
+
+.menu-grid-item.active-connected:hover {
+  background-color: #e0b1af;
+}
+
+.grid-item-icon {
+  font-size: 24px;
+  color: #ebbcba;
+  margin-bottom: 8px;
+}
+
+.grid-item-label {
+  font-size: 12px;
+  color: #cdd6f4;
+}
+
+// Time and date section
+.time-date {
+  padding: 15px;
+  border-radius: 10px;
+  background-color: rgba(30, 30, 46, 0.6);
+  padding: 20px;
+}
+
+.time-container {
+  margin-right: 20px;
+}
+
+.time {
+  font-size: 42px;
+  font-weight: bold;
+  color: #ebbcba;
+}
+
+.date-container {
+  margin-top: 8px;
+  margin-left: 15px;
+}
+
+.date {
+  font-size: 14px;
+  font-weight: 500;
+  color: #cdd6f4;
+}
+
+.day {
+  font-size: 14px;
+  color: #cdd6f4;
+  margin-top: 2px;
+  opacity: 0.9;
+}
+
+// Media player section
+.media-player {
+  padding: 15px;
+  border-radius: 10px;
+  background-color: rgba(30, 30, 46, 0.6);
+}
+
+.media-art {
+  background-size: cover;	
+  background-position: center;
+  min-height: 60px;
+  min-width: 60px;
+  border-radius: 10px;
+  margin-right: 15px;
+}
+
+.media-info {
+  margin: 5px 0;
+}
+
+.media-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ebbcba;
+}
+
+.media-artist {
+  font-size: 12px;
+  color: #cdd6f4;
+}
+
+.media-controls {
+  margin-top: 5px;
+}
+
+.media-button {
+  font-size: 20px;
+  color: #ebbcba;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.media-button:hover {
+  background-color: rgba(235, 188, 186, 0.1);
+}
