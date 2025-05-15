@@ -104,7 +104,7 @@
                        "󰂲"}
                  :class "icon"))
 
-(defwidget battery []
+(defwidget battery [?class]
           (label :text {battery_status == "Charging" ? "󰂄" :
                        battery >= 95 ? "󰁹" :
                        battery >= 85 ? "󰂂" :
@@ -116,7 +116,7 @@
                        battery >= 25 ? "󰁼" :
                        battery >= 15 ? "󰁻" :
                        battery >= 5 ? "󰁺" : "󱃍"}
-                 :class "icon"))
+                 :class "icon ${class}"))
 
 
 (defwidget volume [?class]
@@ -207,6 +207,32 @@
                :value brightness
                :onchange "brightnessctl set {}%"))
       
+      (box :visible {battery_exists == "true"}
+           :class "slider-module system-menu-section"
+           :space-evenly false
+           :spacing 8
+           :hexpand true
+        (battery :class "popup")
+        (box :orientation "h"
+             :space-evenly false
+             :spacing 8
+             :hexpand true
+          (scale :class "slider battery-slider"
+                 :hexpand true
+                 :min 0
+                 :max 100
+                 :active false
+                 :value battery)
+          (box :orientation "v"
+               :valign "center"
+               :space-evenly false
+               :spacing 3
+            (label :text "${battery}%"
+                   :class "percentage-label")
+            (label :text "(${battery_status})"
+                   :class "battery-status"
+                   :visible {battery_status == "Charging"}))))
+
       ; Grid of quick settings
       (box :class "system-menu-section grid-box"
            :orientation "v"

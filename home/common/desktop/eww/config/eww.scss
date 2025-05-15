@@ -107,6 +107,30 @@ scale trough highlight {
   margin-left: 10px;
 }
 
+.battery-label {
+  color: #cdd6f4;
+  font-size: 14px;
+}
+
+.battery-status {
+  color: #cdd6f4;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.percentage-label {
+  color: #cdd6f4;
+  font-size: 14px;
+}
+
+.battery-slider trough {
+  background-color: rgba(235, 188, 186, 0.2);
+}
+
+.battery-slider trough highlight {
+  background-color: #ebbcba;
+}
+
 .menu-grid-item {
   background-color: rgba(30, 30, 46, 0.6);
   border-radius: 12px;
