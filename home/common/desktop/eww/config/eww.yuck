@@ -6,6 +6,9 @@
 (defpoll music_artist   :interval "1s" "~/.config/eww/scripts/music --artist")
 (defpoll music_status   :interval "1s" "~/.config/eww/scripts/music --status")
 (defpoll memory         :interval "15s" "free | awk '/Mem/ {print int($3/$2 * 100 + 0.5)}'")
+(defpoll battery        :interval "10s" "~/.config/eww/scripts/battery --percentage")
+(defpoll battery_status :interval "10s" "~/.config/eww/scripts/battery --status")
+(defpoll battery_exists :interval "60s" "~/.config/eww/scripts/battery --exists")
 
 (deflisten workspaces :initial "[]" "bash ~/.config/eww/scripts/get-workspaces")
 (deflisten current_workspace :initial "1" "bash ~/.config/eww/scripts/get-active-workspace")
@@ -67,20 +70,38 @@
 
 (defwidget system []
   (box
-    :spacing 6
-    (circular-progress
-      :class "system_bar"
-      :value "${EWW_CPU.avg}"
-      :tooltip "CPU ${round(EWW_CPU.avg, 1)}%"
-      :thickness 4
-      (box :class "system_icon" "" ))
+    :spacing 16
+    :space-evenly "true"
 
-    (circular-progress
-      :class "system_bar"
-      :value "${EWW_RAM.used_mem_perc}"
-      :tooltip "RAM ${round(EWW_RAM.used_mem_perc, 1)}%"
-      :thickness 4
-      (box :class "system_icon" "" ))))
+    (box
+      :space-evenly "true"
+      :spacing 4
+      (box :class "icon" "")
+      (label :class "system-label" :text "${round(EWW_CPU.avg, 0)}%"))
+
+    (box
+      :space-evenly "true"
+      :spacing 4
+      (box :class "icon" "")
+      (label :class "system-label" :text "${round(EWW_RAM.used_mem_perc, 0)}%"))
+
+
+    (box :visible {battery_exists == "true"}
+      :space-evenly "true"
+      :spacing 4
+      (box 
+        :class "icon"
+        (label :text {battery_status == "Charging" ? "󰂄" :
+                      battery < 10 ? "󰁺" :
+                      battery < 20 ? "󰁻" :
+                      battery < 30 ? "󰁼" :
+                      battery < 40 ? "󰁽" :
+                      battery < 50 ? "󰁾" :
+                      battery < 60 ? "󰁿" :
+                      battery < 70 ? "󰂀" :
+                      battery < 80 ? "󰂁" :
+                      battery < 90 ? "󰂂" : "󰁹"}))
+      (label :class "system-label" :text "${battery}%"))))
 
 (defwidget volume []
   (eventbox
@@ -90,7 +111,7 @@
       :orientation "h"
       :space-evenly "false"
       :spacing 10
-      (button :onclick 'echo test > $HOME/test' "")
+      (button :onclick 'echo ""' "")
       (revealer 
         :transition "slideleft" 
         :duration "300ms" 

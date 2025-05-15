@@ -6,6 +6,12 @@
   pkgs,
   ...
 }: {
+  imports = [
+    inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
+  ];
+
+  security.pam.services.hyprlock = {};
+
   systemd.extraConfig = "DefaultTimeoutStopSec=10s";
 
   nix.settings = {
@@ -13,21 +19,24 @@
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
 
+  environment.variables = {
+    AQ_DRM_DEVICES = "/dev/dri/card1";
+  };
+
+  networking.networkmanager.enable = true;
+
   programs.thunar.enable = true;
-  hardware.i2c.enable = true;
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
 
-    extraPackages = [
-      pkgs.amdvlk
-    ];
+    package = pkgs.mesa;
   };
 
-  hardware.opengl.enable = true;
-
-  services.hardware.openrgb.enable = true;
   environment.systemPackages = with pkgs; [
+    swayosd
+    brightnessctl
+    playerctl
     alejandra
     agenix
     amdvlk
@@ -37,6 +46,7 @@
     curl
     darktable
     ffmpeg
+    fprintd
     hyprshot
     hyprpaper
     jellyfin-media-player
@@ -55,7 +65,7 @@
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
     mangohud
-    unstable.neovim
+    neovim
     nodejs
     nil
     nixfmt-rfc-style
@@ -63,15 +73,15 @@
     pavucontrol
     playerctl
     python3
-    unstable.protontricks
+    protontricks
     obs-studio
-    unstable.rose-pine-hyprcursor
+    rose-pine-hyprcursor
     r2modman
     ripgrep
     socat
     treefmt
     unzip
-    unstable.legcord
+    legcord
     wineWowPackages.stable
     wl-clipboard
     wget
@@ -98,7 +108,7 @@
 
     settings = {
       default_session = {
-        command = ''                
+        command = ''                  
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
@@ -113,11 +123,7 @@
   fonts.packages = with pkgs; [
     font-awesome
     monaspace
-    (nerdfonts.override {
-      fonts = [
-        "RobotoMono"
-        "FiraCode"
-      ];
-    })
+    nerd-fonts.roboto-mono
+    nerd-fonts.fira-code
   ];
 }

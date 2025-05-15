@@ -93,7 +93,7 @@
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
     mangohud
-    unstable.neovim
+    neovim
     nodejs
     nil
     nixfmt-rfc-style
@@ -101,15 +101,15 @@
     pavucontrol
     playerctl
     python3
-    unstable.protontricks
+    protontricks
     obs-studio
-    unstable.rose-pine-hyprcursor
+    rose-pine-hyprcursor
     r2modman
     ripgrep
     socat
     treefmt
     unzip
-    unstable.legcord
+    legcord
     wineWowPackages.stable
     wl-clipboard
     wget
@@ -136,7 +136,7 @@
 
     settings = {
       default_session = {
-        command = ''                  
+        command = ''              
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
@@ -151,11 +151,7 @@
   fonts.packages = with pkgs; [
     font-awesome
     monaspace
-    (nerdfonts.override {
-      fonts = [
-        "RobotoMono"
-        "FiraCode"
-      ];
-    })
+    nerd-fonts.roboto-mono
+    nerd-fonts.fira-code
   ];
 }

@@ -11,6 +11,8 @@
     x11.enable = true;
   };
 
+  services.swayosd.enable = true;
+
   wayland.windowManager.hyprland = {
     systemd.variables = ["--all"];
     enable = true;
@@ -21,6 +23,7 @@
         "HDMI-A-1, 1920x1080@60, 0x0, 1"
         "DP-1, 1920x1080@165, 1920x0, 1"
         "DP-2, 1920x1080@60, 3840x0, 1"
+        "eDP-1, 2880x1920@120, 0x0, 2"
       ];
 
       general = {
@@ -45,8 +48,13 @@
         };
       };
 
+      xwayland = {
+        force_zero_scaling = true;
+      };
+
       env = [
         "HYPRCURSOR_THEME,rose-pine-hyprcursor"
+        "GDK_SCALE,2"
       ];
 
       input = {
@@ -120,6 +128,14 @@
           "$mod, w, togglegroup"
           "$mod, tab, changegroupactive"
           "$mod SHIFT, tab, changegroupactive, b"
+
+          ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise"
+          ", XF86AudioLowerVolume, exec, swayosd-client --output-volume lower"
+          ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
+
+          ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
+          ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+
           ", XF86AudioNext, exec, playerctl next"
           ", XF86AudioPause, exec, playerctl play-pause"
           ", XF86AudioPlay, exec, playerctl play-pause"

@@ -22,10 +22,10 @@
     kernelModules = ["kvm-amd"];
 
     extraModulePackages = [
-      pkgs.unstable.linuxPackages_zen.v4l2loopback
+      pkgs.linuxPackages_zen.v4l2loopback
     ];
 
-    kernelPackages = pkgs.unstable.linuxPackages_zen;
+    kernelPackages = pkgs.linuxPackages_zen;
 
     kernel.sysctl = {
       "net.ipv4.ip_forward" = 1;

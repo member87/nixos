@@ -18,7 +18,7 @@
     jq
     killall
     lua-language-server
-    unstable.neovim
+    neovim
     nil
     ripgrep
     unzip

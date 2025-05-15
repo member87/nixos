@@ -13,6 +13,7 @@
       "DP-1,${toString wallpaperFile}"
       "DP-2,${toString wallpaperFile}"
       "HDMI-A-1,${toString wallpaperFile}"
+      "eDP-1,${toString wallpaperFile}"
     ];
   };
 in {
