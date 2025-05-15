@@ -116,7 +116,7 @@
                        battery >= 25 ? "󰁼" :
                        battery >= 15 ? "󰁻" :
                        battery >= 5 ? "󰁺" : "󱃍"}
-                 :class "icon ${class}"))
+                 :class "icon ${class} ${battery <= 10 ? "battery-critical" : ""} ${battery >= 100 ? "battery-full" : ""}"))
 
 
 (defwidget volume [?class]
