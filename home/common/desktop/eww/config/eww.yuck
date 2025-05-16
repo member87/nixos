@@ -19,6 +19,8 @@
 (defpoll bluetooth_connected :interval "5s" "~/.config/eww/scripts/bluetooth --connected")
 (defpoll bluetooth_device :interval "5s" "~/.config/eww/scripts/bluetooth --device-name")
 (defpoll brightness :interval "1s" "brightnessctl -m | awk -F, '{print substr($4, 0, length($4)-1)}'")
+(defpoll vpn_status :interval "5s" "~/.config/eww/scripts/vpn --status")
+(defpoll vpn_ip :interval "5s" "~/.config/eww/scripts/vpn --ip")
 
 (defpoll wifi_enabled :interval "1s" "~/.config/eww/scripts/wifi --enabled")
 (defpoll bluetooth_enabled :interval "1s" "~/.config/eww/scripts/bluetooth --enabled")
@@ -95,6 +97,9 @@
       (volume)
       (wifi)
       (bluetooth)
+      (label :visible {vpn_status == "true"}
+             :text "󰌾"
+             :class "icon vpn-connected")
       (box :visible {battery_exists == "true"} (battery))
     )))
 
@@ -255,13 +260,17 @@
                     :text {bluetooth_enabled == "true" ? "󰂯" : "󰂲"})
               (label :class "grid-item-label" :text "Bluetooth")))
           
-          (eventbox :onclick "~/.config/eww/scripts/vpn --toggle"
-            (box :class "menu-grid-item ${vpn_enabled ? 'active' : ''}"
+            (box :class "menu-grid-item ${vpn_status == 'true' ? 'active-connected' : ''}"
                  :orientation "v"
                  :space-evenly false
-              (label :class "grid-item-icon" 
-                    :text {vpn_enabled ? "󰌾" : "󰌿"})
-              (label :class "grid-item-label" :text "VPN")))))
+              (box :orientation "v" 
+                   :space-evenly false
+                   :spacing 2
+                (label :class "grid-item-icon" 
+                       :text {vpn_status == "true" ? "󰌾" : "󰌿"})
+                (label :class "grid-item-label" 
+                       :text {vpn_status == "true" ? vpn_ip : "VPN"}
+                       )))))
       
       ; Media player section
       (box :class "media-player"

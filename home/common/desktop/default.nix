@@ -1,7 +1,7 @@
 {
   imports = [
     ./ghostty.nix
-    ./rofi.nix
+    ./wofi.nix
     ./hyprland.nix
     ./hyprpaper.nix
     ./eww

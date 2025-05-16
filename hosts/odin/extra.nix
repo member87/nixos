@@ -113,7 +113,6 @@
     wineWowPackages.stable
     wl-clipboard
     wget
-    wofi
     freerdp3
     inputs.zen-browser.packages."${pkgs.system}".default
     inputs.ghostty.packages."${pkgs.system}".default
@@ -136,7 +135,7 @@
 
     settings = {
       default_session = {
-        command = ''              
+        command = ''            
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
