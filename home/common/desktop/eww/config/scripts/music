@@ -9,7 +9,7 @@ art() {
   file_path="${MUSIC_DIR}${id}.jpg"
 
   if [ ! -e file_path ]; then
-    ffmpeg -i "$url" -vf "scale=60:60" "$file_path"
+    ffmpeg -i "$url" -vf "scale=400:400" "$file_path"
   fi
 
   echo "$file_path"

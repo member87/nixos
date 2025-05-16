@@ -260,32 +260,41 @@
                  :orientation "v"
                  :space-evenly false
               (label :class "grid-item-icon" 
-                    :text {vpn_enabled ? "󰖂" : "󰖃"})
+                    :text {vpn_enabled ? "󰌾" : "󰌿"})
               (label :class "grid-item-label" :text "VPN")))))
       
       ; Media player section
       (box :class "media-player"
            :orientation "v"
            :space-evenly false
-        (box :orientation "h"
+        (box :orientation "v"
              :space-evenly false
           (box :style "background-image: url('${music_art}');"
-               :class "media-art")
-          (box :orientation "v"
-               :class "media-info"
-               :valign "center"
-               :halign "center"
-               :hexpand "true"
-            (label :class "media-title"
-                   :limit-width 25
-                   :text music_title)
-            (label :class "media-artist"
-                   :limit-width 20
-                   :text music_artist)))
-        (box :class "media-controls"
-             :orientation "h"
-             :spacing 20
-             :halign "center"
+               :class "media-art"
+            (box :orientation "v"
+                 :space-evenly false
+                 :vexpand true
+              (box :class "media-info"
+                   :orientation "v"
+                   :valign "start"
+                   :halign "start"
+                   :hexpand false
+                   :vexpand false
+                   :spacing 4
+                (label :class "media-title"
+                       :halign "start"
+                       :limit-width 25
+                       :text music_title)
+                (label :class "media-artist"
+                       :halign "start"
+                       :limit-width 20
+                       :text music_artist))
+              (box :class "media-controls"
+                   :orientation "h"
+                   :spacing 20
+                   :valign "end"
+                   :vexpand true
+                   :halign "start"
           (button :class "media-button"
                   :onclick "playerctl previous"
                   "󰒮")
@@ -294,7 +303,7 @@
                   {music_status == "true" ? "󰏤" : "󰐊"})
           (button :class "media-button"
                   :onclick "playerctl next"
-                  "󰒭"))))))
+                  "󰒭")))))))))
         
 
 
