@@ -52,6 +52,7 @@
       };
       modules = [
         ../hosts
+        inputs.agenix.nixosModules.default
       ];
     };
 

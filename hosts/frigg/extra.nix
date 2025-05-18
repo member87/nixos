@@ -40,16 +40,6 @@
     name = "iqn.2025-04.local.homelab:frigg";
   };
 
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = true;
-      UseDns = true;
-      X11Forwarding = false;
-      PermitRootLogin = "prohibit-password";
-    };
-  };
-
   services = {
     k3s = {
       enable = true;

@@ -4,5 +4,6 @@
     ./xserver.nix
     ./hyprland.nix
     ./pipewire.nix
+    ./wireguard.nix
   ];
 }

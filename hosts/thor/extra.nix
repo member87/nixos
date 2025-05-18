@@ -33,7 +33,12 @@
     package = pkgs.mesa;
   };
 
+  age.identityPaths = [
+    "/home/jack/.ssh/id_ed25519"
+  ];
+
   environment.systemPackages = with pkgs; [
+    wireguard-tools
     protonvpn-gui
     swayosd
     brightnessctl
@@ -108,7 +113,7 @@
 
     settings = {
       default_session = {
-        command = ''              
+        command = ''          
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
