@@ -15,4 +15,8 @@
   '';
 
   users.groups.plugdev = {};
+
+  age.identityPaths = [
+    "/home/jack/.ssh/id_ed25519"
+  ];
 }
