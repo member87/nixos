@@ -45,19 +45,19 @@
     (music)
   ))
 
-(defwidget right[]
+(defwidget right[monitor_id] 
   (box :orientation "h" :space-evenly "false" :halign "end" :spacing 15
     (systray :orientation "h" :icon-size 15 :spacing 10)
-    (system)
+    (system :monitor_id monitor_id) ; Pass monitor_id to system
     (clock)
     (date)
   ))
 
-(defwidget bar_container []
+(defwidget bar_container [monitor_id] 
   (box :orientation "h" :class "bottom-bar"
     (left)
     (center)
-    (right)
+    (right :monitor_id monitor_id) 
   ))
   
 
@@ -85,11 +85,11 @@
 
 (defvar system_menu false)
 
-(defwidget system []
+(defwidget system [monitor_id] ; Added monitor_id parameter
   (eventbox
     :onhover "${eww} update system_hover=true"
     :onhoverlost "${eww} update system_hover=false"
-    :onclick "${eww} open --toggle system-menu"
+    :onclick "${eww} open --toggle --screen ${monitor_id} system-menu" ; Use monitor_id
     (box
       :spacing 16
       :space-evenly "true"
@@ -152,7 +152,6 @@
 
 
 (defwindow system-menu
-  :monitor 0
   :geometry (geometry :x "10px"
                      :y "10px"
                      :width "280px"
@@ -329,7 +328,7 @@
                       :height "0px"
                       :anchor "bottom center")
   :reserve (struts :side "bottom" :distance "4%")
-  (bar_container))
+  (bar_container :monitor_id 0))
 
 (defwindow bar1
   :monitor 1
@@ -342,7 +341,7 @@
                       :height "0px"
                       :anchor "bottom center")
   :reserve (struts :side "bottom" :distance "4%")
-  (bar_container))
+  (bar_container :monitor_id 1)) 
 
 
 
@@ -358,4 +357,4 @@
                       :height "0px"
                       :anchor "bottom center")
   :reserve (struts :side "bottom" :distance "4%")
-  (bar_container))
+  (bar_container :monitor_id 2))

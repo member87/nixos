@@ -21,6 +21,7 @@
 
   environment.variables = {
     AQ_DRM_DEVICES = "/dev/dri/card1";
+    GDK_SCALE = 2;
   };
 
   networking.networkmanager.enable = true;
@@ -113,7 +114,7 @@
 
     settings = {
       default_session = {
-        command = ''          
+        command = ''                  
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \

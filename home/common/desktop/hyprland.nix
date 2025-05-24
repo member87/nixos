@@ -54,7 +54,6 @@
 
       env = [
         "HYPRCURSOR_THEME,rose-pine-hyprcursor"
-        "GDK_SCALE,2"
       ];
 
       input = {
