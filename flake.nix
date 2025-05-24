@@ -3,18 +3,18 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     # You can access packages and modules from different nixpkgs revs
     # at the same time. Here's an working example:
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
     agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "unstable";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
-    home-manager.inputs.nixpkgs.follows = "unstable";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
@@ -30,18 +30,17 @@
 
     hyprland.url = "github:hyprwm/Hyprland";
 
-    winapps = {
-      url = "github:winapps-org/winapps";
-    };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
-    unstable,
+    nixpkgs-stable,
     agenix,
     spicetify-nix,
+    nixos-hardware,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -62,7 +61,7 @@
   in {
     packages = libx.forAllSystems (
       system: let
-        pkgs = unstable.legacyPackages.${system};
+        pkgs = nixpkgs.legacyPackages.${system};
       in
         import ./pkgs {inherit pkgs;}
     );
@@ -71,11 +70,27 @@
       odin = libx.mkHost {
         hostname = "odin";
       };
+
+      frigg = libx.mkHost {
+        hostname = "frigg";
+      };
+
+      thor = libx.mkHost {
+        hostname = "thor";
+      };
     };
 
     homeConfigurations = {
       "${username}@odin" = libx.mkHome {
         hostname = "odin";
+      };
+
+      "${username}@frigg" = libx.mkHome {
+        hostname = "frigg";
+      };
+
+      "${username}@thor" = libx.mkHome {
+        hostname = "thor";
       };
     };
 

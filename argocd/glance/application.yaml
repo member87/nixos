@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glance
+  namespace: argocd 
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/member87/nixos.git'
+    targetRevision: home-server 
+    path: argocd/glance/resources
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: glance
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true 

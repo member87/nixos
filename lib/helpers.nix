@@ -14,7 +14,7 @@
     system ? "x86_64-linux",
   }:
     inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = inputs.unstable.legacyPackages.${system};
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
       extraSpecialArgs = {
         inherit
           self
@@ -34,7 +34,7 @@
   # Helper function for generating host configs
   mkHost = {
     hostname,
-    pkgsInput ? inputs.unstable,
+    pkgsInput ? inputs.nixpkgs,
     system ? "x86_64-linux",
   }:
     pkgsInput.lib.nixosSystem {
@@ -52,6 +52,7 @@
       };
       modules = [
         ../hosts
+        inputs.agenix.nixosModules.default
       ];
     };
 

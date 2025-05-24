@@ -18,36 +18,6 @@
   margin: 4px;
 }
 
-.system_bar_container {
-  margin: 5px;
-}
-
-.system_bar {
-  background-color: #191724;
-  border-radius: 10px;
-  color: #ebbcba;
-}
-
-.system_icon {
-  margin: 7px;
-  font-size: 7px;
-  color: #ebbcba;
-  font-family: "Font Awesome 6 Free Solid";
-}
-
-scale trough {
-  all: unset;
-  background-color: #22242b;
-  border-radius: 16px;
-  min-height: 6px;
-  min-width: 70px;
-}
-
-.volbar trough highlight {
-  background-color: #ebbcba;
-  border-radius: 10px;
-}
-
 .workspace-wrapper {
   margin-top: 5px;
   margin-bottom: 5px
@@ -61,4 +31,246 @@ scale trough {
   color: #313244;
   background-color: #ebbcba;
   border-radius: 999px;
+}
+
+
+// system tray menu
+menu {
+  background-color: rgba(30, 30, 30, 0.9);
+  color: #f0f0f0;
+  border: 1px solid #555;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.icon {
+  font-size: 15px;
+  color: #ebbcba;
+}
+
+.icon.battery-critical {
+  color: #ff8090;
+}
+
+.icon.battery-full {
+  color: #a6e3a1; 
+}
+
+.icon.popup {
+  font-size: 18px;
+}
+
+tooltip {
+  background-color: rgba(17, 17, 27, 0.9);
+  border: 1px solid #555;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.system-label {
+  font-size: 13px;
+}
+
+.system-container {
+  padding: 5px 10px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.system-hover {
+  background-color: rgba(235, 188, 186, 0.1);
+}
+
+.system-menu-box {
+  background-color: rgb(17, 17, 27);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.system-menu-section {
+  background-color: rgba(30, 30, 46, 0.6);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+scale {
+  margin-left: 10px;
+  min-width: 120px;
+}
+
+scale trough {
+  min-height: 6px;
+  border-radius: 10px;
+  background-color: rgba(235, 188, 186, 0.2);
+}
+
+scale trough highlight {
+  min-height: 6px;
+  border-radius: 10px;
+  background-color: #ebbcba;
+}
+
+.section-text {
+  color: #cdd6f4;
+  margin-left: 10px;
+}
+
+.battery-label {
+  color: #cdd6f4;
+  font-size: 14px;
+}
+
+.battery-status {
+  color: #cdd6f4;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.percentage-label {
+  color: #cdd6f4;
+  font-size: 14px;
+}
+
+.battery-slider trough {
+  background-color: rgba(235, 188, 186, 0.2);
+}
+
+.battery-slider trough highlight {
+  background-color: #ebbcba;
+}
+
+.menu-grid-item {
+  background-color: rgba(30, 30, 46, 0.6);
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 70px;
+  transition: all 0.2s ease;
+}
+
+.menu-grid-item:hover {
+  background-color: rgba(235, 188, 186, 0.1);
+}
+
+.menu-grid-item.active {
+  background-color: rgba(235, 188, 186, 0.2);
+}
+
+.menu-grid-item.active:hover {
+  background-color: rgba(235, 188, 186, 0.3);
+}
+
+.menu-grid-item.active-connected {
+  background-color: #ebbcba;
+}
+
+.menu-grid-item.active-connected .grid-item-icon,
+.menu-grid-item.active-connected .grid-item-label {
+  color: #1e1e2e;
+}
+
+.menu-grid-item.active-connected:hover {
+  background-color: #e0b1af;
+}
+
+.grid-item-icon {
+  font-size: 24px;
+  color: #ebbcba;
+  margin-bottom: 8px;
+}
+
+.grid-item-label {
+  font-size: 12px;
+  color: #cdd6f4;
+}
+
+// Time and date section
+.time-date {
+  padding: 15px;
+  border-radius: 10px;
+  background-color: rgba(30, 30, 46, 0.6);
+  padding: 20px;
+}
+
+.time-container {
+  margin-right: 20px;
+}
+
+.time {
+  font-size: 42px;
+  font-weight: bold;
+  color: #ebbcba;
+}
+
+.date-container {
+  margin-top: 8px;
+  margin-left: 15px;
+}
+
+.date {
+  font-size: 14px;
+  font-weight: 500;
+  color: #cdd6f4;
+}
+
+.day {
+  font-size: 14px;
+  color: #cdd6f4;
+  margin-top: 2px;
+  opacity: 0.9;
+}
+
+// Media player section
+.media-player {
+  padding: 0;
+  border-radius: 10px;
+  background-color: rgba(30, 30, 46, 0.6);
+}
+
+.media-art {
+  background-size: cover;	
+  background-position: center;
+  min-height: 150px;
+  min-width: 150px;
+  border-radius: 10px;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  background-blend-mode: overlay;
+}
+
+.media-info {
+  padding: 10px;
+  margin: 0;
+}
+
+.media-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ebbcba;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.media-artist {
+  font-size: 14px;
+  color: #ffffff;
+  opacity: 0.9;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.media-controls {
+  padding: 10px;
+  margin: 0;
+}
+
+.media-button {
+  font-size: 20px;
+  color: #ebbcba;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.media-button:hover {
+  background-color: rgba(235, 188, 186, 0.1);
 }

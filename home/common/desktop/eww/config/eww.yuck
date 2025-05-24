@@ -1,11 +1,29 @@
 (defpoll time           :interval "1s" "date '+%H:%M'")
-(defpoll date           :interval "60s" "date '+%x'")
+(defpoll date           :interval "60s" "date '+%d %b %Y'")
+(defpoll short_date     :interval "60s" "date '+%d %b'")
+(defpoll day            :interval "60s" "date '+%A'")
 (defpoll volume         :interval "1s" "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2 * 100}'")
+(defpoll volume_muted   :interval "1s" "wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo 'true' || echo 'false'")
 (defpoll music_art      :interval "1s" "~/.config/eww/scripts/music --art")
 (defpoll music_title    :interval "1s" "~/.config/eww/scripts/music --title")
 (defpoll music_artist   :interval "1s" "~/.config/eww/scripts/music --artist")
 (defpoll music_status   :interval "1s" "~/.config/eww/scripts/music --status")
 (defpoll memory         :interval "15s" "free | awk '/Mem/ {print int($3/$2 * 100 + 0.5)}'")
+(defpoll battery        :interval "10s" "~/.config/eww/scripts/battery --percentage")
+(defpoll battery_status :interval "10s" "~/.config/eww/scripts/battery --status")
+(defpoll battery_exists :interval "60s" "~/.config/eww/scripts/battery --exists")
+(defpoll wifi_status :interval "1s" "~/.config/eww/scripts/wifi --status")
+(defpoll wifi_strength :interval "10s" "~/.config/eww/scripts/wifi --strength")
+(defpoll wifi_ssid :interval "10s" "~/.config/eww/scripts/wifi --ssid")
+(defpoll bluetooth_power :interval "1s" "~/.config/eww/scripts/bluetooth --power")
+(defpoll bluetooth_connected :interval "5s" "~/.config/eww/scripts/bluetooth --connected")
+(defpoll bluetooth_device :interval "5s" "~/.config/eww/scripts/bluetooth --device-name")
+(defpoll brightness :interval "1s" "brightnessctl -m | awk -F, '{print substr($4, 0, length($4)-1)}'")
+(defpoll vpn_status :interval "5s" "~/.config/eww/scripts/vpn --status")
+(defpoll vpn_ip :interval "5s" "~/.config/eww/scripts/vpn --ip")
+
+(defpoll wifi_enabled :interval "1s" "~/.config/eww/scripts/wifi --enabled")
+(defpoll bluetooth_enabled :interval "1s" "~/.config/eww/scripts/bluetooth --enabled")
 
 (deflisten workspaces :initial "[]" "bash ~/.config/eww/scripts/get-workspaces")
 (deflisten current_workspace :initial "1" "bash ~/.config/eww/scripts/get-active-workspace")
@@ -13,7 +31,8 @@
 (deflisten workspaces_listen "~/.config/eww/scripts/workspace")
 
 (defvar volume_reveal false)
-
+(defvar system_hover false)
+(defvar vpn_enabled false)
 (defvar eww "/usr/bin/env eww -c $HOME/.config/eww/")
 
 (defwidget left[]
@@ -26,20 +45,19 @@
     (music)
   ))
 
-(defwidget right[]
+(defwidget right[monitor_id] 
   (box :orientation "h" :space-evenly "false" :halign "end" :spacing 15
     (systray :orientation "h" :icon-size 15 :spacing 10)
-    (system)
-    (volume)
+    (system :monitor_id monitor_id) ; Pass monitor_id to system
     (clock)
     (date)
   ))
 
-(defwidget bar_container []
+(defwidget bar_container [monitor_id] 
   (box :orientation "h" :class "bottom-bar"
     (left)
     (center)
-    (right)
+    (right :monitor_id monitor_id) 
   ))
   
 
@@ -65,51 +83,238 @@
     (label :hexpand "false" :limit-width 32 :text "${music_title} ")
     (label :hexpand "false" :text " - ${music_artist}")))
 
-(defwidget system []
-  (box
-    :spacing 6
-    (circular-progress
-      :class "system_bar"
-      :value "${EWW_CPU.avg}"
-      :tooltip "CPU ${round(EWW_CPU.avg, 1)}%"
-      :thickness 4
-      (box :class "system_icon" "" ))
+(defvar system_menu false)
 
-    (circular-progress
-      :class "system_bar"
-      :value "${EWW_RAM.used_mem_perc}"
-      :tooltip "RAM ${round(EWW_RAM.used_mem_perc, 1)}%"
-      :thickness 4
-      (box :class "system_icon" "" ))))
-
-(defwidget volume []
+(defwidget system [monitor_id] ; Added monitor_id parameter
   (eventbox
-    :onhover      "${eww} update volume_reveal=true"
-    :onhoverlost  "${eww} update volume_reveal=false"
-    (box 
-      :orientation "h"
-      :space-evenly "false"
-      :spacing 10
-      (button :onclick 'echo test > $HOME/test' "")
-      (revealer 
-        :transition "slideleft" 
-        :duration "300ms" 
-        :reveal volume_reveal
-        (scale
-          :class "volbar"
-          :orientation "h"
-          :max 100
-          :min 0
-          :value volume
-          :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ $(awk \"BEGIN {print {} / 100}\")"
-        )))))
+    :onhover "${eww} update system_hover=true"
+    :onhoverlost "${eww} update system_hover=false"
+    :onclick "${eww} open --toggle --screen ${monitor_id} system-menu" ; Use monitor_id
+    (box
+      :spacing 16
+      :space-evenly "true"
+      :class "system-container ${system_hover ? "system-hover" : ""}"
+      (volume)
+      (wifi)
+      (bluetooth)
+      (label :visible {vpn_status == "true"}
+             :text "󰌾"
+             :class "icon vpn-connected")
+      (box :visible {battery_exists == "true"} (battery))
+    )))
+
+(defwidget bluetooth []
+          (label :text {bluetooth_power == "on" ? 
+                       (bluetooth_connected == "true" ? "󰂯" : "󰂲") :
+                       "󰂲"}
+                 :class "icon"))
+
+(defwidget battery [?class]
+          (label :text {battery_status == "Charging" ? "󰂄" :
+                       battery >= 95 ? "󰁹" :
+                       battery >= 85 ? "󰂂" :
+                       battery >= 75 ? "󰂁" :
+                       battery >= 65 ? "󰂀" :
+                       battery >= 55 ? "󰁿" :
+                       battery >= 45 ? "󰁾" :
+                       battery >= 35 ? "󰁽" :
+                       battery >= 25 ? "󰁼" :
+                       battery >= 15 ? "󰁻" :
+                       battery >= 5 ? "󰁺" : "󱃍"}
+                 :class "icon ${class} ${battery <= 10 ? "battery-critical" : ""} ${battery >= 100 ? "battery-full" : ""}"))
+
+
+(defwidget volume [?class]
+    (label
+      :text {volume_muted == "true" ? "󰝟" :
+             volume == 0 ? "󰝟" :
+             volume < 30 ? "󰕿" :
+             volume < 70 ? "󰖀" : "󰕾"}
+      :class "icon ${class}"))
+
+(defwidget wifi []
+      (label :text {wifi_status == "ethernet" ? "󰈀" :  
+                   wifi_status == "wifi" ? 
+                     (wifi_strength >= 80 ? "󰤨" :
+                      wifi_strength >= 60 ? "󰤥" :
+                      wifi_strength >= 40 ? "󰤢" :
+                      wifi_strength >= 20 ? "󰤟" : "󰤯") :
+                   "󰤭"}
+                   :class "icon")
+)
         
 
 (defwidget clock []
   (box "${time}"))
 
 (defwidget date []
-  (box "${date}"))
+  (box "${short_date}"))
+
+
+(defwindow system-menu
+  :geometry (geometry :x "10px"
+                     :y "10px"
+                     :width "280px"
+                     :height "0px"
+                     :anchor "bottom right")
+  :stacking "fg"
+  :windowtype "dock"
+  :wm-ignore true
+  (system-menu-widget))
+
+(defwidget system-menu-widget []
+  (box :class "system-menu-box" 
+       :orientation "v" 
+       :space-evenly false
+       :spacing 10
+    (box :orientation "v"
+         :space-evenly false
+         :spacing 10
+
+      ; Time and Date section
+      (box :class "time-date"
+           :orientation "h"
+           :space-evenly false
+        (box :class "time-container"
+             :halign "start"
+          (label :class "time" :text time))
+        (box :class "date-container"
+             :orientation "v"
+             :space-evenly false
+             :halign "start"
+          (label :class "date" :text date)
+          (label :class "day" :text day)))
+      
+      ; Volume controls
+      (box :class "slider-module system-menu-section" 
+           :space-evenly false 
+           :spacing 8
+           :hexpand true
+        (volume :class "popup")
+        (scale :class "slider"
+               :hexpand true
+               :min 0
+               :max 100
+               :value volume
+               :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%"))
+      
+      ; Brightness controls
+      (box :class "slider-module system-menu-section"
+           :space-evenly false 
+           :spacing 8
+           :hexpand true
+        (label :text "󰃞" :class "icon popup")
+        (scale :class "slider"
+               :hexpand true
+               :min 0
+               :max 100
+               :value brightness
+               :onchange "brightnessctl set {}%"))
+      
+      (box :visible {battery_exists == "true"}
+           :class "slider-module system-menu-section"
+           :space-evenly false
+           :spacing 8
+           :hexpand true
+        (battery :class "popup")
+        (box :orientation "h"
+             :space-evenly false
+             :spacing 8
+             :hexpand true
+          (scale :class "slider battery-slider"
+                 :hexpand true
+                 :min 0
+                 :max 100
+                 :active false
+                 :value battery)
+          (box :orientation "v"
+               :valign "center"
+               :space-evenly false
+               :spacing 3
+            (label :text "${battery}%"
+                   :class "percentage-label")
+            (label :text "(${battery_status})"
+                   :class "battery-status"
+                   :visible {battery_status == "Charging"}))))
+
+      ; Grid of quick settings
+      (box :class "system-menu-section grid-box"
+           :orientation "v"
+           :spacing 10
+        (box :orientation "h"
+             :spacing 10
+          (eventbox :onclick "~/.config/eww/scripts/wifi --toggle"
+            (box :class "menu-grid-item ${wifi_enabled == 'true' ? (wifi_status == 'wifi' ? 'active-connected' : 'active') : ''}"
+                 :orientation "v"
+                 :space-evenly false
+                (box :class "grid-item-icon" :halign "center"
+                    (label :text {wifi_enabled == "true" ? "󰤨" : "󰤭"}))
+                (label :class "grid-item-label" :text {wifi_status == "wifi" ? wifi_ssid : "WiFi"})))
+          
+          (eventbox :onclick "~/.config/eww/scripts/bluetooth --toggle"
+            (box :class "menu-grid-item ${bluetooth_enabled == 'true' ? 'active' : ''}"
+                 :orientation "v"
+                 :space-evenly false
+              (label :class "grid-item-icon" 
+                    :text {bluetooth_enabled == "true" ? "󰂯" : "󰂲"})
+              (label :class "grid-item-label" :text "Bluetooth")))
+          
+            (box :class "menu-grid-item ${vpn_status == 'true' ? 'active-connected' : ''}"
+                 :orientation "v"
+                 :space-evenly false
+              (box :orientation "v" 
+                   :space-evenly false
+                   :spacing 2
+                (label :class "grid-item-icon" 
+                       :text {vpn_status == "true" ? "󰌾" : "󰌿"})
+                (label :class "grid-item-label" 
+                       :text {vpn_status == "true" ? vpn_ip : "VPN"}
+                       )))))
+      
+      ; Media player section
+      (box :class "media-player"
+           :orientation "v"
+           :space-evenly false
+        (box :orientation "v"
+             :space-evenly false
+          (box :style "background-image: url('${music_art}');"
+               :class "media-art"
+            (box :orientation "v"
+                 :space-evenly false
+                 :vexpand true
+              (box :class "media-info"
+                   :orientation "v"
+                   :valign "start"
+                   :halign "start"
+                   :hexpand false
+                   :vexpand false
+                   :spacing 4
+                (label :class "media-title"
+                       :halign "start"
+                       :limit-width 25
+                       :text music_title)
+                (label :class "media-artist"
+                       :halign "start"
+                       :limit-width 20
+                       :text music_artist))
+              (box :class "media-controls"
+                   :orientation "h"
+                   :spacing 20
+                   :valign "end"
+                   :vexpand true
+                   :halign "start"
+          (button :class "media-button"
+                  :onclick "playerctl previous"
+                  "󰒮")
+          (button :class "media-button"
+                  :onclick "playerctl play-pause"
+                  {music_status == "true" ? "󰏤" : "󰐊"})
+          (button :class "media-button"
+                  :onclick "playerctl next"
+                  "󰒭")))))))))
+        
+
+
 
 
 (defwindow bar
@@ -123,7 +328,7 @@
                       :height "0px"
                       :anchor "bottom center")
   :reserve (struts :side "bottom" :distance "4%")
-  (bar_container))
+  (bar_container :monitor_id 0))
 
 (defwindow bar1
   :monitor 1
@@ -136,7 +341,10 @@
                       :height "0px"
                       :anchor "bottom center")
   :reserve (struts :side "bottom" :distance "4%")
-  (bar_container))
+  (bar_container :monitor_id 1)) 
+
+
+
 
 (defwindow bar2
   :monitor 2
@@ -149,4 +357,4 @@
                       :height "0px"
                       :anchor "bottom center")
   :reserve (struts :side "bottom" :distance "4%")
-  (bar_container))
+  (bar_container :monitor_id 2))

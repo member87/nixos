@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+battery_dir="/sys/class/power_supply"
+battery="BAT1"
+
+# Check if battery exists
+if [ "$1" = "--exists" ]; then
+    if [ -d "$battery_dir/$battery" ]; then
+        echo "true"
+    else
+        echo "false"
+    fi
+    exit 0
+fi
+
+# If battery doesn't exist, exit
+if [ ! -d "$battery_dir/$battery" ]; then
+    exit 0
+fi
+
+# Get battery percentage
+if [ "$1" = "--percentage" ]; then
+    cat "$battery_dir/$battery/capacity"
+    exit 0
+fi
+
+# Get charging status
+if [ "$1" = "--status" ]; then
+    status=$(cat "$battery_dir/$battery/status")
+    echo "$status"
+    exit 0
+fi
+
+echo "Usage: $0 [--exists|--percentage|--status]"
+exit 1

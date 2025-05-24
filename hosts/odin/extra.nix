@@ -6,17 +6,6 @@
   pkgs,
   ...
 }: {
-  networking.hostName = hostname;
-  networking.nameservers = [
-    "1.1.1.1"
-    "1.0.0.1"
-  ];
-  networking.dhcpcd.extraConfig = ''
-    nohook resolv.conf
-  '';
-
-  users.groups.plugdev = {};
-
   systemd.extraConfig = "DefaultTimeoutStopSec=10s";
   services.udev.extraRules = ''
     SUBSYSTEMS=="usb", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="1b7c|2b7c|3b7c|4b7c", TAG+="uaccess", TAG+="udev-acl"
@@ -39,6 +28,18 @@
     ];
   };
 
+  services = {
+    k3s = {
+      enable = true;
+      role = "server";
+      extraFlags = toString [
+        "--disable servicelb"
+        "--disable traefik"
+        "--disable local-storage"
+      ];
+    };
+  };
+
   programs.thunar.enable = true;
 
   hardware.i2c.enable = true;
@@ -51,8 +52,20 @@
     ];
   };
 
+  hardware.opengl.enable = true;
+
   services.hardware.openrgb.enable = true;
   environment.systemPackages = with pkgs; [
+    k3s
+    (wrapHelm kubernetes-helm {
+      plugins = with pkgs.kubernetes-helmPlugins; [
+        helm-secrets
+        helm-diff
+        helm-s3
+        helm-git
+      ];
+    })
+    helmfile
     alejandra
     agenix
     amdvlk
@@ -80,7 +93,7 @@
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
     mangohud
-    unstable.neovim
+    neovim
     nodejs
     nil
     nixfmt-rfc-style
@@ -88,23 +101,21 @@
     pavucontrol
     playerctl
     python3
-    unstable.protontricks
+    protontricks
     obs-studio
-    unstable.rose-pine-hyprcursor
+    rose-pine-hyprcursor
     r2modman
     ripgrep
     socat
     treefmt
     unzip
-    vesktop
+    legcord
     wineWowPackages.stable
     wl-clipboard
     wget
-    wofi
     freerdp3
     inputs.zen-browser.packages."${pkgs.system}".default
     inputs.ghostty.packages."${pkgs.system}".default
-    inputs.winapps.packages."${pkgs.system}".winapps-launcher
   ];
 
   programs.nix-ld.enable = true;
@@ -124,7 +135,7 @@
 
     settings = {
       default_session = {
-        command = ''                
+        command = ''            
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
@@ -139,11 +150,7 @@
   fonts.packages = with pkgs; [
     font-awesome
     monaspace
-    (nerdfonts.override {
-      fonts = [
-        "RobotoMono"
-        "FiraCode"
-      ];
-    })
+    nerd-fonts.roboto-mono
+    nerd-fonts.fira-code
   ];
 }

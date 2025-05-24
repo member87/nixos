@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# Function to check if WiFi is enabled
+get_enabled() {
+    if [[ $(nmcli radio wifi) == "enabled" ]]; then
+        echo "true"
+    else
+        echo "false"
+    fi
+}
+
+# Function to get network interface status
+get_status() {
+    if [[ $(nmcli -t -f TYPE,STATE connection show --active | grep "wireless") ]]; then
+        echo "wifi"
+    elif [[ $(nmcli -t -f TYPE,STATE connection show --active | grep "ethernet") ]]; then
+        echo "ethernet"
+    else
+        echo "disconnected"
+    fi
+}
+
+# Function to get WiFi signal strength (0-100)
+get_strength() {
+    if [[ $(get_status) == "wifi" ]]; then
+        nmcli -f IN-USE,SIGNAL device wifi | grep "^*" | awk '{print $2}'
+    else
+        echo "0"
+    fi
+}
+
+# Function to get current SSID
+get_ssid() {
+    if [[ $(get_status) == "wifi" ]]; then
+        nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2
+    else
+        echo "Not Connected"
+    fi
+}
+
+case "$1" in
+    "--status")
+        get_status
+        ;;
+    "--strength")
+        get_strength
+        ;;
+    "--ssid")
+        get_ssid
+        ;;
+    "--enabled")
+        get_enabled
+        ;;
+    *)
+        echo "Usage: $0 [--status|--strength|--ssid|--enabled]"
+        exit 1
+        ;;
+esac

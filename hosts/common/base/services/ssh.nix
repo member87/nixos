@@ -1,9 +1,11 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   services.openssh = {
-    enable = false;
+    enable = true;
     settings = {
-      PasswordAuthentication = false;
+      PasswordAuthentication = true;
+      UseDns = true;
+      X11Forwarding = false;
+      PermitRootLogin = "prohibit-password";
     };
   };
 

@@ -1,11 +1,12 @@
-{
-  ...
-}:
-{
+{pkgs, ...}: {
   programs.hyprlock = {
     enable = true;
 
     settings = {
+      auth = {
+        "fingerprint:enabled" = true;
+      };
+
       background = {
         path = "screenshot";
         blue_passes = 1;

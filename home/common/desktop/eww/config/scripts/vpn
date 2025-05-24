@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Function to check if VPN is connected by looking for proton0 interface
+check_vpn_status() {
+    if ip a show proton0 &>/dev/null; then
+        echo "true"
+    else
+        echo "false"
+    fi
+}
+
+# Function to get VPN IP address
+get_vpn_ip() {
+    if ip a show proton0 &>/dev/null; then
+        ip a show proton0 | grep -oP 'inet \K[\d.]+' || echo "No IP"
+    else
+        echo "Not Connected"
+    fi
+}
+
+case "$1" in
+    "--status")
+        check_vpn_status
+        ;;
+    "--ip")
+        get_vpn_ip
+        ;;
+    *)
+        echo "Usage: $0 --status|--ip"
+        exit 1
+        ;;
+esac
+
