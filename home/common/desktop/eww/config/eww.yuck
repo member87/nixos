@@ -22,6 +22,7 @@
 (defpoll brightness :interval "1s" "brightnessctl -m | awk -F, '{print substr($4, 0, length($4)-1)}'")
 (defpoll vpn_status :interval "5s" "~/.config/eww/scripts/vpn --status")
 (defpoll vpn_ip :interval "5s" "~/.config/eww/scripts/vpn --ip")
+(defpoll brightness_exists :interval "60s" "~/.config/eww/scripts/brightness --exists")
 
 (defpoll wifi_enabled :interval "1s" "~/.config/eww/scripts/wifi --enabled")
 (defpoll bluetooth_enabled :interval "1s" "~/.config/eww/scripts/bluetooth --enabled")
@@ -201,6 +202,7 @@
       
       ; Brightness controls
       (box :class "slider-module system-menu-section"
+           :visible {brightness_exists == "true"}
            :space-evenly false 
            :spacing 8
            :hexpand true

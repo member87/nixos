@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+exists() {
+  if brightnessctl g > /dev/null 2>&1; then
+    echo "true"
+  else
+    echo "false"
+  fi
+}
+
+case "$1" in
+  --exists)
+    exists
+    ;;
+  *)
+    brightnessctl g
+    ;;
+esac
+
