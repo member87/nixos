@@ -24,7 +24,7 @@ artist() {
 }
 
 status() {
-  if [ "$(playerctl status --player=spotify)" == "Playing" ]; then
+  if [ "$(playerctl status --player=spotify)" == "Playing" ] || [ "$(playerctl status --player=spotify)" == "Paused" ]; then
     echo "true"
   else
     echo "false"
