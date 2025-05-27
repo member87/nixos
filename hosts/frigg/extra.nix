@@ -30,8 +30,6 @@
     KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
   };
 
-  networking.networkmanager.enable = true;
-
   systemd.tmpfiles.rules = [
     "d /usr/bin 0755 root root -"
     "L /usr/bin/iscsiadm - - - - ${pkgs.openiscsi}/bin/iscsiadm"

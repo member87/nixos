@@ -28,6 +28,8 @@
     ];
   };
 
+  networking.networkmanager.enable = true;
+
   services = {
     k3s = {
       enable = true;
@@ -135,7 +137,7 @@
 
     settings = {
       default_session = {
-        command = ''            
+        command = ''          
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
