@@ -44,11 +44,6 @@
     k3s = {
       enable = true;
       role = "server";
-      extraFlags = toString [
-        "--disable servicelb"
-        "--disable traefik"
-        "--disable local-storage"
-      ];
     };
   };
 }
