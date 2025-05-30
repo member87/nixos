@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://mojo2600.github.io/pihole-kubernetes/
     chart: pihole
-    targetRevision: ""
+    targetRevision: "v2.31.0"
     helm:
       values: |
         adminPassword: password
