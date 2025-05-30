@@ -2,19 +2,38 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: pihole
-  namespace: argocd 
+  namespace: argocd
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/member87/nixos.git'
-    targetRevision: main
-    path: argocd/pihole/resources
+    repoURL: https://mojo2600.github.io/pihole-kubernetes/
+    chart: pihole
+    targetRevision: ""
+    helm:
+      values: |
+        adminPassword: password
+        persistentVolumeClaim:
+          enabled: true
+        dnsmasq:
+          customDnsEntries:
+            - address=/.lab.member87.xyz/192.168.1.110
+        serviceWeb:
+          type: LoadBalancer
+          loadBalancerIP: 192.168.1.249
+          annotations:
+            metallb.universe.tf/allow-shared-ip: pihole-svc
+        serviceDns:
+          type: LoadBalancer
+          loadBalancerIP: 192.168.1.249
+          annotations:
+            metallb.universe.tf/allow-shared-ip: pihole-svc
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: https://kubernetes.default.svc
     namespace: pihole
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true 
+      - CreateNamespace=true
+
