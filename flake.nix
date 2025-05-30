@@ -73,6 +73,7 @@
 
       frigg = libx.mkHost {
         hostname = "frigg";
+        pkgsInput = nixpkgs-stable;
       };
 
       thor = libx.mkHost {
