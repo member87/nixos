@@ -1,6 +1,6 @@
 {pkgs, ...}: let
   k3sServicePath = pkgs.lib.makeBinPath [
-    pkgs.open-iscsi
+    pkgs.openiscsi
   ];
 
   k3sEnvFileContent = ''
