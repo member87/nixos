@@ -32,8 +32,14 @@
 
   systemd.tmpfiles.rules = [
     "d /usr/bin 0755 root root -"
-    "L /usr/bin/iscsiadm - - - - ${pkgs.openiscsi}/bin/iscsiadm"
+    # "L /usr/bin/iscsiadm - - - - ${pkgs.openiscsi}/bin/iscsiadm"
   ];
+
+  environment.etc."iscsi/iscsiadm_symlink" = {
+    source = "${pkgs.openiscsi}/bin/iscsiadm";
+    target = "/usr/bin/iscsiadm";
+    mode = "0755";
+  };
 
   services.openiscsi = {
     enable = true;
