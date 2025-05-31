@@ -16,15 +16,15 @@ spec:
           enabled: true
         dnsmasq:
           customDnsEntries:
-            - address=/.lab.member87.xyz/192.168.1.250
+            - address=/.lab.member87.xyz/192.168.1.249
         serviceWeb:
           type: LoadBalancer
-          loadBalancerIP: 192.168.1.249
+          loadBalancerIP: 192.168.1.250
           annotations:
             metallb.universe.tf/allow-shared-ip: pihole-svc
         serviceDns:
           type: LoadBalancer
-          loadBalancerIP: 192.168.1.249
+          loadBalancerIP: 192.168.1.250
           annotations:
             metallb.universe.tf/allow-shared-ip: pihole-svc
   destination:
