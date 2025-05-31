@@ -1,4 +1,14 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  k3sServicePath = pkgs.lib.makeBinPath [
+    pkgs.open-iscsi
+  ];
+
+  k3sEnvFileContent = ''
+    PATH=${k3sServicePath}:${pkgs.stdenv.initialPath}
+  '';
+
+  k3sEnvFile = pkgs.writeText "k3s-environment-vars" k3sEnvFileContent;
+in {
   environment.systemPackages = with pkgs; [
     k3s
     (wrapHelm kubernetes-helm {
@@ -44,9 +54,7 @@
     k3s = {
       enable = true;
       role = "server";
-      serviceConfig = {
-        Environment = "PATH=/run/current-system/sw/bin:${pkgs.openiscsi}/bin";
-      };
+      environmentFile = k3sEnvFile;
     };
   };
 }
