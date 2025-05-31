@@ -44,6 +44,9 @@
     k3s = {
       enable = true;
       role = "server";
+      serviceConfig = {
+        Environment = "PATH=/run/current-system/sw/bin:${pkgs.open-iscsi}/bin";
+      };
     };
   };
 }
