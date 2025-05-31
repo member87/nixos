@@ -16,17 +16,10 @@ spec:
           enabled: true
         dnsmasq:
           customDnsEntries:
-            - address=/.lab.member87.xyz/192.168.1.249
-        serviceWeb:
-          type: LoadBalancer
-          loadBalancerIP: 192.168.1.250
-          annotations:
-            metallb.universe.tf/allow-shared-ip: pihole-svc
+            - address=/.lab.member87.xyz/192.168.1.250
+
         serviceDns:
-          type: LoadBalancer
-          loadBalancerIP: 192.168.1.250
-          annotations:
-            metallb.universe.tf/allow-shared-ip: pihole-svc
+          loadBalancerIP: 192.168.178.248
   destination:
     server: https://kubernetes.default.svc
     namespace: pihole
