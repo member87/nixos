@@ -1,4 +1,4 @@
-{
+{pkgs, ...}: {
   imports = [
     ./simple.nix
     ./zsh.nix
@@ -10,5 +10,9 @@
     ./nvim.nix
     ./btop.nix
     ./lazygit.nix
+  ];
+
+  home.packages = with pkgs; [
+    beammp-launcher
   ];
 }

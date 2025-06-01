@@ -3,4 +3,5 @@
 pkgs: {
   # example = pkgs.callPackage ./example { };
   # neovim = pkgs.callPackage ./nvim { };
+  beammp-launcher = pkgs.callPackage ./beammp-launcher.nix {};
 }
