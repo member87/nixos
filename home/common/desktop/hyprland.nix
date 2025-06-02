@@ -19,6 +19,10 @@
     settings = {
       "$mod" = "SUPER";
 
+      debug = {
+        full_cm_proto = true;
+      };
+
       monitor = [
         "HDMI-A-1, 1920x1080@60, 0x0, 1"
         "DP-1, 1920x1080@165, 1920x0, 1"
@@ -124,6 +128,7 @@
           "$mod SHIFT, e, exit"
           "$mod, l, exec, hyprlock"
           "$mod, f, fullscreen"
+          "$mod, space, togglefloating"
           "$mod, w, togglegroup"
           "$mod, tab, changegroupactive"
           "$mod SHIFT, tab, changegroupactive, b"

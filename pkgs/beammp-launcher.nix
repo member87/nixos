@@ -2,48 +2,71 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  vcpkg,
   httplib,
   openssl,
   nlohmann_json,
   curl,
   cmake,
   zlib,
-}:
-stdenv.mkDerivation rec {
-  pname = "beammp-launcher";
-  version = "2.4.1";
+  makeWrapper,
+}: let
+  olderNixpkgsCommit = "7d30c40939dc11b8e93407cdb94c13f4d21d771a";
+  olderNixpkgsSha256 = "1ynka6gclb0nwm10d3w749q76r03ydli488jb7c306gf0rrgxsl4";
 
-  src = fetchFromGitHub {
-    owner = "BeamMP";
-    repo = "BeamMP-Launcher";
-    rev = "v${version}";
-    hash = "sha256-9ScsctCuhRL8XiLKYxLrKpb6rj2tsPUXqs9eN2mcTIQ=";
-    fetchSubmodules = true;
-  };
+  pkgsFromOlderNixpkgs =
+    import (builtins.fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/${olderNixpkgsCommit}.tar.gz";
+      sha256 = olderNixpkgsSha256;
+    }) {
+      system = "x86_64-linux";
+      config = {};
+      overlays = [];
+    };
 
-  nativeBuildInputs = [cmake];
+  oldCertBundleFile = "${pkgsFromOlderNixpkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+in
+  stdenv.mkDerivation rec {
+    pname = "beammp-launcher";
+    version = "2.4.1";
 
-  buildInputs = [
-    zlib
-    httplib
-    nlohmann_json
-    openssl
-    curl
-  ];
+    src = fetchFromGitHub {
+      owner = "BeamMP";
+      repo = "BeamMP-Launcher";
+      rev = "v${version}";
+      hash = "sha256-9ScsctCuhRL8XiLKYxLrKpb6rj2tsPUXqs9eN2mcTIQ=";
+      fetchSubmodules = true;
+    };
 
-  cmakeFlags = ["-DCMAKE_BUILD_TYPE=Release"];
-  enableParallelBuilding = true;
+    nativeBuildInputs = [
+      cmake
+      makeWrapper
+    ];
 
-  installPhase = ''
-    install BeamMP-Launcher -D -t $out/bin
-  '';
+    buildInputs = [
+      zlib
+      httplib
+      nlohmann_json
+      openssl
+      curl
+    ];
 
-  meta = {
-    homepage = "https://github.com/BeamMP/BeamMP-Launcher";
-    description = "Official BeamMP Launcher";
-    license = [lib.licenses.unfree];
-    maintainers = with lib.maintainers; [JManch];
-    mainProgram = "BeamMP-Launcher";
-  };
-}
+    cmakeFlags = ["-DCMAKE_BUILD_TYPE=Release"];
+    enableParallelBuilding = true;
+
+    installPhase = ''
+      runHook preInstall
+      install -D -m0755 BeamMP-Launcher $out/bin/BeamMP-Launcher
+
+      wrapProgram $out/bin/BeamMP-Launcher \
+        --set SSL_CERT_FILE "${oldCertBundleFile}"
+      runHook postInstall
+    '';
+
+    meta = {
+      homepage = "https://github.com/BeamMP/BeamMP-Launcher";
+      description = "Official BeamMP Launcher";
+      license = lib.licenses.unfree;
+      maintainers = with lib.maintainers; [member87];
+      mainProgram = "BeamMP-Launcher";
+    };
+  }
