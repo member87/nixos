@@ -11,21 +11,21 @@ in {
 
   programs.spicetify = {
     enable = true;
-    enabledExtensions = with spicePkgs.extensions; [
-      shuffle
-      # beautifulLyrics
+    enabledExtensions = [
       {
         src = pkgs.fetchFromGitHub {
           owner = "Spikerko";
           repo = "spicy-lyrics";
-          rev = "5.0.1";
-          hash = "sha256-34r17QcqIEO9FbeywfyyEi8qwY0tBoSAv/BpYV7OQFw=";
+          rev = "5.2.0";
+          hash = "sha256-LuuHtk3ebkPLnbc9qtKm/iN5B2WrtVwNDuRhENLHspM=";
         };
         name = "builds/spicy-lyrics.mjs";
       }
     ];
+    windowManagerPatch = false;
+    experimentalFeatures = true;
     alwaysEnableDevTools = true;
-    theme = spicePkgs.themes.catppuccin;
-    colorScheme = "mocha";
+    #theme = spicePkgs.themes.catppuccin;
+    #colorScheme = "mocha";
   };
 }

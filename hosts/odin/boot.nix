@@ -37,6 +37,8 @@
         enable = true;
         efiSupport = true;
         efiInstallAsRemovable = true;
+        useOSProber = true;
+        timeout = 30;
       };
     };
   };
