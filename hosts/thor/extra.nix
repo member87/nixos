@@ -10,6 +10,14 @@
     inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
   ];
 
+  services.printing.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
   security.pam.services.hyprlock = {};
 
   systemd.extraConfig = "DefaultTimeoutStopSec=10s";
@@ -110,7 +118,7 @@
 
     settings = {
       default_session = {
-        command = ''                
+        command = ''            
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
