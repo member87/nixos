@@ -21,6 +21,8 @@ kind: Certificate
 metadata:
   name: glance-lab-member87-xyz
   namespace: glance
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   secretName: glance-certificate-secret
   issuerRef:
@@ -34,6 +36,8 @@ kind: IngressRoute
 metadata:
   name: glance-ingressroute
   namespace: glance
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   entryPoints:
     - websecure

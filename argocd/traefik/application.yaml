@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: traefik
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   syncPolicy:
     syncOptions:
@@ -76,6 +78,8 @@ kind: Certificate
 metadata:
   name: traefik-dashboard-cert
   namespace: traefik
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   secretName: traefik-dashboard-tls-secret 
   issuerRef:
@@ -89,6 +93,8 @@ kind: Certificate
 metadata:
   name: traefik-metrics-cert
   namespace: traefik
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   secretName: traefik-metrics-tls-secret 
   issuerRef:

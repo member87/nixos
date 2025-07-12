@@ -1,7 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-issuer
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  project: default
+  source:
+    repoURL: https://github.com/your-repo/nixos  # Replace with your actual repo
+    targetRevision: HEAD
+    path: argocd/cluster-issuer/resources
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: cloudflare-cluster-issuer
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   acme:
     email: lab@member87.xyz
