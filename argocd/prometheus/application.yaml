@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: prometheus
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
 spec:
   syncPolicy:
     automated:
@@ -97,8 +95,6 @@ kind: Certificate
 metadata:
   name: prometheus-lab-member87-xyz
   namespace: prometheus
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
 spec:
   secretName: prometheus-certificate-secret
   issuerRef:
@@ -114,8 +110,6 @@ kind: IngressRoute
 metadata:
   name: prometheus-prometheus
   namespace: prometheus
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
 spec:
   entryPoints:
     - websecure
@@ -133,8 +127,6 @@ kind: IngressRoute
 metadata:
   name: prometheus-grafana
   namespace: prometheus
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
 spec:
   entryPoints:
     - websecure
