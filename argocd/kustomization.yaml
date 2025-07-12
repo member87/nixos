@@ -4,11 +4,11 @@ resources:
   - traefik/application.yaml
   - cert-manager/application.yaml
   - cluster-issuer/application.yaml
-  - glance/application.yaml
-  - argocd-secrets/application.yaml
-  - ingress-nginx/application.yaml
-  - longhorn/application.yaml
-  - metallb/application.yaml
-  - pihole/application.yaml
-  - prometheus/application.yaml
-  - exportarr/application.yaml
+  # - glance/application.yaml
+  # - argocd-secrets/application.yaml
+  # - ingress-nginx/application.yaml
+  # - longhorn/application.yaml
+  # - metallb/application.yaml
+  # - pihole/application.yaml
+  # - prometheus/application.yaml
+  # - exportarr/application.yaml
