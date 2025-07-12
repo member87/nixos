@@ -78,8 +78,6 @@ kind: Certificate
 metadata:
   name: traefik-dashboard-cert
   namespace: traefik
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
 spec:
   secretName: traefik-dashboard-tls-secret 
   issuerRef:
@@ -93,8 +91,6 @@ kind: Certificate
 metadata:
   name: traefik-metrics-cert
   namespace: traefik
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
 spec:
   secretName: traefik-metrics-tls-secret 
   issuerRef:
