@@ -12,6 +12,7 @@ spec:
       - ServerSideApply=true
       - CreateNamespace=true
       - PruneLast=true
+      - RespectIgnoreDifferences=true
   project: default
   sources:
     - chart: kube-prometheus-stack
