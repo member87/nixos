@@ -6,11 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/metallb/metallb.git
-    targetRevision: v0.14.9
-    path: charts/metallb
-    helm:
-      releaseName: metallb
+    repoURL: https://metallb.github.io/metallb
+    chart: metallb
+    targetRevision: v0.14.7
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb-system
@@ -20,11 +18,12 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-    managedNamespaceMetadata:
-      labels:
-        pod-security.kubernetes.io/enforce: privileged
-        pod-security.kubernetes.io/audit: privileged
-        pod-security.kubernetes.io/warn: privileged
+  managedNamespaceMetadata:
+    labels:
+      pod-security.kubernetes.io/enforce: privileged
+      pod-security.kubernetes.io/audit: privileged
+      pod-security.kubernetes.io/warn: privileged
+
 ---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
