@@ -42,6 +42,8 @@
 
   services.hardware.openrgb.enable = true;
   environment.systemPackages = with pkgs; [
+    talosctl
+    kubectl
     gamescope
     alejandra
     agenix
@@ -111,7 +113,7 @@
 
     settings = {
       default_session = {
-        command = ''          
+        command = ''                  
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
