@@ -21,14 +21,14 @@ spec:
         serviceWeb:
           loadBalancerIP: 10.10.1.2
           annotations:
-            metallb.universe.tf/allow-shared-ip: pihole-svc
-          type: LoadBalancer
+             metallb.io/allow-shared-ip: pihole-svc          
+             type: LoadBalancer
 
         serviceDns:
           loadBalancerIP: 10.10.1.2
           annotations:
-            metallb.universe.tf/allow-shared-ip: pihole-svc
-          type: LoadBalancer
+             metallb.io/allow-shared-ip: pihole-svc          
+             type: LoadBalancer
   destination:
     server: https://kubernetes.default.svc
     namespace: pihole
