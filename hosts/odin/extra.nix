@@ -42,6 +42,7 @@
 
   services.hardware.openrgb.enable = true;
   environment.systemPackages = with pkgs; [
+    opencode
     talosctl
     kubectl
     gamescope
@@ -51,7 +52,7 @@
     brave
     cargo
     curl
-    darktable
+    stable.darktable
     ffmpeg
     hyprshot
     hyprpaper
@@ -113,7 +114,7 @@
 
     settings = {
       default_session = {
-        command = ''                  
+        command = ''              
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
