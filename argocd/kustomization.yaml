@@ -6,7 +6,7 @@ resources:
   - traefik/application.yaml
   - glance/application.yaml
   - argocd-secrets/application.yaml
-  - ingress-nginx/application.yaml
+  # - ingress-nginx/application.yaml
   - longhorn/application.yaml
   - metallb/application.yaml
   - pihole/application.yaml
