@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: ingress-nginx
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   syncPolicy:
     syncOptions:
@@ -19,8 +21,7 @@ spec:
         values: |
           controller:
             service:
-               type: LoadBalancer
-               loadBalancerIP: 10.10.1.3  
+              type: LoadBalancer
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
