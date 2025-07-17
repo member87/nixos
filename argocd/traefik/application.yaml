@@ -65,7 +65,8 @@ spec:
 
           service:
             spec:
-              loadBalancerIP: 192.168.1.250
+              loadBalancerIP: 10.10.1.3
+
 
   destination:
     server: https://kubernetes.default.svc
