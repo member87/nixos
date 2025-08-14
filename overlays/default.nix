@@ -63,6 +63,13 @@
         url = "https://models.dev/api.json";
         sha256 = "sha256-6fr0/updN1LaRmUAkVrYptKavrH3OjkNp6Ie3Fs9rW4=";
       };
+
+    ghostty = prev.ghostty.overrideAttrs (oldAttrs: rec {
+      preBuild = ''
+        shopt -s globstar
+        sed -i 's/^const xev = @import("xev");$/const xev = @import("xev").Epoll;/' **/*.zig
+        shopt -u globstar
+      '';
     });
   };
 

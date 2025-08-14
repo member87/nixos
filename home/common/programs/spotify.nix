@@ -16,8 +16,8 @@ in {
         src = pkgs.fetchFromGitHub {
           owner = "Spikerko";
           repo = "spicy-lyrics";
-          rev = "5.2.0";
-          hash = "sha256-LuuHtk3ebkPLnbc9qtKm/iN5B2WrtVwNDuRhENLHspM=";
+          rev = "5.9.0";
+          hash = "sha256-JXrSMUSoN5zVUfm9bRw5iuqE3IfYYRSBwY84zA2NvZc=";
         };
         name = "builds/spicy-lyrics.mjs";
       }

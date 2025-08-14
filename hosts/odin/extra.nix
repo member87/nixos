@@ -94,7 +94,6 @@
     wget
     freerdp3
     inputs.zen-browser.packages."${pkgs.system}".default
-    inputs.ghostty.packages."${pkgs.system}".default
   ];
 
   programs.nix-ld.enable = true;

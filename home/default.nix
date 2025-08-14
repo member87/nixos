@@ -12,7 +12,13 @@
   home = {
     inherit username stateVersion;
     homeDirectory = "/home/${username}";
+
+    sessionPath = [
+      "/home/jack/.local/share/pnpm"
+    ];
   };
+
+  programs.firefox.enable = true;
 
   nixpkgs = {
     overlays = [

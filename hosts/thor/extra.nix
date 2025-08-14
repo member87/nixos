@@ -20,14 +20,19 @@
 
   security.pam.services.hyprlock = {};
 
-  systemd.extraConfig = "DefaultTimeoutStopSec=10s";
+  # systemd.extraConfig = "DefaultTimeoutStopSec=10s";
 
   nix.settings = {
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
 
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
+
   environment.variables = {
+    PNPM_HOME = "/home/jack/.local/share/pnpm";
     AQ_DRM_DEVICES = "/dev/dri/card1";
     GDK_SCALE = 2;
   };
@@ -43,6 +48,12 @@
   };
 
   environment.systemPackages = with pkgs; [
+    ghostty
+    alacritty
+    gh
+    vlc
+    cheese
+    pnpm
     wireguard-tools
     protonvpn-gui
     swayosd
@@ -55,7 +66,7 @@
     brave
     cargo
     curl
-    darktable
+    # darktable
     ffmpeg
     fprintd
     hyprshot
@@ -97,8 +108,7 @@
     wl-clipboard
     wget
     freerdp3
-    inputs.zen-browser.packages."${pkgs.system}".default
-    inputs.ghostty.packages."${pkgs.system}".default
+    inputs.zen-browser.packages."${pkgs.system}".beta
   ];
 
   programs.nix-ld.enable = true;
@@ -118,7 +128,7 @@
 
     settings = {
       default_session = {
-        command = ''            
+        command = ''                
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
