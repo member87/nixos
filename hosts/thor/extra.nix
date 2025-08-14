@@ -48,6 +48,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    opencode
     ghostty
     alacritty
     gh
@@ -128,7 +129,7 @@
 
     settings = {
       default_session = {
-        command = ''                
+        command = ''              
           ${pkgs.greetd.tuigreet}/bin/tuigreet \
             --remember \
             --remember-session \
