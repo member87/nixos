@@ -12,11 +12,6 @@
     KERNEL=="hidraw*", ATTRS{idVendor}=="2c97", MODE="0666"
   '';
 
-  nix.settings = {
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-  };
-
   fileSystems."/run/1TBSSD" = {
     device = "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_1TB_S3YBNB0K504591D-part1";
     fsType = "ext4";
@@ -27,108 +22,14 @@
     ];
   };
 
-  networking.networkmanager.enable = true;
-
-  programs.thunar.enable = true;
-
   hardware.i2c.enable = true;
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
   hardware.opengl.enable = true;
-
   services.hardware.openrgb.enable = true;
+
   environment.systemPackages = with pkgs; [
-    ghostty
-    opencode
     talosctl
     kubectl
     gamescope
-    alejandra
-    agenix
-    bat
-    brave
-    cargo
-    curl
     stable.darktable
-    ffmpeg
-    hyprshot
-    hyprpaper
-    jellyfin-media-player
-    jq
-    gcc
-    go
-    gnumake
-    gphoto2
-    killall
-    lua-language-server
-    ledger-live-desktop
-    libnotify
-    librewolf
-    localstack
-    lutris
-    lxqt.lxqt-openssh-askpass
-    lxqt.lxqt-policykit
-    mangohud
-    neovim
-    nodejs
-    nil
-    nixfmt-rfc-style
-    obsidian
-    pavucontrol
-    playerctl
-    python3
-    protontricks
-    obs-studio
-    rose-pine-hyprcursor
-    r2modman
-    ripgrep
-    socat
-    treefmt
-    unzip
-    legcord
-    wineWowPackages.stable
-    wl-clipboard
-    wget
-    freerdp3
-    inputs.zen-browser.packages."${pkgs.system}".default
-  ];
-
-  programs.nix-ld.enable = true;
-
-  programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc.lib
-    glibc
-    zlib
-  ];
-
-  virtualisation = {
-    docker.enable = true;
-  };
-
-  services.greetd = {
-    enable = true;
-
-    settings = {
-      default_session = {
-        command = ''          
-          ${pkgs.greetd.tuigreet}/bin/tuigreet \
-            --remember \
-            --remember-session \
-            --asterisks \
-            --time '';
-        user = "greeter";
-      };
-    };
-  };
-  services.spice-vdagentd.enable = true;
-
-  fonts.packages = with pkgs; [
-    font-awesome
-    monaspace
-    nerd-fonts.roboto-mono
-    nerd-fonts.fira-code
   ];
 }

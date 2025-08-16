@@ -2,8 +2,9 @@
   imports = [
     ./services
     ./programs.nix
-    ./nh.nix
     ./locale.nix
+    ./desktop-base.nix
+    ./packages.nix
   ];
 
   networking.hostName = hostname;
