@@ -10,6 +10,7 @@
     ./nvim.nix
     ./btop.nix
     ./lazygit.nix
+    ./zeller.nix
   ];
 
   home.packages = with pkgs; [
