@@ -26,7 +26,6 @@
     ledger-live-desktop
     libnotify
     librewolf
-    localstack
     lutris
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
@@ -55,4 +54,3 @@
     inputs.zen-browser.packages."${pkgs.system}".default
   ];
 }
-

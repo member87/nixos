@@ -8,6 +8,7 @@
 }: {
   imports = [
     inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
+    ./power.nix
   ];
 
   services.printing.enable = true;

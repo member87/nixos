@@ -16,14 +16,9 @@
       "thunderbolt"
       "usbhid"
       "sd_mod"
-      "v4l2loopback"
     ];
 
     kernelModules = ["kvm-amd"];
-
-    extraModulePackages = [
-      pkgs.linuxPackages_zen.v4l2loopback
-    ];
 
     kernelPackages = pkgs.linuxPackages_zen;
 
