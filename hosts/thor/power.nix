@@ -37,7 +37,7 @@
   services.thermald.enable = true;
 
   systemd.sleep.extraConfig = ''
-    HibernateDelaySec=2h
+    HibernateDelaySec=1h
     SuspendState=mem
   '';
 
