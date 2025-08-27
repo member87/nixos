@@ -23,6 +23,8 @@ in {
         "render"
         "lxd"
         "i2c"
+        "kvm"
+        "adbusers"
       ];
 
     linger = true;

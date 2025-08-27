@@ -11,6 +11,7 @@
     ./btop.nix
     ./lazygit.nix
     ./zellij.nix
+    ./battery-notify.nix
   ];
 
   home.packages = with pkgs; [
