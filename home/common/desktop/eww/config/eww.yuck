@@ -94,7 +94,7 @@
     :onclick "${eww} open --toggle --screen ${monitor_id} system-menu" ; Use monitor_id
     (box
       :spacing 16
-      :space-evenly "true"
+      :space-evenly "false"
       :class "system-container ${system_hover ? "system-hover" : ""}"
       (volume)
       (wifi)
@@ -102,7 +102,11 @@
       (label :visible {vpn_status == "true"}
              :text "󰌾"
              :class "icon vpn-connected")
-      (box :visible {battery_exists == "true"} (battery))
+      (box :visible {battery_exists == "true"} 
+      :spacing 4
+      :space-evenly "false"
+        (battery)(battery_percentage)
+        )
     )))
 
 (defwidget bluetooth []
@@ -124,6 +128,11 @@
                        battery >= 15 ? "󰁻" :
                        battery >= 5 ? "󰁺" : "󱃍"}
                  :class "icon ${class} ${battery <= 10 ? "battery-critical" : ""} ${battery >= 100 ? "battery-full" : ""}"))
+
+
+(defwidget battery_percentage [?class]
+          (label :text "${battery}%"
+                 :class "percentage ${class}"))
 
 
 (defwidget volume [?class]
