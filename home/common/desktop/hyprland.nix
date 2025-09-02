@@ -1,90 +1,4 @@
-{pkgs, ...}: let
-  fullscreenSpanScript = pkgs.writeShellScriptBin "hyprland-fullscreen-span" ''
-           #!${pkgs.bash}/bin/bash
-
-
-    JQ_CMD="${pkgs.jq}/bin/jq"
-
-    if ! [ -x "$JQ_CMD" ]; then
-      echo "Error: jq command not found or not executable at $JQ_CMD" >&2
-      exit 1
-    fi
-
-    MONITORS_JSON=$(hyprctl -j monitors)
-
-    if [ -z "$MONITORS_JSON" ] || [ "$MONITORS_JSON" == "null" ]; then
-        echo "Error: Could not get monitor information from hyprctl or it is null." >&2
-        exit 1
-    fi
-
-    IS_VALID_ARRAY=$($JQ_CMD 'if type=="array" and length > 0 then true else false end' <<< "$MONITORS_JSON")
-    if [ "$IS_VALID_ARRAY" != "true" ]; then
-        echo "Error: Monitor information is not a valid non-empty array." >&2
-        exit 1
-    fi
-
-    FAR_LEFT_X=$(echo "$MONITORS_JSON" | $JQ_CMD 'map(.x) | min')
-
-    if [ "$FAR_LEFT_X" == "null" ] || [ "$FAR_LEFT_X" == "" ]; then
-        echo "Error: Could not determine the far left X coordinate of monitors." >&2
-        exit 1
-    fi
-
-    FAR_RIGHT_EDGE_X=$(echo "$MONITORS_JSON" | $JQ_CMD 'map(.x + .width) | max')
-
-    if [ "$FAR_RIGHT_EDGE_X" == "null" ] || [ "$FAR_RIGHT_EDGE_X" == "" ]; then
-        echo "Error: Could not determine the far right edge X coordinate of monitors." >&2
-        exit 1
-    fi
-
-    LEFTMOST_ANCHOR_MONITOR_INFO=$(echo "$MONITORS_JSON" | $JQ_CMD --argjson x_coord "$FAR_LEFT_X" \
-      '[.[] | select(.x == $x_coord)][0]')
-
-    if [ -z "$LEFTMOST_ANCHOR_MONITOR_INFO" ] || [ "$LEFTMOST_ANCHOR_MONITOR_INFO" == "null" ]; then
-        echo "Error: Could not determine an anchor monitor at X=$FAR_LEFT_X." >&2
-        exit 1
-    fi
-
-    TARGET_Y=$(echo "$LEFTMOST_ANCHOR_MONITOR_INFO" | $JQ_CMD '.y')
-    TARGET_HEIGHT=$(echo "$LEFTMOST_ANCHOR_MONITOR_INFO" | $JQ_CMD '.height | round')
-
-    if [ "$TARGET_Y" == "null" ] || [ "$TARGET_Y" == "" ]; then
-        echo "Error: Extracted anchor monitor Y coordinate is invalid or empty." >&2
-        exit 1
-    fi
-
-    if [ "$TARGET_HEIGHT" == "null" ] || [ "$TARGET_HEIGHT" == "" ]; then
-        echo "Error: Extracted anchor monitor height is null or empty." >&2
-        exit 1
-    fi
-
-    if ! [[ "$TARGET_HEIGHT" =~ ^[0-9]+$ ]] || [ "$TARGET_HEIGHT" -le 0 ]; then
-        echo "Error: Extracted anchor monitor height is not a positive number (Height: $TARGET_HEIGHT)." >&2
-        exit 1
-    fi
-
-    TARGET_WIDTH=$((FAR_RIGHT_EDGE_X - FAR_LEFT_X))
-
-    if ! [[ "$TARGET_WIDTH" =~ ^-?[0-9]+$ ]]; then
-        echo "Error: Calculated target width is not a number (Width: $TARGET_WIDTH)." >&2
-        exit 1
-    fi
-
-    if [ "$TARGET_WIDTH" -le 0 ]; then
-        echo "Error: Calculated target width is zero or negative (Width: $TARGET_WIDTH)." >&2
-        exit 1
-    fi
-
-    hyprctl --batch \
-        "dispatch setfloating active;" \
-        "dispatch movewindowpixel exact $FAR_LEFT_X $TARGET_Y;" \
-        "dispatch resizewindowpixel exact $TARGET_WIDTH $TARGET_HEIGHT"
-
-    echo "Window manipulation complete."
-
-
-  ''; # End of script string
-in {
+{pkgs, ...}: {
   home.pointerCursor = {
     package = pkgs.rose-pine-cursor;
     name = "BreezeX-RosePine-Linux";
@@ -145,14 +59,17 @@ in {
       decoration = {
         rounding = 4;
         active_opacity = 1.0;
-        inactive_opacity = 0.95;
+        inactive_opacity = 1.95;
+        shadow.enabled = false;
         blur = {
-          enabled = true;
+          enabled = false;
           size = 3;
           passes = 2;
           vibrancy = 0.1696;
         };
       };
+
+      misc.vfr = false;
 
       exec-once = [
         "eww open-many bar bar1 bar2"
@@ -201,8 +118,6 @@ in {
           "$mod, w, togglegroup"
           "$mod, tab, changegroupactive"
           "$mod SHIFT, tab, changegroupactive, b"
-
-          "$mod ALT, S, exec, ${fullscreenSpanScript}/bin/hyprland-fullscreen-span"
 
           # Volume and media keys
           ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise"
