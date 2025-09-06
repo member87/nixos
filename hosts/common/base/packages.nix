@@ -15,7 +15,7 @@
     ffmpeg
     hyprshot
     hyprpaper
-    jellyfin-media-player
+    stable.jellyfin-media-player
     jq
     gcc
     go
