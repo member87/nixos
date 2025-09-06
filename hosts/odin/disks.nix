@@ -8,9 +8,8 @@ _: {
           type = "gpt";
           partitions = {
             ESP = {
-              size = "512M";
               type = "EF00";
-              bootable = true;
+              size = "500M";
               content = {
                 type = "filesystem";
                 format = "vfat";
