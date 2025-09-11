@@ -38,7 +38,7 @@
   };
 
   services.power-profiles-daemon.enable = false;
-  services.thermald.enable = true;
+  services.tlp.enable = false;
 
   powerManagement.resumeCommands = ''
     ${pkgs.systemd}/bin/systemctl restart NetworkManager
