@@ -43,7 +43,6 @@
     protonvpn-gui
     swayosd
     brightnessctl
-    amdvlk
     fprintd
   ];
 }
