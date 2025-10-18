@@ -71,13 +71,15 @@ tooltip {
   font-size: 13px;
 }
 
-.system-container {
+.system-container,
+.notifications-container {
   padding: 5px 10px;
   border-radius: 10px;
   transition: background-color 0.2s ease;
 }
 
-.system-hover {
+.system-hover,
+.notifications-hover {
   background-color: rgba(235, 188, 186, 0.1);
 }
 

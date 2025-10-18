@@ -34,6 +34,7 @@
 
 (defvar volume_reveal false)
 (defvar system_hover false)
+(defvar notifications_hover false)
 (defvar vpn_enabled false)
 (defvar eww "/usr/bin/env eww -c $HOME/.config/eww/")
 
@@ -48,9 +49,10 @@
   ))
 
 (defwidget right[monitor_id] 
-  (box :orientation "h" :space-evenly "false" :halign "end" :spacing 15
+  (box :orientation "h" :space-evenly "false" :halign "end" :spacing 10
     (systray :orientation "h" :icon-size 15 :spacing 10)
     (system :monitor_id monitor_id) ; Pass monitor_id to system
+    (notifications)
     (clock)
     (date)
   ))
@@ -153,6 +155,15 @@
                    "󰤭"}
                    :class "icon")
 )
+
+(defwidget notifications []
+  (eventbox
+    :onhover "${eww} update notifications_hover=true"
+    :onhoverlost "${eww} update notifications_hover=false"
+    :onclick "swaync-client -t"
+    (box
+      :class "notifications-container ${notifications_hover ? "notifications-hover" : ""}"
+      (label :text "󰂚" :class "icon"))))
         
 
 (defwidget clock []
