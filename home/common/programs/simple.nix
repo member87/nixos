@@ -25,8 +25,4 @@
       };
     };
   };
-
-  services = {
-    dunst.enable = true;
-  };
 }
