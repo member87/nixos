@@ -1,7 +1,7 @@
 {...}: {
   home.file.".config/ghostty/config" = {
     text = ''
-      theme = rose-pine
+      theme = Rose Pine
       window-decoration = false
       font-family = "Monaspace Neon"
       font-family-bold = "Monaspace Neon Bold"
