@@ -9,6 +9,7 @@
     alejandra
     agenix
     bat
+    bluetui
     brave
     cargo
     curl

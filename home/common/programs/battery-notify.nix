@@ -31,11 +31,23 @@
                     if [ "$PERCENTAGE" -le 5 ]; then
                         if [ "$PREV_STATE" != "critical" ]; then
                             ${pkgs.libnotify}/bin/notify-send -u critical "Battery Critical" "Battery level is ''${PERCENTAGE}%. Please charge immediately!" -i battery-caution
+                            echo "critical" > "$STATE_FILE"
                         fi
                     elif [ "$PERCENTAGE" -le 10 ]; then
                         if [ "$PREV_STATE" != "low" ] && [ "$PREV_STATE" != "critical" ]; then
                             ${pkgs.libnotify}/bin/notify-send -u critical "Battery Low" "Battery level is ''${PERCENTAGE}%. Please charge soon." -i battery-low
+                            echo "low" > "$STATE_FILE"
                         fi
+                    else
+                        # Battery is above 10%, reset state
+                        if [ "$PREV_STATE" = "low" ] || [ "$PREV_STATE" = "critical" ]; then
+                            echo "" > "$STATE_FILE"
+                        fi
+                    fi
+                else
+                    # Battery is charging, reset state
+                    if [ "$PREV_STATE" = "low" ] || [ "$PREV_STATE" = "critical" ]; then
+                        echo "" > "$STATE_FILE"
                     fi
                 fi
             fi
