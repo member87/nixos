@@ -25,7 +25,7 @@ in {
     windowManagerPatch = false;
     experimentalFeatures = true;
     alwaysEnableDevTools = true;
-    #theme = spicePkgs.themes.catppuccin;
-    #colorScheme = "mocha";
+    theme = spicePkgs.themes.ziro;
+    colorScheme = "rose-pine";
   };
 }
