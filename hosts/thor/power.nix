@@ -39,6 +39,7 @@
 
   services.power-profiles-daemon.enable = false;
   services.tlp.enable = false;
+  services.upower.enable = true;
 
   powerManagement.resumeCommands = ''
     ${pkgs.systemd}/bin/systemctl restart NetworkManager
