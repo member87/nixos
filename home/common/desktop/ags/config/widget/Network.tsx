@@ -4,11 +4,12 @@ import { createBinding } from "gnim";
 export function NetworkIcon() {
   const network = Network.get_default();
 
-
+  const iconBinding = createBinding(network.wifi, "iconName");
+  console.log(iconBinding)
 
   return (
     <box cssClasses={["wifi"]} spacing={4}>
-      <image iconName={createBinding(network.wifi, "icon_name")} />
+      <image iconName={iconBinding} />
     </box>
   );
 }

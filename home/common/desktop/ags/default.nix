@@ -21,6 +21,7 @@
       inputs.astal.packages.${pkgs.system}.tray
       inputs.astal.packages.${pkgs.system}.astal4
       inputs.astal.packages.${pkgs.system}.powerprofiles
+      inputs.astal.packages.${pkgs.system}.bluetooth
     ];
   };
 }
