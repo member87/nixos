@@ -1,20 +1,12 @@
 import Bluetooth from "gi://AstalBluetooth";
-import { createBinding, createComputed, With } from "gnim";
+import { createBinding } from "ags";
 
 export function BluetoothIcon() {
   const bluetooth = Bluetooth.get_default();
 
-  const powered = createBinding(bluetooth, "is_powered")
-
-  const icon = createComputed(
-    [createBinding(bluetooth, "isConnected"), createBinding(bluetooth, "isPowered")],
-    (isConnected, isPowered) => {
-    }
-  )
-
   return (
-    <box spacing={4}>
-      <image />
+    <box cssClasses={["bluetooth"]} spacing={4}>
+      <image iconName="bluetooth-active-symbolic" />
     </box>
   );
 }

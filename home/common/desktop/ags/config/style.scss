@@ -1,20 +1,20 @@
 
-$base: rgb(25, 23, 36, 0.4);
+$base: rgb(25, 23, 36);
+$overlay: rgb(38, 35, 58);
 $primary: rgb(235, 188, 186);
 $muted: rgb(110, 106, 134);
 
 #bar {
   padding: 1px 8px;
-  background-color: $base;
+  background-color: rgba($base, 0.4);
 
   .workspaces {
-    padding: 4px 0;
+    padding: 8px 0;
 
     .workspace {
       padding: 6px;
       min-height: 0px;
       min-width: 0px;
-
 
       background-color: $muted;
       border-radius: 999px;
@@ -30,5 +30,38 @@ $muted: rgb(110, 106, 134);
         background-color: $primary;
       }
     }
+  }
+
+  .system-button {
+    padding: 0 6px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: white;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: rgba($primary, 0.2);
+    }
+  }
+
+  .bluetooth,
+  .wifi {
+    image {
+      color: white;
+    }
+  }
+}
+
+#simple-panel {
+  background-color: transparent;
+
+  .simple-panel {
+    background: rgba($overlay, 1);
+    border-radius: 8px;
+    padding: 20px;
+    color: white;
+    min-width: 320px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 }

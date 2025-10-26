@@ -24,7 +24,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <Workspaces />
         </box>
 
-        <box halign={Gtk.Align.END} cssName="right-section" hexpand spacing={5}>
+        <box halign={Gtk.Align.END} cssName="right-section" hexpand spacing={8}>
           <System />
           <DateTime />
         </box>
