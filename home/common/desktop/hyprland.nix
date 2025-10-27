@@ -72,6 +72,7 @@
       exec-once = [
         "eww open-many bar bar1 bar2"
         "lxqt-policykit-agent"
+        "ags run /home/jack/.config/ags"
       ];
 
       layerrule = ["blur, bar"];
