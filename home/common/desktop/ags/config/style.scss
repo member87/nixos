@@ -63,5 +63,24 @@ $muted: rgb(110, 106, 134);
     color: white;
     min-width: 320px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+    .wifi-item,
+    .bluetooth-item {
+      padding: 8px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+
+      &.active {
+        background-color: $primary;
+        
+        image {
+          color: $base;
+        }
+      }
+
+      image {
+        color: white;
+      }
+    }
   }
 }

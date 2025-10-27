@@ -6,13 +6,18 @@ export function SystemNetwork() {
   const network = Network.get_default();
   network.wifi.activeAccessPoint
 
-  const iconBinding = createBinding(network.wifi, "iconName");
   const ssid = createBinding(network.wifi, "ssid");
-  const enabled = createBinding(network.wifi, "enabled")
+  const wifiEnabled = createBinding(network.wifi, "enabled");
+  const wifiIconName = createBinding(network.wifi, "iconName");
 
   return (
-    <box spacing={4} class={`${enabled ? 'enabled' : 'disabled'}`}>
-      <image iconName={iconBinding} />
+
+    <box
+      spacing={6}
+      hexpand={true}
+      cssClasses={wifiEnabled.as(enabled => enabled ? ["wifi-item", "active"] : ["wifi-item"])}
+    >
+      <image iconName={wifiIconName} />
 
       <With value={ssid}>
         {(name) => name
@@ -21,6 +26,7 @@ export function SystemNetwork() {
         }
 
       </With>
+
     </box>
   );
 }

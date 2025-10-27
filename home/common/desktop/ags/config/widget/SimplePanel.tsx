@@ -3,7 +3,20 @@ import { Astal, Gtk } from "ags/gtk4";
 import { createBinding } from "ags";
 import Battery from "gi://AstalBattery";
 import { SystemNetwork } from "./system/Network";
+import { SystemBluetooth } from "./system/Bluetooth";
 let panelWindow: Astal.Window | null = null;
+
+function WifiBluetoothSection() {
+  return (
+    <box cssClasses={["panel-section"]} orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+      <box spacing={8}>
+
+        <SystemNetwork />
+        <SystemBluetooth />
+      </box>
+    </box>
+  );
+}
 
 function BatterySection() {
   const battery = Battery.get_default();
@@ -35,7 +48,7 @@ export function createSimplePanel() {
     >
       <box cssClasses={["simple-panel"]} orientation={Gtk.Orientation.VERTICAL} spacing={12}>
         <BatterySection />
-        <SystemNetwork />
+        <WifiBluetoothSection />
       </box>
     </window>
   ) as Astal.Window;
