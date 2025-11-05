@@ -44,6 +44,7 @@
     rose-pine-hyprcursor
     r2modman
     ripgrep
+    satty
     socat
     treefmt
     unzip
