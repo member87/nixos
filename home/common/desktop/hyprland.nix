@@ -77,8 +77,6 @@
       layerrule = ["blur, bar"];
       bezier = ["mycurve,.32,.97,.53,.98"];
 
-      debug = {full_cm_proto = true;};
-
       animations = {
         enabled = 0;
         animation = [
@@ -88,7 +86,9 @@
         ];
       };
 
-      debug = {disable_logs = true;};
+      misc = {
+        force_default_wallpaper = 0;
+      };
 
       bindm = [
         "$mod, mouse:272, movewindow"
@@ -97,7 +97,7 @@
 
       bind =
         [
-          ", Print, exec, ~/scripts/screenshot"
+          ", Print, exec, hyprshot -m region --raw | satty --fullscreen --early-exit --copy-command \"wl-copy\" -f -"
           "$mod, Return, exec, ghostty"
           "$mod SHIFT, Q, killactive"
           "$mod, left, movefocus, l"
