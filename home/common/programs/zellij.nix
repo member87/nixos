@@ -11,6 +11,8 @@ _: {
   };
 
   xdg.configFile."zellij/config.kdl".text = ''
+    show_startup_tips false
+
     keybinds {
       normal {
         bind "Ctrl 1" { GoToTab 1; }
