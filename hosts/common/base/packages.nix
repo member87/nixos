@@ -52,7 +52,6 @@
     wineWowPackages.stable
     wl-clipboard
     wget
-    freerdp3
     inputs.zen-browser.packages."${pkgs.system}".default
   ];
 }
