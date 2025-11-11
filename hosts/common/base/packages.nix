@@ -13,6 +13,7 @@
     brave
     cargo
     curl
+    fastfetch
     ffmpeg
     hyprshot
     hyprpaper
