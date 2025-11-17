@@ -75,15 +75,9 @@
       ];
 
       layerrule = ["blur, bar"];
-      bezier = ["mycurve,.32,.97,.53,.98"];
 
       animations = {
         enabled = 0;
-        animation = [
-          "windowsMove,1,4,mycurve"
-          "windowsIn,1,4,mycurve"
-          "windowsOut,0,4,mycurve"
-        ];
       };
 
       misc = {
