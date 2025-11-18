@@ -1,5 +1,6 @@
 import Network from "gi://AstalNetwork";
 import { createBinding, With } from "ags";
+import { NetworkIcon } from "../network/network-icon";
 
 export function SystemNetwork() {
 
@@ -17,7 +18,7 @@ export function SystemNetwork() {
       hexpand={true}
       cssClasses={wifiEnabled.as(enabled => enabled ? ["wifi-item", "active"] : ["wifi-item"])}
     >
-      <image iconName={wifiIconName} />
+      <NetworkIcon />
 
       <With value={ssid}>
         {(name) => name

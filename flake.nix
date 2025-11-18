@@ -33,6 +33,8 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    opencode.url = "github:sst/opencode";
+
     astal.url = "github:aylur/astal";
     ags.url = "github:aylur/ags";
   };

@@ -4,7 +4,6 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    opencode
     ghostty
     alejandra
     agenix
@@ -51,7 +50,7 @@
     wineWowPackages.stable
     wl-clipboard
     wget
-    freerdp3
     inputs.zen-browser.packages."${pkgs.system}".default
+    inputs.opencode.packages.${pkgs.system}.default
   ];
 }

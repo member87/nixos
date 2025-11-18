@@ -70,6 +70,16 @@ cd nixos
 ./install.sh {host} {user}
 ```
 
+## Development
+
+### AGS
+
+Generate AGS types using
+
+```bash
+ags types -u -v -d /path/to/ags
+```
+
 
 ## Acknowledgments
 

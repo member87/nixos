@@ -1,6 +1,6 @@
 import { BatteryIcon } from "./Battery";
 import { BluetoothIcon } from "./Bluetooth";
-import { NetworkIcon } from "./Network";
+import { NetworkIcon } from "./network/network-icon";
 import { useSimplePanel } from "./SimplePanel";
 
 export function System() {
