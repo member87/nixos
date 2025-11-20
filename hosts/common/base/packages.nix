@@ -4,7 +4,6 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    opencode
     ghostty
     alejandra
     agenix
@@ -54,5 +53,6 @@
     wl-clipboard
     wget
     inputs.zen-browser.packages."${pkgs.system}".default
+    inputs.opencode.packages.${pkgs.system}.default
   ];
 }
