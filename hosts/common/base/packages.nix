@@ -18,6 +18,7 @@
     hyprpaper
     stable.jellyfin-media-player
     jq
+    kubectl
     gcc
     go
     gnumake
@@ -46,6 +47,7 @@
     ripgrep
     satty
     socat
+    talosctl
     treefmt
     unzip
     legcord
