@@ -13,6 +13,14 @@
 
   services.printing.enable = true;
 
+  hardware.fw-fanctrl = {
+    enable = true;
+    config = {
+      defaultStrategy = "laziest";
+    };
+    disableBatteryTempCheck = false;
+  };
+
   services.avahi = {
     enable = true;
     nssmdns4 = true;
