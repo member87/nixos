@@ -37,6 +37,7 @@
     nil
     nixfmt-rfc-style
     obsidian
+    openssl
     pavucontrol
     playerctl
     python3
