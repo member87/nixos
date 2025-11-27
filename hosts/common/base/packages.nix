@@ -19,6 +19,7 @@
     stable.jellyfin-media-player
     jq
     kubectl
+    kubeseal
     gcc
     go
     gnumake
@@ -27,7 +28,6 @@
     lua-language-server
     ledger-live-desktop
     libnotify
-    librewolf
     lutris
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
