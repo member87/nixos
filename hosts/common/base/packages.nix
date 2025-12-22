@@ -12,6 +12,8 @@
     brave
     cargo
     curl
+    darktable
+    dig
     fastfetch
     ffmpeg
     hyprshot
