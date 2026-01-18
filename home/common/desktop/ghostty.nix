@@ -3,6 +3,8 @@
     text = ''
       theme = Rose Pine
       window-decoration = false
+      window-theme = ghostty
+      window-titlebar-background = 000000
       font-family = "Monaspace Neon"
       font-family-bold = "Monaspace Neon Bold"
       font-family-italic = "Monaspace Krypton Italic"

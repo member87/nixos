@@ -1,8 +1,24 @@
 #!/usr/bin/env bash
 
-# Function to check if WiFi is enabled
+# Helper to strip ANSI escape codes
+strip_ansi() {
+    sed 's/\x1b\[[0-9;]*m//g'
+}
+
+# Get the wifi device name (usually wlan0)
+get_device() {
+    iwctl device list | strip_ansi | awk '/station/ {print $1; exit}'
+}
+
+# Function to check if WiFi is enabled (powered on)
 get_enabled() {
-    if [[ $(nmcli radio wifi) == "enabled" ]]; then
+    local device=$(get_device)
+    if [[ -z "$device" ]]; then
+        echo "false"
+        return
+    fi
+    local powered=$(iwctl device "$device" show | strip_ansi | awk '/Powered/ {print $3}')
+    if [[ "$powered" == "on" ]]; then
         echo "true"
     else
         echo "false"
@@ -11,19 +27,42 @@ get_enabled() {
 
 # Function to get network interface status
 get_status() {
-    if [[ $(nmcli -t -f TYPE,STATE connection show --active | grep "wireless") ]]; then
+    local device=$(get_device)
+    if [[ -z "$device" ]]; then
+        # Check for ethernet via ip link
+        if ip link show | grep -q "state UP.*ether"; then
+            echo "ethernet"
+        else
+            echo "disconnected"
+        fi
+        return
+    fi
+    local state=$(iwctl station "$device" show 2>/dev/null | strip_ansi | awk '/State/ {print $2}')
+    if [[ "$state" == "connected" ]]; then
         echo "wifi"
-    elif [[ $(nmcli -t -f TYPE,STATE connection show --active | grep "ethernet") ]]; then
-        echo "ethernet"
     else
-        echo "disconnected"
+        # Check for ethernet fallback
+        if ip link show | grep -q "state UP.*ether"; then
+            echo "ethernet"
+        else
+            echo "disconnected"
+        fi
     fi
 }
 
 # Function to get WiFi signal strength (0-100)
 get_strength() {
     if [[ $(get_status) == "wifi" ]]; then
-        nmcli -f IN-USE,SIGNAL device wifi | grep "^*" | awk '{print $2}'
+        local device=$(get_device)
+        # iwctl shows signal in dBm, convert to percentage
+        local signal_dbm=$(iwctl station "$device" show | strip_ansi | awk '/^[[:space:]]+RSSI/ {print $2}')
+        if [[ -n "$signal_dbm" ]]; then
+            # Convert dBm to percentage (roughly: -30 dBm = 100%, -90 dBm = 0%)
+            local percentage=$(awk "BEGIN {p = ($signal_dbm + 90) * 100 / 60; if (p > 100) p = 100; if (p < 0) p = 0; printf \"%.0f\", p}")
+            echo "$percentage"
+        else
+            echo "0"
+        fi
     else
         echo "0"
     fi
@@ -32,7 +71,8 @@ get_strength() {
 # Function to get current SSID
 get_ssid() {
     if [[ $(get_status) == "wifi" ]]; then
-        nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2
+        local device=$(get_device)
+        iwctl station "$device" show | strip_ansi | awk '/Connected network/ {print $3}'
     else
         echo "Not Connected"
     fi

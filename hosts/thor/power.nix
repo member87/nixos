@@ -15,10 +15,10 @@
   ];
 
   services.logind = {
-    lidSwitch = "suspend-then-hibernate";
     settings = {
       Login = {
         HibernateDelaySec = "3600";
+        HandleLidSwitch = "suspend-then-hibernate";
       };
     };
   };
@@ -41,7 +41,6 @@
   services.tlp.enable = false;
 
   powerManagement.resumeCommands = ''
-    ${pkgs.systemd}/bin/systemctl restart NetworkManager
     ${pkgs.systemd}/bin/systemctl restart auto-cpufreq
   '';
 

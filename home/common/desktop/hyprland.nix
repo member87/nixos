@@ -74,7 +74,7 @@
         "lxqt-policykit-agent"
       ];
 
-      layerrule = ["blur, bar"];
+      layerrule = ["blur on"];
 
       animations = {
         enabled = 0;

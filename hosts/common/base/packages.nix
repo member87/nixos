@@ -3,6 +3,8 @@
   inputs,
   ...
 }: {
+  programs.kdeconnect.enable = true;
+
   environment.systemPackages = with pkgs; [
     ghostty
     alejandra
@@ -19,6 +21,7 @@
     hyprshot
     hyprpaper
     stable.jellyfin-media-player
+    impala
     jq
     kubectl
     kubeseal

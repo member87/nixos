@@ -12,7 +12,6 @@ in {
     extraGroups =
       [
         "audio"
-        "networkmanager"
         "users"
         "video"
         "wheel"
