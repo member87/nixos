@@ -9,7 +9,7 @@
 
   networking.hostName = hostname;
   networking.nameservers = [
-    "192.168.1.1"
+    "10.0.0.201"
   ];
   networking.dhcpcd.extraConfig = ''
     nohook resolv.conf

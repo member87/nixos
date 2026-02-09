@@ -24,6 +24,7 @@
     impala
     jq
     kubectl
+    just
     kubeseal
     gcc
     go
@@ -54,6 +55,7 @@
     satty
     socat
     talosctl
+    traceroute
     treefmt
     unzip
     legcord

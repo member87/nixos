@@ -17,11 +17,8 @@
       "$mod" = "SUPER";
 
       monitor = [
-        "HDMI-A-1, 1920x1080@60, 0x0, 1"
-        "DP-1, 1920x1080@165, 1920x0, 1"
-        "DP-2, 1920x1080@60, 3840x0, 1"
+        "DP-1, 3440x1440@240, 0x0, 1"
         "eDP-1, 2880x1920@120, 0x0, 2"
-        "eDP-1, 2880x1920@120.0, 1651x1080, 2.0"
         "DP-4, 1920x1080@60.0, 1440x0, 1.0"
         # ", 1920x1080@60, auto, 1, mirror, eDP-1"
       ];
@@ -74,8 +71,6 @@
         "lxqt-policykit-agent"
       ];
 
-      layerrule = ["blur on"];
-
       animations = {
         enabled = 0;
       };
@@ -102,7 +97,7 @@
           "$mod SHIFT, right, movewindow, r"
           "$mod SHIFT, up, movewindow, u"
           "$mod SHIFT, down, movewindow, d"
-          "$mod, d, exec, wofi --show drun"
+          "$mod, d, exec, vicinae open"
           "$mod SHIFT, e, exit"
           "$mod, l, exec, hyprlock"
           "$mod, f, fullscreen"
