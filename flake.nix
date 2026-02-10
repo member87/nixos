@@ -77,11 +77,6 @@
         hostname = "odin";
       };
 
-      frigg = libx.mkHost {
-        hostname = "frigg";
-        pkgsInput = nixpkgs-stable;
-      };
-
       thor = libx.mkHost {
         hostname = "thor";
       };
@@ -90,10 +85,6 @@
     homeConfigurations = {
       "${username}@odin" = libx.mkHome {
         hostname = "odin";
-      };
-
-      "${username}@frigg" = libx.mkHome {
-        hostname = "frigg";
       };
 
       "${username}@thor" = libx.mkHome {

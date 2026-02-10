@@ -52,5 +52,9 @@
     swayosd
     brightnessctl
     fprintd
+    openrazer-daemon
+    polychromatic
   ];
+
+  hardware.openrazer.enable = true;
 }
