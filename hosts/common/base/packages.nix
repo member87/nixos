@@ -64,7 +64,7 @@
     treefmt
     unzip
     legcord
-    wineWowPackages.stable
+    wineWow64Packages.stable
     wl-clipboard
     wget
     inputs.opencode.packages.${pkgs.system}.default
