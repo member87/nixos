@@ -8,6 +8,7 @@
   environment.systemPackages = with pkgs; [
     ghostty
     alejandra
+    age
     agenix
     bat
     bluetui
@@ -18,13 +19,16 @@
     dig
     fastfetch
     ffmpeg
+    fluxcd
     hyprshot
     hyprpaper
     stable.jellyfin-media-player
     impala
+    jellyfin-media-player
     jq
     kubectl
     just
+    k9s
     kubeseal
     gcc
     go
@@ -54,6 +58,7 @@
     ripgrep
     satty
     socat
+    sops
     talosctl
     traceroute
     treefmt
@@ -62,7 +67,6 @@
     wineWowPackages.stable
     wl-clipboard
     wget
-    inputs.zen-browser.packages."${pkgs.system}".default
     inputs.opencode.packages.${pkgs.system}.default
   ];
 }

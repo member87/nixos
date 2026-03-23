@@ -6,4 +6,6 @@
     ./pipewire.nix
     ./wireguard.nix
   ];
+
+  services.flatpak.enable = true;
 }

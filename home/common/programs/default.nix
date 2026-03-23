@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     ./simple.nix
     ./zsh.nix
@@ -12,6 +13,7 @@
     ./lazygit.nix
     ./zellij.nix
     ./battery-notify.nix
+    ./zen.nix
   ];
 
   home.packages = with pkgs; [
