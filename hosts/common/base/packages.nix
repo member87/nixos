@@ -2,8 +2,21 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  androidSdk = pkgs.androidenv.composeAndroidPackages {
+    abiVersions = ["x86_64"];
+    includeEmulator = true;
+    includeSystemImages = true;
+    platformVersions = ["36"];
+    systemImageTypes = ["google_apis"];
+  };
+in {
   programs.kdeconnect.enable = true;
+
+  environment.variables = {
+    ANDROID_HOME = "${androidSdk.androidsdk}/libexec/android-sdk";
+    ANDROID_SDK_ROOT = "${androidSdk.androidsdk}/libexec/android-sdk";
+  };
 
   environment.systemPackages = with pkgs; [
     ghostty
@@ -20,11 +33,11 @@
     fastfetch
     ffmpeg
     fluxcd
+    freecad
     hyprshot
     hyprpaper
-    stable.jellyfin-media-player
     impala
-    jellyfin-media-player
+    jellyfin-desktop
     jq
     kubectl
     just
@@ -67,6 +80,8 @@
     wineWow64Packages.stable
     wl-clipboard
     wget
+    android-tools
+    androidSdk.androidsdk
     inputs.opencode.packages.${pkgs.system}.default
   ];
 }

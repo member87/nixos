@@ -3,7 +3,7 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     # You can access packages and modules from different nixpkgs revs
     # at the same time. Here's an working example:
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -50,7 +50,7 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
-    stateVersion = "25.05";
+    stateVersion = "25.11";
     username = "jack";
     flakePath = "/home/jack/nixos";
 
