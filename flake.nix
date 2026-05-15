@@ -31,8 +31,6 @@
 
     hyprland.url = "github:hyprwm/Hyprland";
 
-    opencode.url = "github:sst/opencode";
-
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     vicinae.url = "github:vicinaehq/vicinae";
