@@ -48,7 +48,7 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
-    stateVersion = "25.11";
+    stateVersion = "26.05";
     username = "jack";
     flakePath = "/home/jack/nixos";
 

@@ -10,6 +10,7 @@
   services.swayosd.enable = true;
 
   wayland.windowManager.hyprland = {
+    configType = "hyprlang";
     systemd.variables = ["--all"];
     enable = true;
 

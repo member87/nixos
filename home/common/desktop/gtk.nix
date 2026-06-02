@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{config, pkgs, ...}: {
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
@@ -19,8 +19,11 @@
       gtk-application-prefer-dark-theme = true;
     };
 
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
+    gtk4 = {
+      theme = config.gtk.theme;
+      extraConfig = {
+        gtk-application-prefer-dark-theme = true;
+      };
     };
 
     theme = {

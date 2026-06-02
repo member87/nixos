@@ -18,8 +18,6 @@
     ];
   };
 
-  programs.firefox.enable = true;
-
   nixpkgs = {
     overlays = [
       # Add overlays your own flake exports (from overlays and pkgs dir):
