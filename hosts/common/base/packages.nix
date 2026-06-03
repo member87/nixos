@@ -44,7 +44,7 @@
     neovim
     nodejs
     nil
-    nixfmt-rfc-style
+    nixfmt
     obsidian
     openssl
     pavucontrol
