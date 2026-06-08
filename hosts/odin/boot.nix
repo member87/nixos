@@ -9,6 +9,11 @@
 
   boot = {
     initrd.systemd.enable = true;
+
+    kernelParams = [
+      "iommu=pt"
+    ];
+
     initrd.availableKernelModules = [
       "nvme"
       "ahci"
