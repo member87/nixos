@@ -15,14 +15,14 @@
       exit 0
     fi
 
-    "$SYSTEMCTL" stop win11-vfio-recover.timer win11-vfio-recover.service \
-      win11-vfio-reboot-fallback.timer win11-vfio-reboot-fallback.service 2>/dev/null || true
-
-    "$SYSTEMD_RUN" --unit=win11-vfio-recover --on-active=300 \
-      "$BASH" -lc "${pkgs.libvirt}/bin/virsh -c qemu:///system destroy win11 || true; ${pkgs.systemd}/bin/systemctl start greetd.service || true; ${pkgs.systemd}/bin/systemctl stop win11-vfio-reboot-fallback.timer win11-vfio-reboot-fallback.service 2>/dev/null || true"
-
-    "$SYSTEMD_RUN" --unit=win11-vfio-reboot-fallback --on-active=600 \
-      ${pkgs.systemd}/bin/systemctl reboot
+    # "$SYSTEMCTL" stop win11-vfio-recover.timer win11-vfio-recover.service \
+    #   win11-vfio-reboot-fallback.timer win11-vfio-reboot-fallback.service 2>/dev/null || true
+    #
+    # "$SYSTEMD_RUN" --unit=win11-vfio-recover --on-active=300 \
+    #   "$BASH" -lc "${pkgs.libvirt}/bin/virsh -c qemu:///system destroy win11 || true; ${pkgs.systemd}/bin/systemctl start greetd.service || true; ${pkgs.systemd}/bin/systemctl stop win11-vfio-reboot-fallback.timer win11-vfio-reboot-fallback.service 2>/dev/null || true"
+    #
+    # "$SYSTEMD_RUN" --unit=win11-vfio-reboot-fallback --on-active=600 \
+    #   ${pkgs.systemd}/bin/systemctl reboot
 
     "$SYSTEMD_RUN" --unit=win11-vfio-start \
       "$VIRSH" -c qemu:///system start win11
