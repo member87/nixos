@@ -16,14 +16,28 @@ in
   appimageTools.wrapType2 {
     inherit pname version src;
 
-    extraInstallCommands = ''
-      install -Dm0644 ${appimageContents}/moonfin.desktop \
-        $out/share/applications/moonfin.desktop
-      install -Dm0644 ${appimageContents}/moonfin.png \
-        $out/share/icons/hicolor/512x512/apps/moonfin.png
+    extraPkgs = pkgs: [
+      pkgs.harfbuzzFull
+      pkgs.libepoxy
+      pkgs.libxv
+    ];
 
-      substituteInPlace $out/share/applications/moonfin.desktop \
-        --replace-fail 'Exec=moonfin' 'Exec=${pname}'
+    extraInstallCommands = ''
+      install -Dm0644 ${appimageContents}/org.moonfin.linux.png \
+        $out/share/icons/hicolor/512x512/apps/org.moonfin.linux.png
+
+      install -Dm0644 /dev/stdin $out/share/applications/org.moonfin.linux.desktop <<EOF
+      [Desktop Entry]
+      Type=Application
+      Name=Moonfin
+      Comment=Jellyfin and Emby media client
+      Exec=$out/bin/${pname} %U
+      Icon=org.moonfin.linux
+      Terminal=false
+      Categories=AudioVideo;Video;Player;TV;
+      Keywords=Jellyfin;Emby;Media;Video;TV;
+      StartupWMClass=org.moonfin.linux
+      EOF
     '';
 
     meta = {

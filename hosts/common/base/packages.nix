@@ -41,6 +41,7 @@
     lxqt.lxqt-openssh-askpass
     lxqt.lxqt-policykit
     mangohud
+    moonfin
     neovim
     nodejs
     nil
