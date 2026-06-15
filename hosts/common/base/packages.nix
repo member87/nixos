@@ -64,7 +64,6 @@
     traceroute
     treefmt
     unzip
-    legcord
     wineWow64Packages.stable
     wl-clipboard
     wget

@@ -8,5 +8,6 @@
     ./hyprlock.nix
     ./hypridle.nix
     ./vicinae.nix
+    ./discord.nix
   ];
 }

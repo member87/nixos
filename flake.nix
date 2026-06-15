@@ -3,7 +3,7 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     # You can access packages and modules from different nixpkgs revs
     # at the same time. Here's an working example:
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -35,6 +35,8 @@
 
     vicinae.url = "github:vicinaehq/vicinae";
     vicinae-extensions.url = "github:vicinaehq/extensions";
+
+    nixcord.url = "github:FlameFlag/nixcord";
   };
 
   outputs = {

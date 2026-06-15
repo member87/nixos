@@ -17,6 +17,15 @@
 
   networking.wireless.iwd.enable = true;
 
+  boot = {
+    consoleLogLevel = 0;
+    kernelParams = [
+      "quiet"
+      "udev.log_level=3"
+      "systemd.show_status=auto"
+    ];
+  };
+
   programs.thunar.enable = true;
 
   hardware.graphics = {

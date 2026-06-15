@@ -17,6 +17,10 @@
         pci = "0000:03:00.1";
         hostDriver = "snd_hda_intel";
       }
+      {
+        pci = "0000:0d:00.0";
+        hostDriver = "xhci_hcd";
+      }
     ];
 
     user = "jack";
