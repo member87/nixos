@@ -33,7 +33,7 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    vicinae.url = "github:vicinaehq/vicinae";
+    vicinae.url = "github:vicinaehq/vicinae/21cd41dbc67644c45d482e5ede7693662f2de234";
     vicinae-extensions.url = "github:vicinaehq/extensions";
 
     nixcord.url = "github:FlameFlag/nixcord";

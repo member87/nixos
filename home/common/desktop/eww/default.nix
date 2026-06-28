@@ -1,7 +1,8 @@
-{...}: {
+{config, ...}: {
   programs.eww = {
     enable = true;
-    yuckConfig = builtins.readFile ./config/eww.yuck;
-    scssConfig = builtins.readFile ./config/eww.scss;
   };
+
+  xdg.configFile."eww".source =
+    config.lib.file.mkOutOfStoreSymlink ./config;
 }
