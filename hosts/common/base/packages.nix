@@ -4,6 +4,8 @@
   ...
 }: {
   programs.kdeconnect.enable = true;
+  programs.localsend.enable = true;
+  programs.localsend.openFirewall = true;
 
   environment.systemPackages = with pkgs; [
     ghostty
@@ -20,7 +22,7 @@
     fastfetch
     ffmpeg
     fluxcd
-    freecad
+    stable.freecad
     hyprshot
     hyprpaper
     impala
