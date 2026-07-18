@@ -10,7 +10,7 @@
 
   artifact = fetchurl {
     url = "https://nightly.link/jellyfin/jellyfin-desktop/workflows/build-linux-appimage/main/linux-appimage-x86_64.zip";
-    hash = "sha256-FT9DoIBV3dwG3cDS1gG1IAK8vyO2kjnOpQQgOuVZoyU=";
+    hash = "sha256-hKM9D6ACDFn1TzQ1n+VYMb1QbotR+8gODPfP4gZuXLA=";
   };
 
   src = stdenvNoCC.mkDerivation {
