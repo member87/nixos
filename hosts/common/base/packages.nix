@@ -56,6 +56,7 @@
     protontricks
     obs-studio
     opencode
+    proton-vpn
     rose-pine-hyprcursor
     r2modman
     ripgrep
