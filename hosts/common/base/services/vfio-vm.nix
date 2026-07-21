@@ -37,14 +37,34 @@
     '')
     cfg.devices;
 
-  restoreHostDriverCommands =
+  unbindFromVfioCommands =
     lib.concatMapStringsSep "\n" (device: ''
       if [ -e "/sys/bus/pci/devices/${device.pci}/driver" ] && [ "$(basename "$(readlink -f "/sys/bus/pci/devices/${device.pci}/driver")")" = "vfio-pci" ]; then
         log "unbinding ${device.pci} from vfio-pci"
         unbind_if_bound ${shellArg device.pci}
       fi
-      echo "" > "/sys/bus/pci/devices/${device.pci}/driver_override"
+      if [ -e "/sys/bus/pci/devices/${device.pci}/driver_override" ]; then
+        echo "" > "/sys/bus/pci/devices/${device.pci}/driver_override" || true
+      fi
+    '')
+    cfg.devices;
+
+  # Drop each device off the PCI bus so it is fully reset when rescanned. A
+  # clean reset is required for amdgpu to re-probe Navi 3x GPUs that were just
+  # released by vfio-pci, otherwise IP-discovery reads garbage MMIO and the
+  # driver hits a kernel BUG(). Removing function 0 of a multi-function device
+  # also removes every other function on that slot, so devices sharing a slot
+  # are skipped via the existence check.
+  removeDeviceCommands =
+    lib.concatMapStringsSep "\n" (device: ''
+      remove_device ${shellArg device.pci}
+    '')
+    cfg.devices;
+
+  restoreHostDriverCommands =
+    lib.concatMapStringsSep "\n" (device: ''
       bind_to_driver ${shellArg device.pci} ${shellArg device.hostDriver}
+      wait_for_driver ${shellArg device.pci} ${shellArg device.hostDriver}
     '')
     cfg.devices;
 
@@ -157,6 +177,41 @@
           fi
         }
 
+        remove_device() {
+          local dev="$1"
+          local cur=""
+
+          [ -e "/sys/bus/pci/devices/$dev/remove" ] || return 0
+          if [ -e "/sys/bus/pci/devices/$dev/driver" ]; then
+            cur="$(basename "$(readlink -f "/sys/bus/pci/devices/$dev/driver")")"
+          fi
+          if [ -n "$cur" ] && [ "$cur" != "vfio-pci" ]; then
+            log "skipping remove for $dev (still on host driver $cur)"
+            return 0
+          fi
+
+          log "removing $dev from the PCI bus"
+          echo 1 > "/sys/bus/pci/devices/$dev/remove" || log "failed to remove $dev"
+        }
+
+        wait_for_driver() {
+          local dev="$1"
+          local driver="$2"
+          local attempts=30
+
+          while [ "$attempts" -gt 0 ]; do
+            if [ -e "/sys/bus/pci/devices/$dev/driver" ] && [ "$(basename "$(readlink -f "/sys/bus/pci/devices/$dev/driver")")" = "$driver" ]; then
+              log "$dev attached to $driver"
+              return 0
+            fi
+            "$SLEEP" 0.5
+            attempts=$((attempts - 1))
+          done
+
+          log "timed out waiting for $dev to attach to $driver"
+          return 0
+        }
+
         start_passthrough() {
           trap 'log "passthrough start failed; restoring host devices"; stop_passthrough "force"' ERR
 
@@ -188,7 +243,16 @@
             exit 0
           fi
 
-          log "binding passthrough devices back to host drivers"
+          log "unbinding passthrough devices from vfio-pci"
+          ${unbindFromVfioCommands}
+
+          log "removing passthrough devices from the PCI bus for a clean reset"
+          ${removeDeviceCommands}
+
+          log "rescanning PCI bus to re-enumerate devices"
+          echo 1 > /sys/bus/pci/rescan || log "pci rescan failed"
+
+          log "reattaching passthrough devices to host drivers"
           ${restoreHostDriverCommands}
 
           log "rebinding EFI framebuffer if present"
