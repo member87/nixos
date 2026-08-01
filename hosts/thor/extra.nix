@@ -39,6 +39,11 @@
     GDK_SCALE = 2;
   };
 
+  networking.nameservers = [
+    "10.0.0.201"
+    "9.9.9.9"
+  ];
+
   hardware.graphics.package = pkgs.mesa;
 
   environment.systemPackages = with pkgs; [

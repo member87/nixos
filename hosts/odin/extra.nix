@@ -43,6 +43,10 @@
     ];
   };
 
+  networking.nameservers = [
+    "10.0.0.201"
+  ];
+
   hardware.i2c.enable = true;
   hardware.graphics.enable = true;
   services.hardware.openrgb.enable = true;

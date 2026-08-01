@@ -8,9 +8,6 @@
   ];
 
   networking.hostName = hostname;
-  networking.nameservers = [
-    "10.0.0.201"
-  ];
   networking.dhcpcd.extraConfig = ''
     nohook resolv.conf
   '';

@@ -16,6 +16,7 @@
     bluetui
     brave
     cargo
+    claude-code
     curl
     darktable
     dig
