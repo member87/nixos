@@ -16,6 +16,8 @@
   };
 
   networking.wireless.iwd.enable = true;
+  networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
 
   boot = {
     consoleLogLevel = 0;

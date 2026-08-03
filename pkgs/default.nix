@@ -6,4 +6,5 @@ pkgs: {
   beammp-launcher = pkgs.callPackage ./beammp-launcher.nix {};
   jellyfin-desktop = pkgs.callPackage ./jellyfin-desktop.nix {};
   moonfin = pkgs.callPackage ./moonfin.nix {};
+  qemu-stealth = pkgs.callPackage ./qemu-stealth.nix {};
 }
