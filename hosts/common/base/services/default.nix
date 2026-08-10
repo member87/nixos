@@ -4,6 +4,7 @@
     ./xserver.nix
     ./hyprland.nix
     ./pipewire.nix
+    ./bluetooth.nix
     ./wireguard.nix
     ./tailscale.nix
   ];

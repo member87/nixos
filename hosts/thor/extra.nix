@@ -29,10 +29,6 @@
 
   security.pam.services.hyprlock = {};
 
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
-
   environment.variables = {
     PNPM_HOME = "/home/jack/.local/share/pnpm";
     AQ_DRM_DEVICES = "/dev/dri/card1";
