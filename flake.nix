@@ -41,6 +41,8 @@
     vicinae-extensions.url = "github:vicinaehq/extensions";
 
     nixcord.url = "github:FlameFlag/nixcord";
+
+    omp.url = "github:can1357/oh-my-pi";
   };
 
   outputs = {

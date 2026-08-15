@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   imports = [
     ./simple.nix
     ./zsh.nix
@@ -14,9 +13,10 @@
     ./zellij.nix
     ./battery-notify.nix
     ./zen.nix
+    ./oh-my-pi
   ];
 
   home.packages = with pkgs; [
-    beammp-launcher
+    # beammp-launcher
   ];
 }

@@ -9,8 +9,8 @@
   version = "unstable-2026-06-14";
 
   artifact = fetchurl {
-    url = "https://nightly.link/jellyfin/jellyfin-desktop/workflows/build-linux-appimage/main/linux-appimage-x86_64.zip";
-    hash = "sha256-hKM9D6ACDFn1TzQ1n+VYMb1QbotR+8gODPfP4gZuXLA=";
+    url = "https://nightly.link/andrewrabert/jellium-desktop/workflows/build-linux-appimage/main/linux-appimage-x86_64.zip";
+    hash = "sha256-J3XJIQ5wP5eq+bo+y+0fJ74i2LnrVcYPAEiFJiIKozs=";
   };
 
   src = stdenvNoCC.mkDerivation {

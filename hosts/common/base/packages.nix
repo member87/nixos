@@ -16,7 +16,6 @@
     bluetui
     brave
     cargo
-    claude-code
     curl
     darktable
     dig
@@ -27,7 +26,7 @@
     hyprshot
     hyprpaper
     impala
-    jellyfin-desktop
+    # jellyfin-desktop
     jq
     kubectl
     just
@@ -50,13 +49,13 @@
     nil
     nixfmt
     obsidian
+
     openssl
     pavucontrol
     playerctl
     python3
     protontricks
     obs-studio
-    opencode
     proton-vpn
     rose-pine-hyprcursor
     r2modman
