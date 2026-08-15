@@ -59,5 +59,6 @@
     libfido2 # Provides virtual authenticator tools
     tor-browser
     openra
+    prismlauncher
   ];
 }

@@ -19,11 +19,11 @@
 
     settings.theme = {
       light = {
-        name = "rose-pine";
+        name = "gruvbox-light";
         icon_theme = "default";
       };
       dark = {
-        name = "rose-pine";
+        name = "gruvbox-dark";
         icon_theme = "default";
       };
     };

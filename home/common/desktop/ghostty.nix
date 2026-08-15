@@ -1,7 +1,7 @@
 {...}: {
   home.file.".config/ghostty/config" = {
     text = ''
-      theme = Rose Pine
+      theme = Gruvbox Dark
       window-decoration = false
       window-theme = ghostty
       window-titlebar-background = 000000

@@ -1,8 +1,8 @@
 {pkgs, ...}: {
   home.pointerCursor = {
     enable = true;
-    package = pkgs.rose-pine-cursor;
-    name = "BreezeX-RosePine-Linux";
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Amber";
     size = 24;
     gtk.enable = true;
     x11.enable = true;
@@ -29,24 +29,22 @@
         gaps_in = 0;
         gaps_out = 0;
         border_size = 2;
-        "col.active_border" = "rgb(f6c177) rgb(ebbcba) 45deg";
-        "col.inactive_border" = "rgb(191724)";
+        "col.active_border" = "rgb(fe8019) rgb(fabd2f) 45deg";
+        "col.inactive_border" = "rgb(1d2021)";
         allow_tearing = false;
         layout = "dwindle";
       };
 
       group = {
-        "col.border_active" = "rgb(f6c177) rgb(ebbcba) 45deg";
-        "col.border_inactive" = "rgb(191724)";
+        "col.border_active" = "rgb(fe8019) rgb(fabd2f) 45deg";
+        "col.border_inactive" = "rgb(1d2021)";
         groupbar = {
-          "col.active" = "rgb(f6c177)";
-          "col.inactive" = "rgb(191724)";
+          "col.active" = "rgb(fe8019)";
+          "col.inactive" = "rgb(1d2021)";
         };
       };
 
       xwayland.force_zero_scaling = true;
-
-      env = ["HYPRCURSOR_THEME,rose-pine-hyprcursor"];
 
       input = {
         kb_layout = "gb";

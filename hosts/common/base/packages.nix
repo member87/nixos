@@ -26,7 +26,7 @@
     hyprshot
     hyprpaper
     impala
-    # jellyfin-desktop
+    jellyfin-desktop
     jq
     kubectl
     just
@@ -57,7 +57,7 @@
     protontricks
     obs-studio
     proton-vpn
-    rose-pine-hyprcursor
+    bibata-cursors
     r2modman
     ripgrep
     satty

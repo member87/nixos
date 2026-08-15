@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  config,
   ...
 }: {
   nix.settings = {
@@ -50,7 +51,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --remember --remember-session --asterisks --time";
+        command = "${pkgs.tuigreet}/bin/tuigreet --remember --remember-session --asterisks --time --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions --xsessions ${config.services.displayManager.sessionData.desktops}/share/xsessions";
         user = "greeter";
       };
     };

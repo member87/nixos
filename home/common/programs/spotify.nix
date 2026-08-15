@@ -14,7 +14,7 @@ in {
     windowManagerPatch = false;
     experimentalFeatures = true;
     alwaysEnableDevTools = true;
-    theme = spicePkgs.themes.ziro;
-    colorScheme = "rose-pine";
+    theme = spicePkgs.themes.onepunch;
+    colorScheme = "dark";
   };
 }

@@ -28,16 +28,18 @@
     '';
   };
 
-  appimageContents = appimageTools.extractType2 {inherit pname version src;};
+  appimageContents = appimageTools.extract {inherit pname version src;};
 in
   appimageTools.wrapType2 {
     inherit pname version src;
 
     extraInstallCommands = ''
-      install -Dm0644 ${appimageContents}/org.jellyfin.JellyfinDesktop.desktop \
-        $out/share/applications/org.jellyfin.JellyfinDesktop.desktop
-      install -Dm0644 ${appimageContents}/org.jellyfin.JellyfinDesktop.svg \
-        $out/share/icons/hicolor/scalable/apps/org.jellyfin.JellyfinDesktop.svg
+      install -Dm0644 ${appimageContents}/net.nullsum.JelliumDesktop.desktop \
+        $out/share/applications/net.nullsum.JelliumDesktop.desktop
+      install -Dm0644 ${appimageContents}/net.nullsum.JelliumDesktop.svg \
+        $out/share/icons/hicolor/scalable/apps/net.nullsum.JelliumDesktop.svg
+      substituteInPlace $out/share/applications/net.nullsum.JelliumDesktop.desktop \
+        --replace-fail "Exec=jellium-desktop" "Exec=${pname}"
     '';
 
     meta = {

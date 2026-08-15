@@ -12,7 +12,7 @@
     shellAliases = {
       vim = "nvim";
       cd = "z";
-      cat = "bat --theme=base16";
+      cat = "bat --theme=gruvbox-dark";
     };
 
     history = {

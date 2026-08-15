@@ -5,8 +5,8 @@
 
 // Global Styles
 .bottom-bar {
-  background-color: rgba(17, 17, 27, 0.8);
-  color: #b0b4bc;
+  background-color: rgba(29, 32, 33, 0.8);
+  color: #bdae93;
   padding: 0px 10px;
 }
 
@@ -25,36 +25,36 @@
 }
 
 .workspace {
-  color: #a6adc8;
+  color: #a89984;
 }
 
 .workspace-selected {
-  color: #313244;
-  background-color: #ebbcba;
+  color: #1d2021;
+  background-color: #fabd2f;
   border-radius: 999px;
 }
 
 
 // system tray menu
 menu {
-  background-color: rgba(30, 30, 30, 0.9);
-  color: #f0f0f0;
-  border: 1px solid #555;
+  background-color: rgba(29, 32, 33, 0.9);
+  color: #ebdbb2;
+  border: 1px solid #665c54;
   border-radius: 5px;
   padding: 5px;
 }
 
 .icon {
   font-size: 15px;
-  color: #ebbcba;
+  color: #fabd2f;
 }
 
 .icon.battery-critical {
-  color: #ff8090;
+  color: #fb4934;
 }
 
 .icon.battery-full {
-  color: #a6e3a1; 
+  color: #b8bb26; 
 }
 
 .icon.popup {
@@ -62,8 +62,8 @@ menu {
 }
 
 tooltip {
-  background-color: rgba(17, 17, 27, 0.9);
-  border: 1px solid #555;
+  background-color: rgba(29, 32, 33, 0.9);
+  border: 1px solid #665c54;
   border-radius: 5px;
   padding: 3px;
 }
@@ -81,17 +81,17 @@ tooltip {
 
 .system-hover,
 .notifications-hover {
-  background-color: rgba(235, 188, 186, 0.1);
+  background-color: rgba(250, 189, 47, 0.1);
 }
 
 .system-menu-box {
-  background-color: rgb(17, 17, 27);
+  background-color: rgb(29, 32, 33);
   border-radius: 8px;
   padding: 10px;
 }
 
 .system-menu-section {
-  background-color: rgba(30, 30, 46, 0.6);
+  background-color: rgba(60, 56, 54, 0.6);
   border-radius: 5px;
   padding: 10px;
 }
@@ -104,46 +104,46 @@ scale {
 scale trough {
   min-height: 6px;
   border-radius: 10px;
-  background-color: rgba(235, 188, 186, 0.2);
+  background-color: rgba(250, 189, 47, 0.2);
 }
 
 scale trough highlight {
   min-height: 6px;
   border-radius: 10px;
-  background-color: #ebbcba;
+  background-color: #fabd2f;
 }
 
 .section-text {
-  color: #cdd6f4;
+  color: #ebdbb2;
   margin-left: 10px;
 }
 
 .battery-label {
-  color: #cdd6f4;
+  color: #ebdbb2;
   font-size: 14px;
 }
 
 .battery-status {
-  color: #cdd6f4;
+  color: #ebdbb2;
   font-size: 12px;
   opacity: 0.8;
 }
 
 .percentage-label {
-  color: #cdd6f4;
+  color: #ebdbb2;
   font-size: 14px;
 }
 
 .battery-slider trough {
-  background-color: rgba(235, 188, 186, 0.2);
+  background-color: rgba(250, 189, 47, 0.2);
 }
 
 .battery-slider trough highlight {
-  background-color: #ebbcba;
+  background-color: #fabd2f;
 }
 
 .menu-grid-item {
-  background-color: rgba(30, 30, 46, 0.6);
+  background-color: rgba(60, 56, 54, 0.6);
   border-radius: 12px;
   padding: 12px;
   min-width: 70px;
@@ -151,46 +151,46 @@ scale trough highlight {
 }
 
 .menu-grid-item:hover {
-  background-color: rgba(235, 188, 186, 0.1);
+  background-color: rgba(250, 189, 47, 0.1);
 }
 
 .menu-grid-item.active {
-  background-color: rgba(235, 188, 186, 0.2);
+  background-color: rgba(250, 189, 47, 0.2);
 }
 
 .menu-grid-item.active:hover {
-  background-color: rgba(235, 188, 186, 0.3);
+  background-color: rgba(250, 189, 47, 0.3);
 }
 
 .menu-grid-item.active-connected {
-  background-color: #ebbcba;
+  background-color: #fabd2f;
 }
 
 .menu-grid-item.active-connected .grid-item-icon,
 .menu-grid-item.active-connected .grid-item-label {
-  color: #1e1e2e;
+  color: #1d2021;
 }
 
 .menu-grid-item.active-connected:hover {
-  background-color: #e0b1af;
+  background-color: #d79921;
 }
 
 .grid-item-icon {
   font-size: 24px;
-  color: #ebbcba;
+  color: #fabd2f;
   margin-bottom: 8px;
 }
 
 .grid-item-label {
   font-size: 12px;
-  color: #cdd6f4;
+  color: #ebdbb2;
 }
 
 // Time and date section
 .time-date {
   padding: 15px;
   border-radius: 10px;
-  background-color: rgba(30, 30, 46, 0.6);
+  background-color: rgba(60, 56, 54, 0.6);
   padding: 20px;
 }
 
@@ -201,7 +201,7 @@ scale trough highlight {
 .time {
   font-size: 42px;
   font-weight: bold;
-  color: #ebbcba;
+  color: #fabd2f;
 }
 
 .date-container {
@@ -212,12 +212,12 @@ scale trough highlight {
 .date {
   font-size: 14px;
   font-weight: 500;
-  color: #cdd6f4;
+  color: #ebdbb2;
 }
 
 .day {
   font-size: 14px;
-  color: #cdd6f4;
+  color: #ebdbb2;
   margin-top: 2px;
   opacity: 0.9;
 }
@@ -226,7 +226,7 @@ scale trough highlight {
 .media-player {
   padding: 0;
   border-radius: 10px;
-  background-color: rgba(30, 30, 46, 0.6);
+  background-color: rgba(60, 56, 54, 0.6);
 }
 
 .media-art {
@@ -248,14 +248,14 @@ scale trough highlight {
 .media-title {
   font-size: 16px;
   font-weight: bold;
-  color: #ebbcba;
+  color: #fabd2f;
   margin: 0;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .media-artist {
   font-size: 14px;
-  color: #ffffff;
+  color: #ebdbb2;
   opacity: 0.9;
   margin: 0;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
@@ -268,12 +268,12 @@ scale trough highlight {
 
 .media-button {
   font-size: 20px;
-  color: #ebbcba;
+  color: #fabd2f;
   padding: 8px 16px;
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .media-button:hover {
-  background-color: rgba(235, 188, 186, 0.1);
+  background-color: rgba(250, 189, 47, 0.1);
 }

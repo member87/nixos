@@ -10,7 +10,7 @@
       background = {
         path = "screenshot";
         blue_passes = 1;
-        color = "rgba(0, 0, 0, 1.0)";
+        color = "rgba(29, 32, 33, 1.0)";
         blur_passes = 4;
         noise = 0.008;
         brightness = 0.5;
@@ -24,8 +24,8 @@
         valign = "center";
         placeholder_text = "Password...";
         fade_on_empty = false;
-        font_color = "rgb(245, 194, 231)";
-        inner_color = "rgb(49, 50, 68)";
+        font_color = "rgb(235, 219, 178)";
+        inner_color = "rgb(60, 56, 54)";
       };
 
       label = [
@@ -34,6 +34,7 @@
           position = "0, 80";
           halign = "center";
           valign = "center";
+          color = "rgb(235, 219, 178)";
         }
         {
           text = "cmd[update:1000] date +\"%H:%M\"";
@@ -41,6 +42,7 @@
           font_size = 100;
           halign = "center";
           valign = "center";
+          color = "rgb(235, 219, 178)";
         }
       ];
     };

@@ -12,8 +12,8 @@
     ./lazygit.nix
     ./zellij.nix
     ./battery-notify.nix
-    ./zen.nix
     ./oh-my-pi.nix
+    ./prismlauncher.nix
   ];
 
   home.packages = with pkgs; [

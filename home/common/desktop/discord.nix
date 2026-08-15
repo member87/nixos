@@ -10,6 +10,10 @@
 
     config = {
       themeLinks = [
+        "https://raw.githubusercontent.com/shvedes/discord-gruvbox/main/gruvbox-dark.theme.css"
+      ];
+      enabledThemeLinks = [
+        "https://raw.githubusercontent.com/shvedes/discord-gruvbox/main/gruvbox-dark.theme.css"
       ];
       frameless = true;
 
