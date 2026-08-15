@@ -13,7 +13,7 @@
     ./zellij.nix
     ./battery-notify.nix
     ./zen.nix
-    ./oh-my-pi
+    ./oh-my-pi.nix
   ];
 
   home.packages = with pkgs; [
