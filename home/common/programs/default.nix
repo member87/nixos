@@ -14,6 +14,7 @@
     ./battery-notify.nix
     ./oh-my-pi.nix
     ./prismlauncher.nix
+    ./zen.nix
   ];
 
   home.packages = with pkgs; [
