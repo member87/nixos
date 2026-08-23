@@ -29,11 +29,12 @@ function Player({ player }: { player: Mpris.Player }) {
   )
 }
 
-const player = createBinding(mpris, "players")((players) => players[0] ?? null)
+export default function Music() {
+  const player = createBinding(mpris, "players")((players) => players[0] ?? null)
 
-return (
-  <box>
-    <With value={player}>{(p) => p && <Player player={p} />}</With>
-  </box>
-)
+  return (
+    <box>
+      <With value={player}>{(p) => p && <Player player={p} />}</With>
+    </box>
+  )
 }
