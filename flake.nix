@@ -42,6 +42,13 @@
 
     nixcord.url = "github:FlameFlag/nixcord";
 
+    astal.url = "github:aylur/astal";
+    astal.inputs.nixpkgs.follows = "nixpkgs";
+
+    ags.url = "github:aylur/ags";
+    ags.inputs.nixpkgs.follows = "nixpkgs";
+    ags.inputs.astal.follows = "astal";
+
     omp.url = "github:can1357/oh-my-pi";
   };
 

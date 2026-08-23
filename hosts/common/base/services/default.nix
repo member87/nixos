@@ -7,6 +7,7 @@
     ./bluetooth.nix
     ./wireguard.nix
     ./tailscale.nix
+    ./upower.nix
   ];
 
   services.flatpak.enable = true;

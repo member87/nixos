@@ -1,24 +1,35 @@
 {pkgs, ...}: let
-  wallpaperUrl = "https://unsplash.com/photos/lFTtQqVfx6g/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzM2OTg0ODA4fA&force=true";
+  wallpaperUrl = "https://cdn.lab.jackhumes.com/background.jpg";
   wallpaperFile = pkgs.fetchurl {
     url = wallpaperUrl;
-    sha256 = "sha256-PYEm+xn3NJSP8AD/87HaTkAlB+zrEouNg/hoI63ioFs=";
-  };
-  hyprpaperSettings = {
-    ipc = "on";
-    splash = false;
-    splash_offset = 2.0;
-    preload = ["${toString wallpaperFile}"];
-    wallpaper = [
-      "DP-1,${toString wallpaperFile}"
-      "DP-2,${toString wallpaperFile}"
-      "HDMI-A-1,${toString wallpaperFile}"
-      "eDP-1,${toString wallpaperFile}"
-    ];
+    sha256 = "sha256-4/VPKyrnF9rm60p3k7e4F3Ze0pnHIgoKVAAzLi6flVs=";
   };
 in {
   services.hyprpaper = {
     enable = true;
-    settings = hyprpaperSettings;
+    settings = {
+      ipc = "on";
+      splash = false;
+      splash_offset = 2;
+
+      wallpaper = [
+        {
+          monitor = "DP-1";
+          path = "${wallpaperFile}";
+        }
+        {
+          monitor = "DP-2";
+          path = "${wallpaperFile}";
+        }
+        {
+          monitor = "HDMI-A-1";
+          path = "${wallpaperFile}";
+        }
+        {
+          monitor = "eDP-1";
+          path = "${wallpaperFile}";
+        }
+      ];
+    };
   };
 }

@@ -13,12 +13,6 @@
     pane_frames false
     theme "gruvbox-dark"
 
-    // Gruvbox-dark-hard override matching the rest of the desktop's exact
-    // palette (waybar/eww/swaync/hyprlock all use bg0_h #1d2021, fg #ebdbb2,
-    // accent #fabd2f). The bundled zellij "gruvbox-dark" theme uses a
-    // lighter bg1 (#3c3836) and a green accent instead of the site's
-    // yellow/orange accent, so it clashes with everything else -- this
-    // redefines it in place.
     themes {
         gruvbox-dark {
             text_unselected {
@@ -154,38 +148,38 @@
     // stay out of the way of exactly these keys, nothing implicit.
     keybinds clear-defaults=true {
         shared_except "locked" {
-            bind "Ctrl q" { Quit; }
+            bind "Alt q" { Quit; }
         }
 
         locked {
-            bind "Ctrl g" { SwitchToMode "Normal"; }
+            bind "Alt g" { SwitchToMode "Normal"; }
         }
 
         normal {
-            bind "Ctrl g" { SwitchToMode "Locked"; }
-            bind "Ctrl o" { SwitchToMode "Session"; }
-            bind "Ctrl s" { SwitchToMode "Scroll"; }
+            bind "Alt g" { SwitchToMode "Locked"; }
+            bind "Alt o" { SwitchToMode "Session"; }
+            bind "Alt s" { SwitchToMode "Scroll"; }
 
             // tabs
-            bind "Ctrl t" { NewTab; }
-            bind "Ctrl w" { CloseTab; }
-            bind "Ctrl Tab" { GoToNextTab; }
-            bind "Ctrl Shift Tab" { GoToPreviousTab; }
-            bind "Ctrl 1" { GoToTab 1; }
-            bind "Ctrl 2" { GoToTab 2; }
-            bind "Ctrl 3" { GoToTab 3; }
-            bind "Ctrl 4" { GoToTab 4; }
-            bind "Ctrl 5" { GoToTab 5; }
-            bind "Ctrl 6" { GoToTab 6; }
-            bind "Ctrl 7" { GoToTab 7; }
-            bind "Ctrl 8" { GoToTab 8; }
-            bind "Ctrl 9" { GoToTab 9; }
+            bind "Alt t" { NewTab; }
+            bind "Alt w" { CloseTab; }
+            bind "Alt Tab" { GoToNextTab; }
+            bind "Alt Shift Tab" { GoToPreviousTab; }
+            bind "Alt 1" { GoToTab 1; }
+            bind "Alt 2" { GoToTab 2; }
+            bind "Alt 3" { GoToTab 3; }
+            bind "Alt 4" { GoToTab 4; }
+            bind "Alt 5" { GoToTab 5; }
+            bind "Alt 6" { GoToTab 6; }
+            bind "Alt 7" { GoToTab 7; }
+            bind "Alt 8" { GoToTab 8; }
+            bind "Alt 9" { GoToTab 9; }
 
-            // panes / splits, macOS Terminal.app-style:
-            // Ctrl+D = vertical split (side by side), Ctrl+Shift+D = horizontal split (stacked)
-            bind "Ctrl d" { NewPane "Right"; }
-            bind "Ctrl Shift d" { NewPane "Down"; }
-            bind "Ctrl x" { CloseFocus; }
+            // panes / splits
+            // Alt+D = vertical split (side by side), Alt+Shift+D = horizontal split (stacked)
+            bind "Alt d" { NewPane "Right"; }
+            bind "Alt Shift d" { NewPane "Down"; }
+            bind "Alt x" { CloseFocus; }
 
             // pane focus / resize
             bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
@@ -201,24 +195,24 @@
         // Keyboard scrollback (mouse wheel scrolling always works regardless
         // of keybinds). Kept close to zellij's own defaults.
         scroll {
-            bind "Ctrl s" "Esc" { SwitchToMode "Normal"; }
-            bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
+            bind "Alt s" "Esc" { SwitchToMode "Normal"; }
+            bind "Alt c" { ScrollToBottom; SwitchToMode "Normal"; }
             bind "j" "Down" { ScrollDown; }
             bind "k" "Up" { ScrollUp; }
-            bind "Ctrl f" "PageDown" "Right" "l" { PageScrollDown; }
-            bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
+            bind "Alt f" "PageDown" "Right" "l" { PageScrollDown; }
+            bind "Alt b" "PageUp" "Left" "h" { PageScrollUp; }
             bind "d" { HalfPageScrollDown; }
             bind "u" { HalfPageScrollUp; }
             bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
             bind "e" { EditScrollback; SwitchToMode "Normal"; }
         }
         search {
-            bind "Ctrl s" { SwitchToMode "Normal"; }
-            bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
+            bind "Alt s" { SwitchToMode "Normal"; }
+            bind "Alt c" { ScrollToBottom; SwitchToMode "Normal"; }
             bind "j" "Down" { ScrollDown; }
             bind "k" "Up" { ScrollUp; }
-            bind "Ctrl f" "PageDown" "Right" "l" { PageScrollDown; }
-            bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
+            bind "Alt f" "PageDown" "Right" "l" { PageScrollDown; }
+            bind "Alt b" "PageUp" "Left" "h" { PageScrollUp; }
             bind "d" { HalfPageScrollDown; }
             bind "u" { HalfPageScrollUp; }
             bind "n" { Search "down"; }
@@ -228,14 +222,14 @@
             bind "o" { SearchToggleOption "WholeWord"; }
         }
         entersearch {
-            bind "Ctrl c" "Esc" { SwitchToMode "Scroll"; }
+            bind "Alt c" "Esc" { SwitchToMode "Scroll"; }
             bind "Enter" { SwitchToMode "Search"; }
         }
 
         // Session mode: detach + the built-in plugin launchers.
         session {
-            bind "Ctrl o" { SwitchToMode "Normal"; }
-            bind "Ctrl s" { SwitchToMode "Scroll"; }
+            bind "Alt o" { SwitchToMode "Normal"; }
+            bind "Alt s" { SwitchToMode "Scroll"; }
             bind "d" { Detach; }
             bind "w" {
                 LaunchOrFocusPlugin "session-manager" {
