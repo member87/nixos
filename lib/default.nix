@@ -6,8 +6,7 @@
   username,
   flakePath,
   ...
-}:
-let
+}: let
   helpers = import ./helpers.nix {
     inherit
       self
@@ -18,7 +17,6 @@ let
       flakePath
       ;
   };
-in
-{
+in {
   inherit (helpers) mkHome mkHost forAllSystems;
 }

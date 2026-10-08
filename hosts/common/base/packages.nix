@@ -49,6 +49,8 @@
     nil
     nixfmt
     obsidian
+    rsync
+    nwg-displays
 
     openssl
     pavucontrol

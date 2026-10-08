@@ -21,13 +21,14 @@
   # win11-thermal.dsl. Compiled with iasl and handed to the guest via
   # -acpitable so Windows' thermal-zone counters aren't empty (QEMU emits no
   # thermal zone of its own).
-  thermalAcpi = pkgs.runCommandLocal "win11-thermal.aml" {
-    nativeBuildInputs = [pkgs.acpica-tools];
-  } ''
-    cp ${./win11-thermal.dsl} thermal.dsl
-    iasl thermal.dsl
-    cp thermal.aml "$out"
-  '';
+  thermalAcpi =
+    pkgs.runCommandLocal "win11-thermal.aml" {
+      nativeBuildInputs = [pkgs.acpica-tools];
+    } ''
+      cp ${./win11-thermal.dsl} thermal.dsl
+      iasl thermal.dsl
+      cp thermal.aml "$out"
+    '';
 
   # WSMT (Windows SMM Security Mitigations Table); see win11-wsmt.py. Real UEFI
   # boards ship one and QEMU does not, so its absence is a VM tell.

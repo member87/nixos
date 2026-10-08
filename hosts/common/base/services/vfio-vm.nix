@@ -112,19 +112,17 @@
   # have said 7900-series passthrough resets are unsupported in any
   # configuration. Treat it as harm reduction. Devices that do not need a reset
   # (USB controllers and the like) keep the default resetMethod = "none".
-  resetCommands =
-    concatMapStringsSep "\n" (device:
-      optionalString (device.resetMethod == "sbr") ''
-        reset_via_sbr ${shellArg device.pci} || failures=$((failures + 1))
-      '')
-    cfg.devices;
+  resetCommands = concatMapStringsSep "\n" (device:
+    optionalString (device.resetMethod == "sbr") ''
+      reset_via_sbr ${shellArg device.pci} || failures=$((failures + 1))
+    '')
+  cfg.devices;
 
-  disableD3ColdCommands =
-    concatMapStringsSep "\n" (device:
-      optionalString (device.resetMethod == "sbr") ''
-        disable_d3cold ${shellArg device.pci}
-      '')
-    cfg.devices;
+  disableD3ColdCommands = concatMapStringsSep "\n" (device:
+    optionalString (device.resetMethod == "sbr") ''
+      disable_d3cold ${shellArg device.pci}
+    '')
+  cfg.devices;
 
   restoreCommands =
     concatMapStringsSep "\n" (device: ''
@@ -434,7 +432,7 @@
         log "host restore is complete"
         return 0
       ''
-      }
+    }
     }
 
     case "''${1:-}" in
@@ -581,39 +579,39 @@
   pcieRootPortXml =
     concatStringsSep "\n"
     (lib.genList (
-      i: let
-        index = i + 1;
-        slot =
-          if i < 8
-          then 2
-          else 3;
-        function =
-          if i < 8
-          then i
-          else i - 8;
-        multifunction = optionalString (function == 0) " multifunction='on'";
-        port = lib.toHexString (16 + i);
-      in ''
-            <controller type='pci' index='${toString index}' model='pcie-root-port'>
-              <model name='${domainCfg.pcieRootPortModel}'/>
-              <target chassis='${toString index}' port='0x${port}'/>
-              <address type='pci' domain='0x0000' bus='0x00' slot='0x0${toString slot}' function='0x${toString function}'${multifunction}/>
-            </controller>''
-    )
-    domainCfg.pcieRootPorts);
+        i: let
+          index = i + 1;
+          slot =
+            if i < 8
+            then 2
+            else 3;
+          function =
+            if i < 8
+            then i
+            else i - 8;
+          multifunction = optionalString (function == 0) " multifunction='on'";
+          port = lib.toHexString (16 + i);
+        in ''
+          <controller type='pci' index='${toString index}' model='pcie-root-port'>
+            <model name='${domainCfg.pcieRootPortModel}'/>
+            <target chassis='${toString index}' port='0x${port}'/>
+            <address type='pci' domain='0x0000' bus='0x00' slot='0x0${toString slot}' function='0x${toString function}'${multifunction}/>
+          </controller>''
+      )
+      domainCfg.pcieRootPorts);
 
   # A COM1 serial port and its console are pure emulation with no counterpart on
   # bare-metal hardware, so they are a free VM tell. Off by default; enable
   # only when you need serial for guest debugging.
   serialConsoleXml = optionalString domainCfg.serialConsole ''
-        <serial type='pty'>
-          <target type='isa-serial' port='0'>
-            <model name='isa-serial'/>
-          </target>
-        </serial>
-        <console type='pty'>
-          <target type='serial' port='0'/>
-        </console>'';
+    <serial type='pty'>
+      <target type='isa-serial' port='0'>
+        <model name='isa-serial'/>
+      </target>
+    </serial>
+    <console type='pty'>
+      <target type='serial' port='0'/>
+    </console>'';
 
   # Hyper-V enlightenments speed up a Windows guest, but they also advertise a
   # hypervisor: the vendor_id shows up at cpuid leaf 0x40000000 and Windows
@@ -637,40 +635,37 @@
           <ipi state='on'/>
           <avic state='on'/>
         </hyperv>
-        '';
+  '';
 
   hypervClockXml = optionalString domainCfg.hyperv "<timer name='hypervclock' present='yes'/>";
 
-  smbiosXml =
-    concatMapStringsSep "\n" (section: ''
-      <${section.name}>
-      ${concatStringsSep "\n      " (mapAttrsToList (key: value: "<entry name='${key}'>${lib.escapeXML value}</entry>") section.entries)}
-      </${section.name}>'')
-    domainCfg.smbios;
+  smbiosXml = concatMapStringsSep "\n" (section: ''
+    <${section.name}>
+    ${concatStringsSep "\n      " (mapAttrsToList (key: value: "<entry name='${key}'>${lib.escapeXML value}</entry>") section.entries)}
+    </${section.name}>'')
+  domainCfg.smbios;
 
-  diskXml =
-    concatMapStringsSep "\n" (disk: let
-      sourceAttr =
-        if disk.type == "block"
-        then "dev"
-        else "file";
+  diskXml = concatMapStringsSep "\n" (disk: let
+    sourceAttr =
+      if disk.type == "block"
+      then "dev"
+      else "file";
 
-      driverAttrs =
-        concatStringsSep "" (
-          map (pair: optionalString (builtins.elemAt pair 1 != null) " ${builtins.elemAt pair 0}='${builtins.elemAt pair 1}'") [
-            ["cache" disk.cache]
-            ["io" disk.io]
-            ["discard" disk.discard]
-          ]
-        );
-    in ''
-      <disk type='${disk.type}' device='${disk.device}'>
-        <driver name='qemu' type='${disk.driverType}'${driverAttrs}/>
-        <source ${sourceAttr}='${disk.source}'/>
-        <target dev='${disk.target}' bus='${disk.bus}'/>${optionalString (disk.serial != null) "\n      <serial>${disk.serial}</serial>"}${optionalString disk.readonly "\n      <readonly/>"}${optionalString (disk.bootOrder != null) "\n      <boot order='${toString disk.bootOrder}'/>"}
-        <address type='drive' controller='0' bus='0' target='0' unit='${toString disk.unit}'/>
-      </disk>'')
-    domainCfg.disks;
+    driverAttrs = concatStringsSep "" (
+      map (pair: optionalString (builtins.elemAt pair 1 != null) " ${builtins.elemAt pair 0}='${builtins.elemAt pair 1}'") [
+        ["cache" disk.cache]
+        ["io" disk.io]
+        ["discard" disk.discard]
+      ]
+    );
+  in ''
+    <disk type='${disk.type}' device='${disk.device}'>
+      <driver name='qemu' type='${disk.driverType}'${driverAttrs}/>
+      <source ${sourceAttr}='${disk.source}'/>
+      <target dev='${disk.target}' bus='${disk.bus}'/>${optionalString (disk.serial != null) "\n      <serial>${disk.serial}</serial>"}${optionalString disk.readonly "\n      <readonly/>"}${optionalString (disk.bootOrder != null) "\n      <boot order='${toString disk.bootOrder}'/>"}
+      <address type='drive' controller='0' bus='0' target='0' unit='${toString disk.unit}'/>
+    </disk>'')
+  domainCfg.disks;
 
   # Generated from services.vfioVm.devices, so the passthrough device list has a
   # single definition rather than one in Nix and a second one in the domain XML
@@ -681,26 +676,25 @@
   # amdgpu would re-probe the GPU before the reset below ever happens - which is
   # precisely the crash this module exists to avoid. Leaving every transition to
   # the hook keeps the ordering under our control.
-  hostdevXml =
-    concatMapStringsSep "\n" (device: let
-      source = parsePci device.pci;
-      guest = device.guestAddress;
+  hostdevXml = concatMapStringsSep "\n" (device: let
+    source = parsePci device.pci;
+    guest = device.guestAddress;
 
-      romXml = optionalString (device.romFile != null) ''
+    romXml = optionalString (device.romFile != null) ''
 
-        <rom bar='${device.romBar}' file='${device.romFile}'/>'';
+      <rom bar='${device.romBar}' file='${device.romFile}'/>'';
 
-      guestXml = optionalString (guest != null) ''
+    guestXml = optionalString (guest != null) ''
 
-        <address type='pci' domain='0x0000' bus='${guest.bus}' slot='${guest.slot}' function='${guest.function}'${optionalString guest.multifunction " multifunction='on'"}/>'';
-    in ''
-      <hostdev mode='subsystem' type='pci' managed='no'>
-        <driver name='vfio'/>
-        <source>
-          <address domain='0x${source.domain}' bus='0x${source.bus}' slot='0x${source.slot}' function='0x${source.function}'/>
-        </source>${romXml}${guestXml}
-      </hostdev>'')
-    cfg.devices;
+      <address type='pci' domain='0x0000' bus='${guest.bus}' slot='${guest.slot}' function='${guest.function}'${optionalString guest.multifunction " multifunction='on'"}/>'';
+  in ''
+    <hostdev mode='subsystem' type='pci' managed='no'>
+      <driver name='vfio'/>
+      <source>
+        <address domain='0x${source.domain}' bus='0x${source.bus}' slot='0x${source.slot}' function='0x${source.function}'/>
+      </source>${romXml}${guestXml}
+    </hostdev>'')
+  cfg.devices;
 
   qemuCommandlineXml = optionalString (domainCfg.extraQemuArgs != []) ''
     <qemu:commandline>

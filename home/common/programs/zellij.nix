@@ -162,7 +162,8 @@
 
             // tabs
             bind "Alt t" { NewTab; }
-            bind "Alt w" { CloseTab; }
+            bind "Alt Shift r" { SwitchToMode "RenameTab"; TabNameInput 0; }
+            bind "Alt w" { CloseFocus; }
             bind "Alt Tab" { GoToNextTab; }
             bind "Alt Shift Tab" { GoToPreviousTab; }
             bind "Alt 1" { GoToTab 1; }
@@ -190,6 +191,11 @@
             bind "Ctrl Alt l" { Resize "Right"; }
             bind "Ctrl Alt j" { Resize "Down"; }
             bind "Ctrl Alt k" { Resize "Up"; }
+        }
+
+        renametab {
+            bind "Ctrl c" { SwitchToMode "Normal"; }
+            bind "Esc" { UndoRenameTab; SwitchToMode "Normal"; }
         }
 
         // Keyboard scrollback (mouse wheel scrolling always works regardless

@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   home.file.".config/winapps/winapps.conf" = {
     text = ''
       RDP_USER="Docker"

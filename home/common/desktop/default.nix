@@ -9,5 +9,7 @@
     ./hypridle.nix
     ./vicinae.nix
     ./discord.nix
+    ./udiskie.nix
   ];
+
 }

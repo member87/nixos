@@ -12,6 +12,18 @@
     nohook resolv.conf
   '';
 
+  fileSystems."/mnt/nas" = {
+    device = "nas-nfs.lab.jackhumes.com:/volume1/photos";
+    fsType = "nfs";
+    options = [
+      "nfsvers=3"
+      "_netdev"
+      "nofail"
+      "x-systemd.automount"
+      "x-systemd.idle-timeout=600"
+    ];
+  };
+
   users.groups.plugdev = {};
 
   age.identityPaths = [

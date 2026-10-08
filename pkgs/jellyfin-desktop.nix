@@ -10,7 +10,7 @@
 
   artifact = fetchurl {
     url = "https://nightly.link/andrewrabert/jellium-desktop/workflows/build-linux-appimage/main/linux-appimage-x86_64.zip";
-    hash = "sha256-J3XJIQ5wP5eq+bo+y+0fJ74i2LnrVcYPAEiFJiIKozs=";
+    hash = "sha256-/tABjT+8ovDexNGBjagSsvSTJ66tFVRj9qYtHeyL46E=";
   };
 
   src = stdenvNoCC.mkDerivation {

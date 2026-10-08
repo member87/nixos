@@ -8,17 +8,17 @@
   stateVersion,
   username,
   ...
-}:
-{
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-    (./. + "/${hostname}/boot.nix")
-    (./. + "/${hostname}/hardware.nix")
+}: {
+  imports =
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
+      (./. + "/${hostname}/boot.nix")
+      (./. + "/${hostname}/hardware.nix")
 
-    ./common/base
-    ./common/users/${username}
-  ]
-  ++ lib.optional (builtins.pathExists (./. + "/${hostname}/extra.nix")) ./${hostname}/extra.nix;
+      ./common/base
+      ./common/users/${username}
+    ]
+    ++ lib.optional (builtins.pathExists (./. + "/${hostname}/extra.nix")) ./${hostname}/extra.nix;
 
   nixpkgs = {
     overlays = [
@@ -44,7 +44,7 @@
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
-    registry = lib.mkForce (lib.mapAttrs (_: value: { flake = value; }) inputs);
+    registry = lib.mkForce (lib.mapAttrs (_: value: {flake = value;}) inputs);
 
     # This will additionally add your inputs to the system's legacy channels
     # Making legacy nix commands consistent as well, awesome!

@@ -2,8 +2,7 @@
   inputs,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     inputs.zen-browser.homeModules.default
   ];
