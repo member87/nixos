@@ -6,11 +6,11 @@
   appimageTools,
 }: let
   pname = "jellyfin-desktop";
-  version = "unstable-2026-06-14";
+  version = "unstable-2026-10-19";
 
   artifact = fetchurl {
     url = "https://nightly.link/andrewrabert/jellium-desktop/workflows/build-linux-appimage/main/linux-appimage-x86_64.zip";
-    hash = "sha256-/tABjT+8ovDexNGBjagSsvSTJ66tFVRj9qYtHeyL46E=";
+    hash = "sha256-zkAx/JM6dnA4BAfuQ5jeqosHXg+W7wnu/tZOQjWsATE=";
   };
 
   src = stdenvNoCC.mkDerivation {

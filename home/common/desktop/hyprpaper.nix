@@ -2,7 +2,7 @@
   wallpaperUrl = "https://cdn.lab.jackhumes.com/background.jpg";
   wallpaperFile = pkgs.fetchurl {
     url = wallpaperUrl;
-    sha256 = "sha256-4/VPKyrnF9rm60p3k7e4F3Ze0pnHIgoKVAAzLi6flVs=";
+    sha256 = "sha256-oyDi8qJv9vq/Z5YYpDREjZlt/4IV3DL50etwIPiI7zM=";
   };
 in {
   services.hyprpaper = {

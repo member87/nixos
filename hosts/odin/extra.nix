@@ -60,5 +60,6 @@
     tor-browser
     openra
     prismlauncher
+    r2modman
   ];
 }
