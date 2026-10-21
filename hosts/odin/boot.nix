@@ -47,7 +47,17 @@
 
     kernelModules = ["kvm-amd"];
 
-    kernelPackages = pkgs.linuxPackages_zen;
+    # TODO: drop the extend once nixos-unstable includes NixOS/nixpkgs#575861
+    # (v4l2loopback 0.15.4 ships depmod output that conflicts with the kernel's modules.*).
+    kernelPackages = pkgs.linuxPackages_zen.extend (_: prev: {
+      v4l2loopback = prev.v4l2loopback.overrideAttrs {
+        preBuild = "";
+        installFlags = [
+          "DEPMOD=true"
+          "INSTALL_MOD_PATH=${placeholder "out"}"
+        ];
+      };
+    });
 
     kernel.sysctl = {
       "net.ipv4.ip_forward" = 1;
