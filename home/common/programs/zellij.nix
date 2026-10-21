@@ -163,7 +163,7 @@
             // tabs
             bind "Alt t" { NewTab; }
             bind "Alt Shift r" { SwitchToMode "RenameTab"; TabNameInput 0; }
-            bind "Alt w" { CloseFocus; }
+            bind "Alt Shift w" { CloseTab; }
             bind "Alt Tab" { GoToNextTab; }
             bind "Alt Shift Tab" { GoToPreviousTab; }
             bind "Alt 1" { GoToTab 1; }
@@ -180,7 +180,7 @@
             // Alt+D = vertical split (side by side), Alt+Shift+D = horizontal split (stacked)
             bind "Alt d" { NewPane "Right"; }
             bind "Alt Shift d" { NewPane "Down"; }
-            bind "Alt x" { CloseFocus; }
+            bind "Alt w" "Alt x" { CloseFocus; }
 
             // pane focus / resize
             bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
