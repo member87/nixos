@@ -52,6 +52,10 @@ Singleton {
   // is Discord); the process binary, minus nix's ".foo-wrapped", finds the
   // app's desktop entry and with it the real name and icon
   function appEntry(node: PwNode): var {
+    // desktop entries are scanned asynchronously at startup; reading the
+    // list makes bindings that call this re-run once it is populated
+    if (DesktopEntries.applications.values.length === 0)
+      return null;
     const p = node.properties;
     const binary = (p["application.process.binary"] ?? "").replace(/^\./, "").replace(/-wrapped$/, "");
     return (binary && DesktopEntries.heuristicLookup(binary)) || (p["application.name"] && DesktopEntries.heuristicLookup(p["application.name"])) || null;

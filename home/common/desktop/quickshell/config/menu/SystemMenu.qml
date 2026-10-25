@@ -1,29 +1,47 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Hyprland
+import Quickshell.Wayland
 import qs.common
 import qs.components
 import qs.services
 
-// the popover under the status icons; pages: main, network, bluetooth
-PopupWindow {
+// The popover under the status icons; pages: main, network, bluetooth.
+// A layer surface with a Hyprland focus grab rather than an xdg popup: a
+// popup's grab needs a fresh click, so one opened from a keybind (IPC) was
+// dismissed at once and could never take keyboard input for the wifi
+// password. The grab includes the bar, so its button can close the menu.
+PanelWindow {
   id: root
 
   required property var bar
   required property Item anchorItem
-  readonly property bool wanted: Menus.screen === bar.screen.name
   // tall pages scroll instead of running off a small (laptop) screen
   readonly property int maxHeight: bar.screen.height - Theme.barHeight - 40
+  // centre under the status icons; reads x/width so it follows layout changes
+  readonly property real anchorX: {
+    anchorItem.x;
+    anchorItem.width;
+    anchorItem.parent.x;
+    return anchorItem.mapToItem(null, anchorItem.width / 2, 0).x;
+  }
 
-  anchor.item: anchorItem
-  anchor.edges: Edges.Bottom
-  anchor.gravity: Edges.Bottom
-  // the panel keeps its 4px gap below the bar; the shadow margin overlaps it
-  anchor.margins.top: 4 - surface.shadow
-  anchor.adjustment: PopupAdjustment.Slide
-  // outside clicks dismiss it, and the password field gets the keyboard
-  grabFocus: true
-  visible: false
+  screen: bar.screen
+  visible: Menus.screen === bar.screen.name
+  anchors {
+    top: true
+    right: true
+  }
+  // the panel keeps a 4px gap below the bar; the shadow margin overlaps it
+  exclusionMode: ExclusionMode.Ignore
+  margins {
+    top: Theme.barHeight + 4 - surface.shadow
+    right: Math.max(0, bar.width - anchorX - implicitWidth / 2)
+  }
+  WlrLayershell.namespace: "quickshell-menu"
+  WlrLayershell.layer: WlrLayer.Overlay
+  WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
   color: "transparent"
   implicitWidth: Theme.menuWidth + surface.shadow * 2
   implicitHeight: Math.min(page.implicitHeight + 20, maxHeight) + surface.shadow * 2
@@ -31,10 +49,10 @@ PopupWindow {
     item: surface.panel
   }
 
-  onWantedChanged: visible = wanted
-  onVisibleChanged: {
-    if (!visible && wanted)
-      Menus.close();
+  HyprlandFocusGrab {
+    windows: [root, root.bar]
+    active: root.visible
+    onCleared: Menus.close()
   }
 
   PopupSurface {
