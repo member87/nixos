@@ -3,7 +3,7 @@
     ./ghostty.nix
     ./hyprland.nix
     ./hyprpaper.nix
-    ./ags
+    ./quickshell
     ./gtk.nix
     ./hyprlock.nix
     ./hypridle.nix
