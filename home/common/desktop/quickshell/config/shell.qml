@@ -5,6 +5,9 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 import qs.bar
+import qs.notifications
+import qs.osd
+import qs.polkit
 import qs.services
 
 ShellRoot {
@@ -15,8 +18,13 @@ ShellRoot {
     Bar {}
   }
 
+  // one of each, on the focused monitor
+  Popups {}
+  Osd {}
+  PolkitDialog {}
+
   // `qs -c bar ipc call menu toggle network` - opens on the focused monitor;
-  // pages: main, network, bluetooth
+  // pages: main, network, bluetooth, notifications
   IpcHandler {
     target: "menu"
     function toggle(page: string): void {

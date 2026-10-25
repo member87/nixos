@@ -5,7 +5,6 @@
     ./hyprpaper.nix
     ./quickshell
     ./gtk.nix
-    ./hyprlock.nix
     ./hypridle.nix
     ./vicinae.nix
     ./discord.nix

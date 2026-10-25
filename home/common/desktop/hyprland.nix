@@ -8,8 +8,6 @@
     x11.enable = true;
   };
 
-  services.swayosd.enable = true;
-
   wayland.windowManager.hyprland = {
     configType = "hyprlang";
     systemd.variables = ["--all"];
@@ -62,16 +60,15 @@
         };
       };
 
-      exec-once = [
-        "lxqt-policykit-agent"
-      ];
-
       animations = {
         enabled = 0;
       };
 
       misc = {
         force_default_wallpaper = 0;
+        # a crashed lock screen leaves the session locked on a solid colour;
+        # this lets a fresh one (loginctl lock-session from a tty) take over
+        allow_session_lock_restore = true;
       };
 
       bindm = [
@@ -94,19 +91,21 @@
           "$mod SHIFT, down, movewindow, d"
           "$mod, d, exec, vicinae open"
           "$mod SHIFT, e, exit"
-          "$mod, l, exec, hyprlock"
+          # hypridle's lock_cmd starts the quickshell lock screen
+          "$mod, l, exec, loginctl lock-session"
           "$mod, f, fullscreen"
           "$mod, space, togglefloating"
           "$mod, w, togglegroup"
           "$mod, tab, changegroupactive"
           "$mod SHIFT, tab, changegroupactive, b"
 
-          # Volume and media keys
-          ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise"
-          ", XF86AudioLowerVolume, exec, swayosd-client --output-volume lower"
-          ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
-          ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
-          ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+          # Volume and media keys; the bar's OSD shows the change (volume it
+          # sees in PipeWire, brightness it is told about)
+          ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
+          ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+          ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+          ", XF86MonBrightnessUp, exec, brightnessctl -q set 5%+ && qs -c bar ipc call osd brightness"
+          ", XF86MonBrightnessDown, exec, brightnessctl -q set 5%- && qs -c bar ipc call osd brightness"
           ", XF86AudioNext, exec, playerctl next"
           ", XF86AudioPause, exec, playerctl play-pause"
           ", XF86AudioPlay, exec, playerctl play-pause"

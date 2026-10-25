@@ -13,8 +13,9 @@ Singleton {
   // the menu's focus grab covers its own bar, so a click on the bar button
   // arrives here instead of dismissing the menu first
   function toggle(screenName: string, pageName: string) {
-    // the bar button (page "main") closes the menu from any page
-    if (screen === screenName && (page === pageName || pageName === "main")) {
+    // the bar button (page "main") closes the system menu from any of its
+    // pages; from the notification centre it opens the system menu instead
+    if (screen === screenName && (page === pageName || (pageName === "main" && page !== "notifications"))) {
       close();
       return;
     }

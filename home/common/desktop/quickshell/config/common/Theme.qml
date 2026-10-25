@@ -15,7 +15,13 @@ Singleton {
   readonly property color border: "#665c54"
   readonly property color critical: "#fb4934"
   readonly property color good: "#b8bb26"
+  // privacy indicators: orange for the microphone (the window border's
+  // gradient start), critical red for the screen
+  readonly property color orange: "#fe8019"
   readonly property color sectionBg: Qt.rgba(60 / 255, 56 / 255, 54 / 255, 0.6)
+  // the wallpaper: gruvbox bg0 crossed by five stripes, top to bottom
+  readonly property color wallpaper: "#282828"
+  readonly property list<color> stripes: ["#fb4934", "#b8bb26", "#fabd2f", "#83a598", "#8ec07c"]
   // text drawn on an accent fill
   readonly property color accentInk: "#1d2021"
   // swaync's switch colours

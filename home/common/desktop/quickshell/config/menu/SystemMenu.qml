@@ -28,7 +28,7 @@ PanelWindow {
   }
 
   screen: bar.screen
-  visible: Menus.screen === bar.screen.name
+  visible: Menus.screen === bar.screen.name && Menus.page !== "notifications"
   anchors {
     top: true
     right: true

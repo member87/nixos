@@ -41,7 +41,6 @@
     ledger-live-desktop
     libnotify
     lxqt.lxqt-openssh-askpass
-    lxqt.lxqt-policykit
     mangohud
     moonfin
     neovim

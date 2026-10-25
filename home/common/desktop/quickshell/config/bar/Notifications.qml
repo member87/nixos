@@ -3,16 +3,22 @@ import qs.common
 import qs.components
 import qs.services
 
-// bell + unread count; opens the swaync panel
+// bell + count of notifications not yet dismissed; opens the notification
+// centre. The bell is struck through while do-not-disturb is on.
 Clickable {
+  id: root
+
+  required property string screenName
+
   padX: 6
   padY: 2
   radius: 10
   spacing: 4
-  onClicked: Notifs.togglePanel()
+  color: Menus.screen === screenName && Menus.page === "notifications" ? Theme.accentHover : "transparent"
+  onClicked: Menus.toggle(screenName, "notifications")
 
   Glyph {
-    text: Icons.notification
+    text: UiState.doNotDisturb ? "\u{F009B}" : Icons.notification
   }
 
   Rectangle {

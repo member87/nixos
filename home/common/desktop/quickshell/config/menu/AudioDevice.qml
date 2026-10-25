@@ -31,12 +31,17 @@ ColumnLayout {
     Clickable {
       id: chooser
 
-      visible: root.devices.length > 1
+      // output always offers it: casting needs no second local device
+      visible: root.output || root.devices.length > 1
       radius: 5
       implicitWidth: 28
       implicitHeight: 28
       color: root.picking ? Theme.accentActive : "transparent"
-      onClicked: root.picking = !root.picking
+      onClicked: {
+        root.picking = !root.picking;
+        if (root.picking && root.output)
+          Cast.discover();
+      }
 
       Glyph {
         text: root.picking ? Icons.chevronUp : Icons.chevronDown
@@ -57,12 +62,29 @@ ColumnLayout {
     Layout.leftMargin: 36
     nodes: root.devices
     current: root.node
+    casts: Cast.devices
+    castsShown: root.output
+    searching: Cast.searching
+    castTarget: Cast.target
     onPicked: node => {
-      if (root.output)
-        Audio.setDefaultSink(node);
-      else
-        Audio.setDefaultSource(node);
       root.picking = false;
+      if (!root.output) {
+        Audio.setDefaultSource(node);
+        return;
+      }
+      // a real output ends the cast; bar-cast restores the old output on
+      // the way out, so switch once it has finished
+      if (Cast.active)
+        Cast.stop(() => Audio.setDefaultSink(node));
+      else
+        Audio.setDefaultSink(node);
+    }
+    onCastPicked: device => {
+      root.picking = false;
+      if (Cast.target?.ip === device.ip)
+        Cast.stop();
+      else
+        Cast.start(device);
     }
   }
 }

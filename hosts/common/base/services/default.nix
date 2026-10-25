@@ -8,6 +8,7 @@
     ./wireguard.nix
     ./tailscale.nix
     ./upower.nix
+    ./lockscreen.nix
   ];
 
   services.flatpak.enable = true;

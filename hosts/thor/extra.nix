@@ -27,8 +27,6 @@
     openFirewall = true;
   };
 
-  security.pam.services.hyprlock = {};
-
   environment.variables = {
     PNPM_HOME = "/home/jack/.local/share/pnpm";
     AQ_DRM_DEVICES = "/dev/dri/card1";
@@ -50,7 +48,6 @@
     pnpm
     wireguard-tools
     protonvpn-gui
-    swayosd
     brightnessctl
     fprintd
     openrazer-daemon

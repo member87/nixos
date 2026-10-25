@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Effects
 import qs.common
 
 // A popout's rounded panel with a drop shadow. The window is `shadow` px
@@ -19,12 +18,10 @@ Item {
 
   anchors.fill: parent
 
-  RectangularShadow {
+  PopupShadow {
     anchors.fill: panel
     radius: panel.radius
-    offset.y: 3
     blur: root.shadow - 4
-    color: Qt.rgba(0, 0, 0, 0.7)
   }
 
   Rectangle {

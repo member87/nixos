@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Wayland
 import qs.common
 import qs.menu
+import qs.notifications
 
 PanelWindow {
   id: bar
@@ -41,12 +42,17 @@ PanelWindow {
 
       Tray {}
 
+      Privacy {}
+
       Indicators {
         id: indicators
         screenName: bar.screen.name
       }
 
-      Notifications {}
+      Notifications {
+        id: bell
+        screenName: bar.screen.name
+      }
 
       Clock {}
     }
@@ -55,5 +61,10 @@ PanelWindow {
   SystemMenu {
     bar: bar
     anchorItem: indicators
+  }
+
+  NotificationCenter {
+    bar: bar
+    anchorItem: bell
   }
 }

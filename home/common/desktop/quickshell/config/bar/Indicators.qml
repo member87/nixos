@@ -19,7 +19,7 @@ Clickable {
   radius: 10
   spacing: 16
   // stays tinted while its menu is open
-  color: Menus.screen === screenName ? Theme.accentHover : "transparent"
+  color: Menus.screen === screenName && Menus.page !== "notifications" ? Theme.accentHover : "transparent"
   onClicked: Menus.toggle(screenName, "main")
 
   Glyph {
@@ -42,6 +42,11 @@ Clickable {
   Glyph {
     visible: Caffeine.active
     text: Icons.awake
+  }
+
+  Glyph {
+    visible: Cast.active
+    text: "\u{F0119}"
   }
 
   RowLayout {

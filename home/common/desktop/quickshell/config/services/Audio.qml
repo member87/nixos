@@ -11,8 +11,9 @@ Singleton {
   readonly property PwNode source: Pipewire.defaultAudioSource
 
   // hardware devices (and virtual ones like loopbacks), not programs; by
-  // name so the chooser does not reshuffle when PipeWire re-announces nodes
-  readonly property list<PwNode> sinks: Pipewire.nodes.values.filter(n => n.audio && n.isSink && !n.isStream).sort((a, b) => deviceName(a).localeCompare(deviceName(b)))
+  // name so the chooser does not reshuffle when PipeWire re-announces nodes.
+  // bar-cast's "Cast: …" sink is listed under its cast device instead.
+  readonly property list<PwNode> sinks: Pipewire.nodes.values.filter(n => n.audio && n.isSink && !n.isStream && n.name !== "bar_cast").sort((a, b) => deviceName(a).localeCompare(deviceName(b)))
   readonly property list<PwNode> sources: Pipewire.nodes.values.filter(n => n.audio && !n.isSink && !n.isStream).sort((a, b) => deviceName(a).localeCompare(deviceName(b)))
   // programs playing audio (Stream/Output/Audio)
   readonly property list<PwNode> streams: Pipewire.nodes.values.filter(n => n.audio && n.isSink && n.isStream)

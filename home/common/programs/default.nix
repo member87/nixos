@@ -4,7 +4,6 @@
     ./zsh.nix
     ./starship.nix
     ./spotify.nix
-    ./swaync.nix
     ./git.nix
     ./winapps.nix
     ./nvim.nix
