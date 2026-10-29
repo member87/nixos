@@ -6,6 +6,10 @@ import Quickshell
 // gruvbox palette carried over from the ags bar (style.scss)
 Singleton {
   readonly property color bg: Qt.rgba(29 / 255, 32 / 255, 33 / 255, 0.8)
+  // the bar as it shows: bg at 0.8 over the wallpaper strip behind it,
+  // opaque. Popouts hung from the bar use it, so they meet it without a seam
+  // and windows do not show through them
+  readonly property color barOpaque: Qt.rgba((29 * 0.8 + 40 * 0.2) / 255, (32 * 0.8 + 40 * 0.2) / 255, (33 * 0.8 + 40 * 0.2) / 255, 1)
   readonly property color bgSolid: "#1d2021"
   readonly property color fg: "#bdae93"
   readonly property color fgBright: "#ebdbb2"

@@ -7,10 +7,9 @@ import qs.services
 
 // month calendar under the clock; weeks start on Monday, today is circled
 // in the accent like the focused workspace. Scroll or the arrows change month.
-PopupWindow {
+BarPopup {
   id: root
 
-  required property Item target
   property real closedAt: 0
   // first day of the month on show
   property date month: new Date()
@@ -31,20 +30,11 @@ PopupWindow {
     return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   }
 
-  anchor.item: target
-  anchor.edges: Edges.Bottom
-  anchor.gravity: Edges.Bottom
-  anchor.margins.top: 4 - surface.shadow
-  anchor.adjustment: PopupAdjustment.Slide
   grabFocus: true
   visible: false
-  color: "transparent"
-  // 7 day columns of 32 + 2px gaps, inside the section and window padding
-  implicitWidth: 7 * 32 + 6 * 2 + 20 + 20 + surface.shadow * 2
-  implicitHeight: body.implicitHeight + 20 + surface.shadow * 2
-  mask: Region {
-    item: surface.panel
-  }
+  // 7 day columns of 32 + 2px gaps, inside the section and panel padding
+  panelWidth: 7 * 32 + 6 * 2 + 20 + 20
+  panelHeight: body.implicitHeight + 20
 
   onVisibleChanged: {
     if (visible)
@@ -53,8 +43,8 @@ PopupWindow {
       closedAt = Date.now();
   }
 
-  PopupSurface {
-    id: surface
+  Item {
+    anchors.fill: parent
 
     // one month per wheel notch; touchpads send many small deltas, so add
     // them up to a notch (120) before turning the page

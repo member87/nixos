@@ -5,7 +5,8 @@ import Quickshell.Widgets
 import qs.common
 import qs.components
 
-// first MPRIS player: round cover art + "title - artist"
+// first MPRIS player: round cover art + "title - artist"; a hover opens the
+// player with lyrics underneath
 RowLayout {
   id: root
 
@@ -43,5 +44,14 @@ RowLayout {
       font.pixelSize: 14
       text: "0".repeat(40)
     }
+  }
+
+  HoverHandler {
+    id: hover
+  }
+
+  MediaPopup {
+    target: root
+    hovered: hover.hovered
   }
 }

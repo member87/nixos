@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 import qs.bar
+import qs.desktop
 import qs.notifications
 import qs.osd
 import qs.polkit
@@ -16,6 +17,13 @@ ShellRoot {
     model: Quickshell.screens
 
     Bar {}
+  }
+
+  // the widgets of an empty workspace, under the windows
+  Variants {
+    model: Quickshell.screens
+
+    Desktop {}
   }
 
   // one of each, on the focused monitor

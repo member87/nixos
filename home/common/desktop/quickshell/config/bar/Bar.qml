@@ -21,6 +21,16 @@ PanelWindow {
   color: Theme.bg
   WlrLayershell.namespace: "quickshell-bar"
 
+  // the bar's bottom edge, so it stands apart from windows in the same
+  // colours; popouts hung from the bar cover it where they join and carry it
+  // on round themselves (BarDrawer)
+  Rectangle {
+    anchors.bottom: parent.bottom
+    width: parent.width
+    height: 1
+    color: Theme.border
+  }
+
   Item {
     anchors.fill: parent
     anchors.leftMargin: 10

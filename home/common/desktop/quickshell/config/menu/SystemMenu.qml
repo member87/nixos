@@ -33,20 +33,26 @@ PanelWindow {
     top: true
     right: true
   }
-  // the panel keeps a 4px gap below the bar; the shadow margin overlaps it
+  // hangs from the bar, a BarDrawer one with it: starts on the bar's bottom
+  // line and covers it where they join
   exclusionMode: ExclusionMode.Ignore
   margins {
-    top: Theme.barHeight + 4 - surface.shadow
+    top: Theme.barHeight - 1
     right: Math.max(0, bar.width - anchorX - implicitWidth / 2)
   }
   WlrLayershell.namespace: "quickshell-menu"
   WlrLayershell.layer: WlrLayer.Overlay
   WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
   color: "transparent"
-  implicitWidth: Theme.menuWidth + surface.shadow * 2
-  implicitHeight: Math.min(page.implicitHeight + 20, maxHeight) + surface.shadow * 2
+  implicitWidth: Theme.menuWidth + drawer.ear * 2
+  implicitHeight: Math.min(page.implicitHeight + 20, maxHeight)
   mask: Region {
-    item: surface.panel
+    item: drawer.area
+  }
+
+  onVisibleChanged: {
+    if (visible)
+      drawer.slide();
   }
 
   HyprlandFocusGrab {
@@ -55,8 +61,8 @@ PanelWindow {
     onCleared: Menus.close()
   }
 
-  PopupSurface {
-    id: surface
+  BarDrawer {
+    id: drawer
 
     Flickable {
       anchors.fill: parent

@@ -4,18 +4,21 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
+import Quickshell.Widgets
 import qs.common
 import qs.components
 import qs.services
 
-// The volume / microphone / brightness popup, replacing swayosd. Volume and
-// mute are watched in PipeWire, so it shows whatever changed them; the
-// brightness keys call `qs -c bar ipc call osd brightness` after changing it.
-// Quiet while the system menu is open (its sliders show the same thing).
+// The volume / microphone / brightness popup, replacing swayosd, and the song
+// a skip lands on. Volume and mute are watched in PipeWire, so it shows
+// whatever changed them; the brightness keys call
+// `qs -c bar ipc call osd brightness` after changing it; skips come from
+// Media wherever they were made, and a song ending into the next is not one.
+// Quiet while the system menu is open (it shows the same things).
 PanelWindow {
   id: root
 
-  // "volume" | "microphone" | "brightness"
+  // "volume" | "microphone" | "brightness" | "track"
   property string kind: "volume"
   // the first values after startup (or a device appearing) are not changes
   property bool ready: false
@@ -23,11 +26,15 @@ PanelWindow {
   readonly property real level: kind === "brightness" ? Brightness.value : kind === "microphone" ? Audio.inputVolume : Audio.volume
   readonly property bool muted: kind === "microphone" ? Audio.inputMuted : kind === "volume" ? Audio.muted : false
 
+  readonly property var player: Media.player
+
   function show(what: string) {
     if (!ready || Menus.screen !== "")
       return;
     kind = what;
     visible = true;
+    // a song's name takes longer to read than a level
+    hide.interval = what === "track" ? 2500 : 1400;
     hide.restart();
   }
 
@@ -39,8 +46,8 @@ PanelWindow {
   WlrLayershell.namespace: "quickshell-osd"
   WlrLayershell.layer: WlrLayer.Overlay
   color: "transparent"
-  implicitWidth: 320 + 32
-  implicitHeight: 56 + 32
+  implicitWidth: (kind === "track" ? 420 : 320) + 32
+  implicitHeight: (kind === "track" ? 72 : 56) + 32
   // never in the way of the pointer
   mask: Region {}
 
@@ -54,6 +61,13 @@ PanelWindow {
     id: hide
     interval: 1400
     onTriggered: root.visible = false
+  }
+
+  Connections {
+    target: Media
+    function onSkipped() {
+      root.show("track");
+    }
   }
 
   Connections {
@@ -109,6 +123,7 @@ PanelWindow {
     color: Theme.bgSolid
 
     RowLayout {
+      visible: root.kind !== "track"
       anchors.fill: parent
       anchors.leftMargin: 20
       anchors.rightMargin: 24
@@ -130,6 +145,51 @@ PanelWindow {
             duration: 120
             easing.type: Easing.OutCubic
           }
+        }
+      }
+    }
+
+    // the song a skip landed on: round cover as in the bar, title, artist
+    RowLayout {
+      visible: root.kind === "track"
+      anchors.fill: parent
+      anchors.leftMargin: 12
+      anchors.rightMargin: 28
+      spacing: 14
+
+      ClippingRectangle {
+        implicitWidth: 48
+        implicitHeight: 48
+        radius: 24
+        color: Theme.sectionBg
+
+        Image {
+          anchors.fill: parent
+          source: root.player?.trackArtUrl ?? ""
+          sourceSize: Qt.size(96, 96)
+          fillMode: Image.PreserveAspectCrop
+          asynchronous: true
+        }
+      }
+
+      ColumnLayout {
+        spacing: 2
+        Layout.fillWidth: true
+
+        Txt {
+          text: root.player?.trackTitle || "Unknown track"
+          color: Theme.fgBright
+          font.pixelSize: 15
+          font.weight: Font.Bold
+          elide: Text.ElideRight
+          Layout.fillWidth: true
+        }
+
+        Txt {
+          text: root.player?.trackArtist || "Unknown artist"
+          font.pixelSize: 13
+          elide: Text.ElideRight
+          Layout.fillWidth: true
         }
       }
     }

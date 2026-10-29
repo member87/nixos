@@ -35,16 +35,22 @@ PanelWindow {
   }
   exclusionMode: ExclusionMode.Ignore
   margins {
-    top: Theme.barHeight + 4 - surface.shadow
+    // on the bar's bottom line, as the system menu
+    top: Theme.barHeight - 1
     right: Math.max(0, bar.width - anchorX - implicitWidth / 2)
   }
   WlrLayershell.namespace: "quickshell-notification-center"
   WlrLayershell.layer: WlrLayer.Overlay
   color: "transparent"
-  implicitWidth: panelWidth + surface.shadow * 2
-  implicitHeight: Math.min(body.implicitHeight + 20, maxHeight) + surface.shadow * 2
+  implicitWidth: panelWidth + drawer.ear * 2
+  implicitHeight: Math.min(body.implicitHeight + 20, maxHeight)
   mask: Region {
-    item: surface.panel
+    item: drawer.area
+  }
+
+  onVisibleChanged: {
+    if (visible)
+      drawer.slide();
   }
 
   HyprlandFocusGrab {
@@ -53,8 +59,8 @@ PanelWindow {
     onCleared: Menus.close()
   }
 
-  PopupSurface {
-    id: surface
+  BarDrawer {
+    id: drawer
 
     Flickable {
       anchors.fill: parent

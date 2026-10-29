@@ -7,28 +7,18 @@ import qs.components
 
 // a tray item's DBus menu drawn in the bar's own style; submenus open in
 // place with a back row
-PopupWindow {
+BarPopup {
   id: root
 
-  required property Item target
   property var handle: null
   property var stack: []
   // when the grab last dismissed it; see Tray's click handler
   property real closedAt: 0
 
-  anchor.item: target
-  anchor.edges: Edges.Bottom
-  anchor.gravity: Edges.Bottom
-  anchor.margins.top: 6 - surface.shadow
-  anchor.adjustment: PopupAdjustment.All
   grabFocus: true
   visible: false
-  color: "transparent"
-  implicitWidth: Math.max(180, column.implicitWidth + 12) + surface.shadow * 2
-  implicitHeight: column.implicitHeight + 12 + surface.shadow * 2
-  mask: Region {
-    item: surface.panel
-  }
+  panelWidth: Math.max(180, column.implicitWidth + 12)
+  panelHeight: column.implicitHeight + 12
   onVisibleChanged: {
     if (!visible) {
       stack = [];
@@ -41,8 +31,8 @@ PopupWindow {
     menu: root.stack.length > 0 ? root.stack[root.stack.length - 1] : root.handle
   }
 
-  PopupSurface {
-    id: surface
+  Item {
+    anchors.fill: parent
 
     ColumnLayout {
       id: column
