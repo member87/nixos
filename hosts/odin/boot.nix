@@ -30,8 +30,6 @@
   ];
 
   boot = {
-    initrd.systemd.enable = true;
-
     kernelParams = [
       "iommu=pt"
     ];

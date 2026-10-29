@@ -47,7 +47,7 @@
     cheese
     pnpm
     wireguard-tools
-    protonvpn-gui
+    proton-vpn
     brightnessctl
     fprintd
     openrazer-daemon

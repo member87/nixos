@@ -8,7 +8,6 @@
   ];
 
   boot = {
-    initrd.systemd.enable = true;
     initrd.availableKernelModules = [
       "nvme"
       "ahci"

@@ -37,12 +37,29 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    vicinae.url = "github:vicinaehq/vicinae/21cd41dbc67644c45d482e5ede7693662f2de234";
-    vicinae-extensions.url = "github:vicinaehq/extensions";
+    vicinae = {
+      url = "github:vicinaehq/vicinae/21cd41dbc67644c45d482e5ede7693662f2de234";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    vicinae-extensions = {
+      url = "github:vicinaehq/extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.vicinae.follows = "vicinae";
+    };
 
     nixcord.url = "github:FlameFlag/nixcord";
 
     omp.url = "github:can1357/oh-my-pi";
+
+    # omp skills (not flakes; linked into ~/.omp/agent/skills by home-manager)
+    skill-impeccable = {
+      url = "github:pbakaus/impeccable";
+      flake = false;
+    };
+    skill-taste = {
+      url = "github:Leonxlnx/taste-skill";
+      flake = false;
+    };
   };
 
   outputs = {
