@@ -15,9 +15,6 @@
 
     settings = {
       "$mod" = "SUPER";
-      source = "~/.config/hypr/monitors.conf";
-
-
 
       general = {
         gaps_in = 0;
@@ -128,6 +125,12 @@
     };
 
     extraConfig = ''
+      # monitors.conf is written by nwg-displays and may not exist yet;
+      # noerror makes the source a no-op instead of a config error when missing.
+      # hyprlang noerror true
+      source = ~/.config/hypr/monitors.conf
+      # hyprlang noerror false
+
       bind = $mod, S, submap, resize
 
       submap = resize
