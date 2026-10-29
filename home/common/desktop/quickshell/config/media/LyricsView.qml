@@ -74,9 +74,17 @@ Item {
     model: lyrics.lines
     currentIndex: Math.max(0, lyrics.current)
     // the sung line, however many lines it wraps to, in the middle. Its
-    // height is reported by the line itself: read off `currentItem`, the
-    // range would move the current item and the current item the range.
+    // height is taken after the list has laid out (Qt.callLater): bound to
+    // `currentItem` directly the range would move the current item and the
+    // current item the range, and changed from inside layout (by a line as
+    // it is created) it crashes Qt in the middle of positioning the lines.
     property real sungHeight: root.lineHeight
+
+    function syncSung() {
+      sungHeight = currentItem?.height ?? root.lineHeight;
+    }
+
+    onCurrentItemChanged: Qt.callLater(syncSung)
 
     highlightRangeMode: ListView.StrictlyEnforceRange
     preferredHighlightBegin: (height - sungHeight) / 2
@@ -97,13 +105,11 @@ Item {
       width: ListView.view.width
       height: label.implicitHeight + root.pad
 
-      function report() {
+      // a sung line that rewraps (the width changed) recentres, later
+      onHeightChanged: {
         if (sung)
-          list.sungHeight = height;
+          Qt.callLater(list.syncSung);
       }
-      onSungChanged: report()
-      onHeightChanged: report()
-      Component.onCompleted: report()
 
       Txt {
         id: label
