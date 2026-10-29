@@ -9,6 +9,8 @@
     ./tailscale.nix
     ./upower.nix
     ./lockscreen.nix
+    ./chromecast.nix
+    ./airplay.nix
   ];
 
   services.flatpak.enable = true;

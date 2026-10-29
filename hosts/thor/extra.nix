@@ -21,12 +21,6 @@
     disableBatteryTempCheck = false;
   };
 
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
-
   environment.variables = {
     PNPM_HOME = "/home/jack/.local/share/pnpm";
     AQ_DRM_DEVICES = "/dev/dri/card1";

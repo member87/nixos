@@ -22,6 +22,7 @@
     fastfetch
     ffmpeg
     fluxcd
+    google-chrome
     stable.freecad
     hyprshot
     hyprpaper
