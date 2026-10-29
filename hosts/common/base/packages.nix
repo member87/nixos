@@ -57,6 +57,7 @@
     playerctl
     python3
     protontricks
+    proton-pass
     obs-studio
     proton-vpn
     bibata-cursors

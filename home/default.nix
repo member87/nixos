@@ -15,6 +15,8 @@
 
     sessionPath = [
       "/home/jack/.local/share/pnpm"
+      # `make -C META/zw install` symlinks zw here
+      "/home/jack/bin"
     ];
   };
 

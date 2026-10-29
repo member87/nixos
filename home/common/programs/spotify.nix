@@ -12,7 +12,7 @@ in {
   programs.spicetify = {
     enable = true;
     windowManagerPatch = false;
-    experimentalFeatures = true;
+    experimentalFeatures = false;
     alwaysEnableDevTools = true;
     theme = spicePkgs.themes.onepunch;
     colorScheme = "dark";
