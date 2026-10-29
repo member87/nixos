@@ -28,7 +28,7 @@ Item {
     id: panel
     anchors.fill: parent
     anchors.margins: root.shadow
-    radius: 8
+    radius: Theme.radiusSection
     color: Theme.bgSolid
   }
 }

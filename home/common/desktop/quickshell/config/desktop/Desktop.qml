@@ -93,18 +93,9 @@ PanelWindow {
       x: root.leftEdge - width
       y: root.stripeTop - root.gap - clock.baselineOffset
 
-      Txt {
+      RollingClock {
         id: clock
-        text: Time.time
-        color: Theme.fgBright
-        font.pixelSize: root.clockSize
-        font.weight: Font.Bold
-        font.letterSpacing: -root.clockSize * 0.03
-        // FiraCode's slashed zero is for code; a clock wants the plain one
-        font.features: {
-          "cv11": 1
-        }
-        renderType: Text.QtRendering
+        size: root.clockSize
       }
     }
 

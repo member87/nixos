@@ -23,7 +23,18 @@ BarPopup {
   }
 
   function shift(months: int) {
-    month = new Date(month.getFullYear(), month.getMonth() + months, 1);
+    show(new Date(month.getFullYear(), month.getMonth() + months, 1));
+  }
+
+  // the next month comes in from the right, the last from the left
+  function show(first: date) {
+    const step = first.getTime() - month.getTime();
+    if (step === 0)
+      return;
+    month = first;
+    monthIn.from = step > 0 ? 10 : -10;
+    monthIn.restart();
+    monthFade.restart();
   }
 
   function sameDay(a: date, b: date): bool {
@@ -37,14 +48,34 @@ BarPopup {
   panelHeight: body.implicitHeight + 20
 
   onVisibleChanged: {
-    if (visible)
+    if (visible) {
       month = new Date(Time.now.getFullYear(), Time.now.getMonth(), 1);
-    else
+      keys.forceActiveFocus();
+    } else {
       closedAt = Date.now();
+    }
   }
 
   Item {
+    id: keys
     anchors.fill: parent
+    focus: true
+
+    // Left and Right (or Page Up and Down) turn the month, Home comes back
+    // to this one, Escape closes
+    Keys.onPressed: e => {
+      if (e.key === Qt.Key_Left || e.key === Qt.Key_PageUp)
+        root.shift(-1);
+      else if (e.key === Qt.Key_Right || e.key === Qt.Key_PageDown)
+        root.shift(1);
+      else if (e.key === Qt.Key_Home)
+        root.show(new Date(Time.now.getFullYear(), Time.now.getMonth(), 1));
+      else if (e.key === Qt.Key_Escape)
+        root.close();
+      else
+        return;
+      e.accepted = true;
+    }
 
     // one month per wheel notch; touchpads send many small deltas, so add
     // them up to a notch (120) before turning the page
@@ -74,7 +105,7 @@ BarPopup {
       Rectangle {
         Layout.fillWidth: true
         implicitHeight: today.implicitHeight + 24
-        radius: 10
+        radius: Theme.radiusSection
         color: Theme.sectionBg
 
         ColumnLayout {
@@ -108,7 +139,7 @@ BarPopup {
           Clickable {
             implicitWidth: 28
             implicitHeight: 28
-            radius: 5
+            radius: Theme.radiusControl
             onClicked: root.shift(-1)
 
             Glyph {
@@ -121,8 +152,8 @@ BarPopup {
           Clickable {
             Layout.fillWidth: true
             padY: 4
-            radius: 5
-            onClicked: root.month = new Date(Time.now.getFullYear(), Time.now.getMonth(), 1)
+            radius: Theme.radiusControl
+            onClicked: root.show(new Date(Time.now.getFullYear(), Time.now.getMonth(), 1))
 
             Txt {
               text: Qt.formatDate(root.month, "MMMM yyyy")
@@ -135,7 +166,7 @@ BarPopup {
           Clickable {
             implicitWidth: 28
             implicitHeight: 28
-            radius: 5
+            radius: Theme.radiusControl
             onClicked: root.shift(1)
 
             Glyph {
@@ -145,9 +176,9 @@ BarPopup {
           }
         }
 
+        // the weekdays stay put while the days below change month
         GridLayout {
           columns: 7
-          rowSpacing: 2
           columnSpacing: 2
 
           Repeater {
@@ -164,6 +195,37 @@ BarPopup {
               Layout.preferredWidth: 32
               Layout.preferredHeight: 22
             }
+          }
+        }
+
+        GridLayout {
+          id: grid
+          columns: 7
+          rowSpacing: 2
+          columnSpacing: 2
+          // the section's spacing, less the rows' own
+          Layout.topMargin: -4
+          transform: Translate {
+            id: gridShift
+          }
+
+          NumberAnimation {
+            id: monthIn
+            target: gridShift
+            property: "x"
+            to: 0
+            duration: Theme.base
+            easing.type: Theme.easeOut
+          }
+
+          NumberAnimation {
+            id: monthFade
+            target: grid
+            property: "opacity"
+            from: 0
+            to: 1
+            duration: Theme.base
+            easing.type: Theme.easeOut
           }
 
           Repeater {

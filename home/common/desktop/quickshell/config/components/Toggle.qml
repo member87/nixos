@@ -1,5 +1,6 @@
 import QtQuick
 import qs.common
+import qs.services
 
 // on/off switch in swaync's dnd-switch colours
 MouseArea {
@@ -14,6 +15,24 @@ MouseArea {
   cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
   opacity: enabled ? 1 : 0.5
   onClicked: toggled()
+  activeFocusOnTab: enabled
+  Keys.onPressed: e => {
+    if (e.key !== Qt.Key_Return && e.key !== Qt.Key_Enter && e.key !== Qt.Key_Space)
+      return;
+    e.accepted = true;
+    if (!e.isAutoRepeat)
+      root.toggled();
+  }
+
+  Rectangle {
+    anchors.fill: parent
+    anchors.margins: -3
+    radius: height / 2
+    color: "transparent"
+    border.width: 2
+    border.color: Theme.accent
+    visible: root.activeFocus && Menus.keyboard
+  }
 
   Rectangle {
     anchors.fill: parent
@@ -22,7 +41,7 @@ MouseArea {
 
     Behavior on color {
       ColorAnimation {
-        duration: 200
+        duration: Theme.base
       }
     }
 
@@ -36,8 +55,14 @@ MouseArea {
 
       Behavior on x {
         NumberAnimation {
-          duration: 150
-          easing.type: Easing.OutCubic
+          duration: Theme.base
+          easing.type: Theme.easeOut
+        }
+      }
+
+      Behavior on color {
+        ColorAnimation {
+          duration: Theme.base
         }
       }
     }

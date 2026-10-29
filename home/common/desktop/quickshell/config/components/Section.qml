@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import qs.common
 
-// `.system-menu-section`: a tone step above the menu, radius 5, padding 10
+// `.system-menu-section`: a tone step above the menu, padding 10
 Rectangle {
   id: root
 
@@ -12,7 +12,7 @@ Rectangle {
 
   Layout.fillWidth: true
   implicitHeight: column.implicitHeight + padding * 2
-  radius: 5
+  radius: Theme.radiusSection
   color: Theme.sectionBg
 
   ColumnLayout {

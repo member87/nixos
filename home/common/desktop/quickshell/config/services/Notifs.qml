@@ -25,6 +25,11 @@ Singleton {
   readonly property int count: entries.length
   // live notifications on screen as popups, newest first
   property var popups: []
+  // the last bulk clear, still undoable for `undoFor` ms: {entries, label}.
+  // Its apps are told only once the undo has lapsed, so an undo brings the
+  // notifications back whole, actions and all.
+  property var cleared: null
+  readonly property int undoFor: 6000
 
   // newest first, one group per app, ordered by each app's newest entry
   readonly property var groups: {
@@ -78,20 +83,74 @@ Singleton {
   }
 
   function dismissGroup(app: string) {
-    for (const e of entries.filter(x => (x.appName || "Notification") === app))
-      dismiss(e);
+    const gone = entries.filter(x => (x.appName || "Notification") === app);
+    clear(gone, gone.length === 1 ? `Cleared 1 from ${app}` : `Cleared ${gone.length} from ${app}`);
   }
 
   function clearAll() {
-    for (const e of [...entries])
-      dismiss(e);
+    clear([...entries], entries.length === 1 ? "Cleared 1 notification" : `Cleared ${entries.length} notifications`);
   }
 
-  // the default action if the app is still there; the click means "seen"
+  // out of the history and off the screen now; dismissed for real when the
+  // undo lapses (or the next clear replaces it)
+  function clear(gone: var, label: string) {
+    if (gone.length === 0)
+      return;
+    commitClear();
+    entries = entries.filter(e => !gone.includes(e));
+    popups = popups.filter(p => !gone.some(e => e.live === p));
+    cleared = {
+      entries: gone,
+      label
+    };
+    undoTimer.restart();
+  }
+
+  function undoClear() {
+    if (!cleared)
+      return;
+    undoTimer.stop();
+    // back in place by arrival, newest first; an app may have closed one
+    // meanwhile, and that one stays gone
+    const back = cleared.entries.filter(e => !e.live || !closedWhileCleared.includes(e.live));
+    entries = [...entries, ...back].sort((a, b) => b.time - a.time).slice(0, keep);
+    cleared = null;
+    closedWhileCleared = [];
+  }
+
+  function commitClear() {
+    undoTimer.stop();
+    if (!cleared)
+      return;
+    for (const e of cleared.entries)
+      e.live?.dismiss();
+    cleared = null;
+    closedWhileCleared = [];
+  }
+
+  // live notifications their apps closed while they sat in `cleared`
+  property var closedWhileCleared: []
+
+  Timer {
+    id: undoTimer
+    interval: root.undoFor
+    onTriggered: root.commitClear()
+  }
+
+  // whether a click on it does anything: its app is there to take the
+  // default action
+  function hasDefault(e: var): bool {
+    return e.live?.actions.some(a => a.identifier === "default") ?? false;
+  }
+
+  // the default action if the app is still there, and the click means
+  // "seen". Without one the click does nothing: a stray click must not
+  // throw a notification away.
   function activate(e: var) {
     const action = e.live?.actions.find(a => a.identifier === "default");
-    if (action)
-      action.invoke();
+    if (!action)
+      return;
+    action.invoke();
     dismiss(e);
   }
 
@@ -178,6 +237,8 @@ Singleton {
       n.bodyChanged.connect(() => root.refresh(n));
       // closed by its app or expired: gone from popups and history
       n.closed.connect(reason => {
+        if (root.cleared?.entries.some(e => e.live === n))
+          root.closedWhileCleared = [...root.closedWhileCleared, n];
         root.popups = root.popups.filter(p => p !== n);
         if (reason !== NotificationCloseReason.Dismissed)
           root.entries = root.entries.filter(e => e.live !== n);

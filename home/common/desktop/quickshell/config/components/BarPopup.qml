@@ -4,7 +4,9 @@ import qs.common
 
 // A popup hung from the bar's bottom edge under `target` (an item in the
 // bar), drawn as a BarDrawer. Size it with panelWidth/panelHeight; children
-// go in the panel. It slides out of the bar each time it opens.
+// go in the panel. It slides out of the bar each time it opens. close()
+// slides it back in before hiding it; a popup the compositor dismisses (a
+// click outside its grab) is gone at once, with nothing left to animate.
 PopupWindow {
   id: root
 
@@ -41,12 +43,26 @@ PopupWindow {
     item: drawer.area
   }
 
+  function open() {
+    if (visible)
+      drawer.open();
+    else
+      visible = true;
+  }
+
+  function close() {
+    drawer.close();
+  }
+
   onVisibleChanged: {
     if (visible)
-      drawer.slide();
+      drawer.open();
+    else
+      drawer.reset();
   }
 
   BarDrawer {
     id: drawer
+    onRetracted: root.visible = false
   }
 }

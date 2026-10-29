@@ -10,7 +10,7 @@ Clickable {
 
   padX: 10
   padY: 4
-  radius: 5
+  radius: Theme.radiusControl
   color: primary ? Theme.accent : Theme.accentActive
   hoverColor: primary ? Qt.lighter(Theme.accent, 1.12) : Qt.rgba(250 / 255, 189 / 255, 47 / 255, 0.3)
   pressColor: primary ? Qt.darker(Theme.accent, 1.1) : Qt.rgba(250 / 255, 189 / 255, 47 / 255, 0.4)

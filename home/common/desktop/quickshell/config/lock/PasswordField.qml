@@ -16,12 +16,14 @@ Rectangle {
   implicitHeight: 52
   radius: height / 2
   color: Theme.bgSolid
+  // an edge that holds 3:1 against the wallpaper even before anything is
+  // typed; the accent once something is, red on a wrong password
   border.width: 2
-  border.color: ctx.state === "failed" ? Theme.critical : "transparent"
+  border.color: ctx.state === "failed" ? Theme.critical : ctx.buffer !== "" ? Theme.accent : Qt.rgba(189 / 255, 174 / 255, 147 / 255, 0.6)
 
   Behavior on border.color {
     ColorAnimation {
-      duration: 150
+      duration: Theme.ms(120)
     }
   }
 
@@ -69,14 +71,14 @@ Rectangle {
 
         Behavior on scale {
           NumberAnimation {
-            duration: 140
+            duration: Theme.ms(110)
             easing.type: Easing.OutBack
           }
         }
 
         Behavior on opacity {
           NumberAnimation {
-            duration: 200
+            duration: Theme.ms(160)
           }
         }
       }
@@ -100,25 +102,25 @@ Rectangle {
       target: nudge
       property: "x"
       to: -16
-      duration: 50
+      duration: Theme.ms(50)
     }
     NumberAnimation {
       target: nudge
       property: "x"
       to: 14
-      duration: 70
+      duration: Theme.ms(70)
     }
     NumberAnimation {
       target: nudge
       property: "x"
       to: -8
-      duration: 70
+      duration: Theme.ms(70)
     }
     NumberAnimation {
       target: nudge
       property: "x"
       to: 0
-      duration: 60
+      duration: Theme.ms(60)
     }
   }
 

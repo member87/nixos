@@ -21,7 +21,8 @@ ColumnLayout {
 
   VolumeRow {
     glyph: root.output ? Icons.volume(Math.round(root.volume * 100), root.muted) : Icons.microphone(root.muted)
-    title: root.node ? Audio.deviceName(root.node) : root.output ? "No output device" : "No input device"
+    role: root.output ? "Output" : "Input"
+    title: root.node ? Audio.deviceName(root.node) : "No device"
     volume: root.volume
     muted: root.muted
     available: root.node !== null
@@ -33,7 +34,7 @@ ColumnLayout {
 
       // output always offers it: casting needs no second local device
       visible: root.output || root.devices.length > 1
-      radius: 5
+      radius: Theme.radiusControl
       implicitWidth: 28
       implicitHeight: 28
       color: root.picking ? Theme.accentActive : "transparent"
@@ -43,8 +44,8 @@ ColumnLayout {
           Cast.discover();
       }
 
-      Glyph {
-        text: root.picking ? Icons.chevronUp : Icons.chevronDown
+      Chevron {
+        open: root.picking
         color: Theme.fgBright
         font.pixelSize: 16
       }

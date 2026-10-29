@@ -35,4 +35,34 @@ Singleton {
 
   readonly property int barHeight: 23
   readonly property int menuWidth: 350
+
+  // corners, nested: a popout's panel, the sections inside it, the controls
+  // inside those. Each sits inside the one before, so it is never rounder.
+  readonly property int radiusPanel: 12
+  readonly property int radiusSection: 10
+  readonly property int radiusControl: 6
+
+  // motion. The bar and everything used while working is quick and settles
+  // without overshoot; only the empty desktop and the lock take their time.
+  // Leaving is always faster than arriving.
+  //
+  // QS_MOTION scales every duration: 0 makes it all instant (reduced
+  // motion), 0.5 twice as quick, 1 (unset) as designed. Every animation's
+  // length goes through ms().
+  readonly property real motion: {
+    const v = Number(Quickshell.env("QS_MOTION") || "1");
+    return isNaN(v) ? 1 : Math.max(0, v);
+  }
+  function ms(n: real): int {
+    return Math.round(n * motion);
+  }
+  readonly property int fast: ms(100) // feedback: hover, press, a colour
+  readonly property int base: ms(160) // a change in place: a toggle, a height
+  readonly property int enter: ms(200) // a surface arriving
+  readonly property int exit: ms(130) // ...and leaving
+  readonly property int stage: ms(500) // the desktop's and the lock's entrances
+  readonly property int easeOut: Easing.OutCubic
+  readonly property int easeIn: Easing.InCubic
+  // the stage's arrivals: a long, soft landing
+  readonly property int easeStage: Easing.OutQuint
 }

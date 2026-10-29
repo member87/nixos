@@ -29,6 +29,32 @@ PopupWindow {
       delay.restart();
   }
 
+  // it fades in, and settles the last few pixels toward its target
+  onVisibleChanged: {
+    if (visible)
+      appear.restart();
+  }
+
+  ParallelAnimation {
+    id: appear
+    NumberAnimation {
+      target: surface
+      property: "opacity"
+      from: 0
+      to: 1
+      duration: Theme.fast
+      easing.type: Theme.easeOut
+    }
+    NumberAnimation {
+      target: lift
+      property: "y"
+      from: -3
+      to: 0
+      duration: Theme.fast
+      easing.type: Theme.easeOut
+    }
+  }
+
   Timer {
     id: delay
     property bool ready: false
@@ -39,10 +65,13 @@ PopupWindow {
   PopupSurface {
     id: surface
     shadow: 10
-    radius: 5
+    radius: Theme.radiusControl
     color: Qt.rgba(29 / 255, 32 / 255, 33 / 255, 0.9)
     borderWidth: 1
     borderColor: Theme.border
+    transform: Translate {
+      id: lift
+    }
 
     Txt {
       id: label

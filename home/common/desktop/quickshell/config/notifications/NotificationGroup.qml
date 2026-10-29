@@ -36,7 +36,7 @@ ColumnLayout {
     Clickable {
       padX: 8
       padY: 4
-      radius: 5
+      radius: Theme.radiusControl
       spacing: 6
       onClicked: root.toggled()
 
@@ -46,8 +46,8 @@ ColumnLayout {
         font.pixelSize: 12
       }
 
-      Glyph {
-        text: root.open ? Icons.chevronUp : Icons.chevronDown
+      Chevron {
+        open: root.open
         color: Theme.fg
         font.pixelSize: 14
       }
@@ -60,7 +60,7 @@ ColumnLayout {
     Clickable {
       padX: 8
       padY: 4
-      radius: 5
+      radius: Theme.radiusControl
       onClicked: Notifs.dismissGroup(root.app)
 
       Txt {

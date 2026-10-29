@@ -68,24 +68,18 @@ RowLayout {
     }
   }
 
-  Clickable {
+  // forgetting unpairs it: asked twice, since only re-pairing undoes it
+  ConfirmButton {
     id: forgetButton
 
     visible: row.known
-    implicitWidth: 24
-    implicitHeight: 24
-    radius: 5
-    onClicked: Bt.forget(row.modelData)
-
-    Glyph {
-      text: Icons.close
-      color: Theme.fg
-      font.pixelSize: 14
-    }
+    glyph: Icons.close
+    question: "Forget?"
+    onConfirmed: Bt.forget(row.modelData)
 
     Tooltip {
       target: forgetButton
-      hovered: forgetButton.containsMouse
+      hovered: forgetButton.containsMouse && !forgetButton.armed
       text: "Forget device"
     }
   }

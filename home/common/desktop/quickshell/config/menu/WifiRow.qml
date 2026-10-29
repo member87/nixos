@@ -61,7 +61,7 @@ ColumnLayout {
     fill: true
     padX: 6
     padY: 5
-    radius: 5
+    radius: Theme.radiusControl
     spacing: 8
     enabled: !row.busy
     onClicked: row.activate()
@@ -99,7 +99,7 @@ ColumnLayout {
     Rectangle {
       Layout.fillWidth: true
       implicitHeight: 28
-      radius: 5
+      radius: Theme.radiusControl
       color: Theme.bgSolid
       border.width: 1
       border.color: password.activeFocus ? Theme.accent : Theme.border

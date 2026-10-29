@@ -29,4 +29,10 @@ Clickable {
     id: calendar
     target: root
   }
+
+  Tooltip {
+    target: root
+    hovered: root.containsMouse && !calendar.visible
+    text: Qt.formatDateTime(Time.now, "dddd d MMMM yyyy")
+  }
 }

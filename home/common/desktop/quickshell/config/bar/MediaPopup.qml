@@ -17,7 +17,6 @@ BarPopup {
   property bool hovered: false
 
   readonly property var player: Media.player
-  readonly property bool playing: player?.isPlaying ?? false
   readonly property real length: player?.lengthSupported ? player.length : 0
   readonly property bool wanted: (hovered || inside.hovered) && player !== null
 
@@ -34,7 +33,10 @@ BarPopup {
   onWantedChanged: {
     if (wanted) {
       closing.stop();
-      if (!visible)
+      // back on it while it slides away: it comes back down
+      if (visible)
+        root.open();
+      else
         opening.restart();
     } else {
       opening.stop();
@@ -46,13 +48,13 @@ BarPopup {
   Timer {
     id: opening
     interval: 250
-    onTriggered: root.visible = true
+    onTriggered: root.open()
   }
 
   Timer {
     id: closing
     interval: 300
-    onTriggered: root.visible = false
+    onTriggered: root.close()
   }
 
   // one seek per drag pause, not one per pointer move
@@ -120,51 +122,9 @@ BarPopup {
           }
         }
 
-        RowLayout {
-          spacing: 4
-
-          Clickable {
-            implicitWidth: 32
-            implicitHeight: 32
-            radius: 16
-            enabled: root.player?.canGoPrevious ?? false
-            onClicked: root.player.previous()
-
-            Glyph {
-              text: Icons.mediaPrev
-              font.pixelSize: 18
-            }
-          }
-
-          Clickable {
-            implicitWidth: 40
-            implicitHeight: 40
-            radius: 20
-            color: Theme.accent
-            hoverColor: Qt.lighter(Theme.accent, 1.12)
-            pressColor: Qt.darker(Theme.accent, 1.1)
-            enabled: root.player?.canTogglePlaying ?? false
-            onClicked: root.player.togglePlaying()
-
-            Glyph {
-              text: root.playing ? Icons.mediaPause : Icons.mediaPlay
-              color: Theme.accentInk
-              font.pixelSize: 20
-            }
-          }
-
-          Clickable {
-            implicitWidth: 32
-            implicitHeight: 32
-            radius: 16
-            enabled: root.player?.canGoNext ?? false
-            onClicked: root.player.next()
-
-            Glyph {
-              text: Icons.mediaNext
-              font.pixelSize: 18
-            }
-          }
+        MediaControls {
+          player: root.player
+          size: 40
         }
       }
 
@@ -175,6 +135,9 @@ BarPopup {
 
         Slider {
           Layout.fillWidth: true
+          continuous: true
+          // the keyboard and the wheel skip five seconds
+          step: 5
           value: root.player?.position ?? 0
           to: root.length
           enabled: root.player?.canSeek ?? false

@@ -262,9 +262,11 @@ ColumnLayout {
           onClicked: wifi.network.disconnect()
         }
 
-        TextButton {
+        // the saved password goes with it: asked twice
+        ConfirmButton {
           text: "Forget"
-          onClicked: wifi.network.forget()
+          question: "Forget network?"
+          onConfirmed: wifi.network.forget()
         }
       }
     }

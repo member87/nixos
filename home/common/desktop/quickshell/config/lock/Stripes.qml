@@ -41,13 +41,13 @@ Item {
       SequentialAnimation {
         running: true
         PauseAnimation {
-          duration: stripe.index * 70
+          duration: Theme.ms(stripe.index * 56)
         }
         NumberAnimation {
           target: grow
           property: "xScale"
           to: 1
-          duration: 520
+          duration: Theme.ms(420)
           easing.type: Easing.OutCubic
         }
       }
@@ -56,13 +56,13 @@ Item {
       SequentialAnimation {
         running: root.ctx.state === "unlocking"
         PauseAnimation {
-          duration: (4 - stripe.index) * 40
+          duration: Theme.ms((4 - stripe.index) * 32)
         }
         NumberAnimation {
           target: grow
           property: "yScale"
           to: 0
-          duration: 220
+          duration: Theme.ms(180)
           easing.type: Easing.InCubic
         }
       }
@@ -94,25 +94,25 @@ Item {
       target: nudge
       property: "x"
       to: -14
-      duration: 50
+      duration: Theme.ms(50)
     }
     NumberAnimation {
       target: nudge
       property: "x"
       to: 12
-      duration: 70
+      duration: Theme.ms(70)
     }
     NumberAnimation {
       target: nudge
       property: "x"
       to: -6
-      duration: 70
+      duration: Theme.ms(70)
     }
     NumberAnimation {
       target: nudge
       property: "x"
       to: 0
-      duration: 60
+      duration: Theme.ms(60)
     }
   }
 

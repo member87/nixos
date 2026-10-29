@@ -111,7 +111,7 @@ ColumnLayout {
         visible: !(Bt.adapter?.discovering ?? true)
         padX: 6
         padY: 2
-        radius: 5
+        radius: Theme.radiusControl
         onClicked: Bt.adapter.discovering = true
 
         Txt {

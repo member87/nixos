@@ -23,10 +23,12 @@ Clickable {
   Layout.preferredWidth: 100
   acceptedButtons: Qt.LeftButton | Qt.RightButton
   cursorShape: interactive ? Qt.PointingHandCursor : Qt.ArrowCursor
+  activeFocusOnTab: interactive
   fill: true
   padX: 10
   padY: 10
-  radius: 12
+  // inside a section, so a step less round than it
+  radius: Theme.radiusControl + 2
   spacing: 10
   color: surfaceColor
   hoverColor: !interactive ? surfaceColor : connected ? Qt.lighter(Theme.accent, 1.12) : Theme.accentHover

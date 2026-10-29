@@ -58,11 +58,42 @@ Scope {
     WlrLayershell.namespace: "quickshell-polkit"
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
-    color: Qt.rgba(0, 0, 0, 0.55)
+    // the screen dims as the card rises into place
+    color: "transparent"
 
     onVisibleChanged: {
-      if (visible)
+      if (visible) {
         keys.forceActiveFocus();
+        appear.restart();
+      }
+    }
+
+    ParallelAnimation {
+      id: appear
+      ColorAnimation {
+        target: dialog
+        property: "color"
+        from: "transparent"
+        to: Qt.rgba(0, 0, 0, 0.55)
+        duration: Theme.enter
+        easing.type: Theme.easeOut
+      }
+      NumberAnimation {
+        target: card
+        property: "opacity"
+        from: 0
+        to: 1
+        duration: Theme.enter
+        easing.type: Theme.easeOut
+      }
+      NumberAnimation {
+        target: nudge
+        property: "y"
+        from: 14
+        to: 0
+        duration: Theme.ms(260)
+        easing.type: Theme.easeOut
+      }
     }
 
     // a click outside the card cancels, like Escape
@@ -74,6 +105,11 @@ Scope {
     PopupShadow {
       anchors.fill: card
       radius: card.radius
+      opacity: card.opacity
+      transform: Translate {
+        x: nudge.x
+        y: nudge.y
+      }
     }
 
     Rectangle {
@@ -82,7 +118,7 @@ Scope {
       anchors.centerIn: parent
       width: 460
       implicitHeight: body.implicitHeight + 48
-      radius: 12
+      radius: Theme.radiusPanel
       color: Theme.bgSolid
 
       transform: Translate {
@@ -142,7 +178,7 @@ Scope {
           fill: true
           padX: 12
           padY: 8
-          radius: 8
+          radius: Theme.radiusControl + 2
           color: Theme.sectionBg
           enabled: identities.length > 1
           opacity: 1
@@ -169,7 +205,7 @@ Scope {
         Rectangle {
           Layout.fillWidth: true
           implicitHeight: 44
-          radius: 8
+          radius: Theme.radiusControl + 2
           color: Theme.sectionBg
           border.width: root.flow?.failed ? 1 : 0
           border.color: Theme.critical
@@ -177,14 +213,48 @@ Scope {
 
           Txt {
             anchors.left: parent.left
-            anchors.leftMargin: 14
+            anchors.leftMargin: 20
             anchors.verticalCenter: parent.verticalCenter
             visible: root.answer === ""
             text: (root.flow?.inputPrompt || "Password").replace(/:\s*$/, "")
             font.pixelSize: 14
           }
 
+          // the caret: typing goes here. It blinks as a text field's does,
+          // and only while an answer is wanted.
+          Rectangle {
+            id: caret
+
+            readonly property bool wanted: dialog.visible && !!root.flow?.isResponseRequired
+
+            x: 14 + (root.answer === "" ? 0 : Math.min(answerText.paintedWidth, caret.parent.width - 28) + 2)
+            anchors.verticalCenter: parent.verticalCenter
+            width: 2
+            height: 18
+            radius: 1
+            color: Theme.accent
+            visible: wanted
+
+            SequentialAnimation on opacity {
+              running: caret.wanted
+              loops: Animation.Infinite
+              PropertyAction {
+                value: 1
+              }
+              PauseAnimation {
+                duration: 530
+              }
+              PropertyAction {
+                value: 0
+              }
+              PauseAnimation {
+                duration: 530
+              }
+            }
+          }
+
           Txt {
+            id: answerText
             anchors.left: parent.left
             anchors.leftMargin: 14
             anchors.right: parent.right
@@ -250,19 +320,19 @@ Scope {
         target: nudge
         property: "x"
         to: -14
-        duration: 50
+        duration: Theme.ms(50)
       }
       NumberAnimation {
         target: nudge
         property: "x"
         to: 12
-        duration: 70
+        duration: Theme.ms(70)
       }
       NumberAnimation {
         target: nudge
         property: "x"
         to: 0
-        duration: 60
+        duration: Theme.ms(60)
       }
     }
   }

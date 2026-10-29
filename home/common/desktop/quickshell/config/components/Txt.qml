@@ -7,4 +7,11 @@ Text {
   font.pixelSize: 14
   renderType: Text.NativeRendering
   verticalAlignment: Text.AlignVCenter
+
+  // a state's colour (selected, connected, muted) eases in with its surface
+  Behavior on color {
+    ColorAnimation {
+      duration: Theme.fast
+    }
+  }
 }

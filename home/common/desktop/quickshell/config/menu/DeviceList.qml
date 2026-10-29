@@ -21,7 +21,7 @@ Rectangle {
 
   Layout.fillWidth: true
   implicitHeight: column.implicitHeight + 8
-  radius: 5
+  radius: Theme.radiusControl
   color: Qt.rgba(29 / 255, 32 / 255, 33 / 255, 0.6)
 
   ColumnLayout {
@@ -43,7 +43,7 @@ Rectangle {
         fill: true
         padX: 6
         padY: 6
-        radius: 4
+        radius: Theme.radiusControl - 2
         spacing: 8
         onClicked: root.picked(modelData)
 
@@ -85,7 +85,7 @@ Rectangle {
         fill: true
         padX: 6
         padY: 6
-        radius: 4
+        radius: Theme.radiusControl - 2
         spacing: 8
         onClicked: root.castPicked(modelData)
 

@@ -18,7 +18,7 @@ Section {
     fill: true
     padX: 8
     padY: 6
-    radius: 5
+    radius: Theme.radiusControl
     spacing: 8
     onClicked: UiState.mixerShown = !UiState.mixerShown
 
@@ -35,8 +35,8 @@ Section {
       font.pixelSize: 12
     }
 
-    Glyph {
-      text: root.shown ? Icons.chevronUp : Icons.chevronDown
+    Chevron {
+      open: root.shown
       color: Theme.fgBright
       font.pixelSize: 16
     }

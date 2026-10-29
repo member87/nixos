@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Widgets
 import qs.common
 import qs.components
+import qs.services
 
 // a tray item's DBus menu drawn in the bar's own style; submenus open in
 // place with a back row
@@ -14,16 +15,32 @@ BarPopup {
   property var stack: []
   // when the grab last dismissed it; see Tray's click handler
   property real closedAt: 0
+  // the depth shown, to tell going into a submenu from coming back out
+  property int depth: 0
 
   grabFocus: true
   visible: false
   panelWidth: Math.max(180, column.implicitWidth + 12)
   panelHeight: column.implicitHeight + 12
   onVisibleChanged: {
-    if (!visible) {
+    if (visible) {
+      Menus.keyboard = false;
+      nav.forceActiveFocus();
+    } else {
       stack = [];
+      depth = 0;
       closedAt = Date.now();
     }
+  }
+
+  // a submenu comes in from the right, its parent back from the left
+  onStackChanged: {
+    if (!visible)
+      return;
+    levelIn.from = stack.length > depth ? 12 : -12;
+    depth = stack.length;
+    levelIn.restart();
+    levelFade.restart();
   }
 
   QsMenuOpener {
@@ -31,14 +48,45 @@ BarPopup {
     menu: root.stack.length > 0 ? root.stack[root.stack.length - 1] : root.handle
   }
 
-  Item {
+  // Up and Down walk the entries, Left goes back out of a submenu, Escape
+  // closes
+  KeyNav {
+    id: nav
     anchors.fill: parent
+    arrowsSideways: false
+    onCancelled: root.close()
+    onBack: {
+      if (root.stack.length > 0)
+        root.stack = root.stack.slice(0, -1);
+    }
 
     ColumnLayout {
       id: column
       anchors.fill: parent
       anchors.margins: 6
       spacing: 0
+      transform: Translate {
+        id: levelShift
+      }
+
+      NumberAnimation {
+        id: levelIn
+        target: levelShift
+        property: "x"
+        to: 0
+        duration: Theme.base
+        easing.type: Theme.easeOut
+      }
+
+      NumberAnimation {
+        id: levelFade
+        target: column
+        property: "opacity"
+        from: 0
+        to: 1
+        duration: Theme.base
+        easing.type: Theme.easeOut
+      }
 
       Clickable {
         visible: root.stack.length > 0
@@ -46,7 +94,7 @@ BarPopup {
         fill: true
         padX: 8
         padY: 5
-        radius: 5
+        radius: Theme.radiusControl
         onClicked: root.stack = root.stack.slice(0, -1)
 
         Glyph {
@@ -81,7 +129,7 @@ BarPopup {
             fill: true
             padX: 8
             padY: 5
-            radius: 5
+            radius: Theme.radiusControl
             spacing: 8
             enabled: entry.modelData.enabled
             onClicked: {
@@ -89,7 +137,7 @@ BarPopup {
                 root.stack = [...root.stack, entry.modelData];
               } else {
                 entry.modelData.triggered();
-                root.visible = false;
+                root.close();
               }
             }
 

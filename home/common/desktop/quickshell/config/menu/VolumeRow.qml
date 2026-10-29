@@ -4,9 +4,11 @@ import Quickshell.Widgets
 import qs.common
 import qs.components
 
-// [icon] name .....................  [extra]
+// [icon] Output  name ..........  62  [extra]
 //        ━━━━━━━━━━━●──────
-// The name labels the slider; the icon toggles mute. Used for devices and apps.
+// The name labels the slider, after its role where there is one (a device's
+// output and input can share a name); the figure is the level. The icon
+// toggles mute. Used for devices, apps and the backlight.
 RowLayout {
   id: root
 
@@ -14,6 +16,8 @@ RowLayout {
   // app icon path; the glyph replaces it while muted or when there is none
   property string image: ""
   property string title: ""
+  // "Output" / "Input": what the device is to the computer
+  property string role: ""
   property real volume: 0
   property bool muted: false
   property bool available: true
@@ -27,7 +31,7 @@ RowLayout {
   Layout.fillWidth: true
 
   Clickable {
-    radius: 5
+    radius: Theme.radiusControl
     implicitWidth: 28
     implicitHeight: 28
     enabled: root.available && root.iconEnabled
@@ -53,13 +57,39 @@ RowLayout {
     spacing: 0
     Layout.fillWidth: true
 
-    // muted shows in the icon and the greyed slider; no figure needed
-    Txt {
-      text: root.title
-      color: root.muted ? Theme.fg : Theme.fgBright
-      font.pixelSize: 12
-      elide: Text.ElideRight
+    RowLayout {
+      spacing: 6
       Layout.fillWidth: true
+
+      Txt {
+        visible: root.role !== ""
+        text: root.role
+        font.pixelSize: 12
+      }
+
+      Txt {
+        text: root.title
+        color: root.muted ? Theme.fg : Theme.fgBright
+        font.pixelSize: 12
+        elide: Text.ElideRight
+        Layout.fillWidth: true
+      }
+
+      // the level, as the OSD shows it; muted reads "off"
+      Txt {
+        visible: root.available
+        text: root.muted ? "off" : Math.round(root.volume * 100)
+        font.pixelSize: 12
+        horizontalAlignment: Text.AlignRight
+        Layout.preferredWidth: figure.advanceWidth
+
+        TextMetrics {
+          id: figure
+          font.family: Theme.font
+          font.pixelSize: 12
+          text: "100"
+        }
+      }
     }
 
     Slider {

@@ -73,11 +73,15 @@ Item {
     interactive: false
     model: lyrics.lines
     currentIndex: Math.max(0, lyrics.current)
-    // the sung line, however many lines it wraps to, in the middle
+    // the sung line, however many lines it wraps to, in the middle. Its
+    // height is reported by the line itself: read off `currentItem`, the
+    // range would move the current item and the current item the range.
+    property real sungHeight: root.lineHeight
+
     highlightRangeMode: ListView.StrictlyEnforceRange
-    preferredHighlightBegin: (height - (currentItem?.height ?? root.lineHeight)) / 2
-    preferredHighlightEnd: preferredHighlightBegin + (currentItem?.height ?? root.lineHeight)
-    highlightMoveDuration: 350
+    preferredHighlightBegin: (height - sungHeight) / 2
+    preferredHighlightEnd: preferredHighlightBegin + sungHeight
+    highlightMoveDuration: Theme.ms(280)
 
     delegate: Item {
       id: line
@@ -92,6 +96,14 @@ Item {
 
       width: ListView.view.width
       height: label.implicitHeight + root.pad
+
+      function report() {
+        if (sung)
+          list.sungHeight = height;
+      }
+      onSungChanged: report()
+      onHeightChanged: report()
+      Component.onCompleted: report()
 
       Txt {
         id: label
@@ -114,14 +126,14 @@ Item {
 
         Behavior on scale {
           NumberAnimation {
-            duration: 250
+            duration: Theme.ms(200)
             easing.type: Easing.OutCubic
           }
         }
 
         Behavior on opacity {
           NumberAnimation {
-            duration: 250
+            duration: Theme.ms(200)
           }
         }
       }

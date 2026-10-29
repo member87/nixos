@@ -16,7 +16,7 @@ RowLayout {
   Clickable {
     padX: 6
     padY: 4
-    radius: 5
+    radius: Theme.radiusControl
     spacing: 6
     onClicked: Menus.page = "main"
 

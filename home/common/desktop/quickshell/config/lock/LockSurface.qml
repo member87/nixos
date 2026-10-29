@@ -37,27 +37,52 @@ Item {
 
     Behavior on opacity {
       NumberAnimation {
-        duration: 300
+        duration: Theme.ms(240)
         easing.type: Easing.InCubic
       }
     }
 
-    // the clock stands on the stripes, where Tux sits on the wallpaper
-    Txt {
-      id: clock
-      anchors.horizontalCenter: parent.horizontalCenter
-      anchors.bottom: stripes.top
-      anchors.bottomMargin: -Math.round(root.height * 0.012)
-      text: Time.time
-      color: Theme.fgBright
-      font.pixelSize: root.clockSize
-      font.weight: Font.Bold
-      font.letterSpacing: -root.clockSize * 0.03
-      // FiraCode's slashed zero is for code; a clock wants the plain one
-      font.features: {
-        "cv11": 1
+    // the clock stands on the stripes, where Tux sits on the wallpaper. It
+    // rises out of them as they draw in, and sinks back into them on unlock;
+    // this strip, cut at their top edge, hides it while it is down
+    Item {
+      width: parent.width
+      height: stripes.y
+      clip: true
+
+      RollingClock {
+        id: clock
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: parent.height - height + Math.round(root.height * 0.012)
+        size: root.clockSize
+        transform: Translate {
+          id: clockShift
+          y: clock.height
+        }
       }
-      renderType: Text.QtRendering
+    }
+
+    SequentialAnimation {
+      running: true
+      PauseAnimation {
+        duration: Theme.ms(190)
+      }
+      NumberAnimation {
+        target: clockShift
+        property: "y"
+        to: 0
+        duration: Theme.ms(600)
+        easing.type: Theme.easeStage
+      }
+    }
+
+    NumberAnimation {
+      running: root.ctx.state === "unlocking"
+      target: clockShift
+      property: "y"
+      to: clock.height
+      duration: Theme.ms(210)
+      easing.type: Theme.easeIn
     }
 
     Stripes {
@@ -68,52 +93,87 @@ Item {
       y: Math.round(root.height * 0.456)
     }
 
-    ColumnLayout {
-      anchors.horizontalCenter: parent.horizontalCenter
-      anchors.top: stripes.bottom
-      anchors.topMargin: Math.round(root.height * 0.045)
-      spacing: 22
+    // under the stripes: the date and the field drop out of their lower edge
+    Item {
+      y: stripes.y + stripes.height
+      width: parent.width
+      height: parent.height - y
+      clip: true
 
-      Txt {
-        Layout.alignment: Qt.AlignHCenter
-        text: Qt.formatDateTime(Time.now, "dddd d MMMM")
-        color: Theme.fgBright
-        font.pixelSize: Math.round(Math.max(20, root.height * 0.022))
-        font.weight: Font.Medium
-      }
-
-      PasswordField {
-        Layout.alignment: Qt.AlignHCenter
-        ctx: root.ctx
-      }
-
-      // one line, the most urgent thing first
-      Txt {
-        visible: text !== ""
-        Layout.alignment: Qt.AlignHCenter
-        font.pixelSize: 14
-        text: {
-          if (root.ctx.state === "failed" || root.ctx.message !== "")
-            return root.ctx.message;
-          if (root.ctx.state === "checking")
-            return "Checking…";
-          if (root.ctx.capsLock)
-            return "Caps Lock is on";
-          if (root.ctx.fingerprint)
-            return "or touch the fingerprint sensor";
-          return "";
+      ColumnLayout {
+        id: below
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: Math.round(root.height * 0.045)
+        spacing: 22
+        transform: Translate {
+          id: belowShift
+          y: -(below.y + below.height)
         }
-        color: root.ctx.state === "failed" ? Theme.critical : root.ctx.capsLock && root.ctx.state === "idle" ? Theme.accent : Theme.fg
-      }
 
-      // the lock only (the greeter has no history)
-      AwayNotifications {
-        visible: root.ctx.lockedAt !== undefined && away.length > 0
-        since: root.ctx.lockedAt ?? 0
-        Layout.alignment: Qt.AlignHCenter
-        Layout.topMargin: 10
-        Layout.maximumWidth: root.width * 0.6
+        Txt {
+          Layout.alignment: Qt.AlignHCenter
+          text: Qt.formatDateTime(Time.now, "dddd d MMMM")
+          color: Theme.fgBright
+          font.pixelSize: Math.round(Math.max(20, root.height * 0.022))
+          font.weight: Font.Medium
+        }
+
+        PasswordField {
+          Layout.alignment: Qt.AlignHCenter
+          ctx: root.ctx
+        }
+
+        // one line, the most urgent thing first
+        Txt {
+          visible: text !== ""
+          Layout.alignment: Qt.AlignHCenter
+          font.pixelSize: 14
+          text: {
+            if (root.ctx.state === "failed" || root.ctx.message !== "")
+              return root.ctx.message;
+            if (root.ctx.state === "checking")
+              return "Checking…";
+            if (root.ctx.capsLock)
+              return "Caps Lock is on";
+            if (root.ctx.fingerprint)
+              return "or touch the fingerprint sensor";
+            return "";
+          }
+          color: root.ctx.state === "failed" ? Theme.critical : root.ctx.capsLock && root.ctx.state === "idle" ? Theme.accent : Theme.fg
+        }
+
+        // the lock only (the greeter has no history)
+        AwayNotifications {
+          visible: root.ctx.lockedAt !== undefined && away.length > 0
+          since: root.ctx.lockedAt ?? 0
+          Layout.alignment: Qt.AlignHCenter
+          Layout.topMargin: 10
+          Layout.maximumWidth: root.width * 0.6
+        }
       }
+    }
+
+    SequentialAnimation {
+      running: true
+      PauseAnimation {
+        duration: Theme.ms(290)
+      }
+      NumberAnimation {
+        target: belowShift
+        property: "y"
+        to: 0
+        duration: Theme.stage
+        easing.type: Theme.easeStage
+      }
+    }
+
+    NumberAnimation {
+      running: root.ctx.state === "unlocking"
+      target: belowShift
+      property: "y"
+      to: -(below.y + below.height)
+      duration: Theme.ms(180)
+      easing.type: Theme.easeIn
     }
 
     // now playing, bottom left: Spotify only, as in the bar
@@ -160,37 +220,10 @@ Item {
         }
       }
 
-      Repeater {
-        model: [
-          {
-            icon: Icons.mediaPrev,
-            run: () => root.player.previous()
-          },
-          {
-            icon: root.player?.isPlaying ? Icons.mediaPause : Icons.mediaPlay,
-            run: () => root.player.togglePlaying()
-          },
-          {
-            icon: Icons.mediaNext,
-            run: () => root.player.next()
-          }
-        ]
-
-        Clickable {
-          id: control
-
-          required property var modelData
-
-          padX: 10
-          padY: 6
-          radius: 8
-          onClicked: modelData.run()
-
-          Glyph {
-            text: control.modelData.icon
-            font.pixelSize: 20
-          }
-        }
+      MediaControls {
+        player: root.player
+        size: 44
+        Layout.leftMargin: 10
       }
     }
 

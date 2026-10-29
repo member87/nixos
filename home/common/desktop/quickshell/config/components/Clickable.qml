@@ -1,9 +1,12 @@
 import QtQuick
 import QtQuick.Layouts
 import qs.common
+import qs.services
 
 // a button surface: children are laid out in a row; hover tints with the
-// accent like every ags button (`transition: background-color 0.2s`)
+// accent like every ags button (`transition: background-color 0.2s`).
+// In a popout the keyboard reaches it too (KeyNav): Enter or Space presses
+// it, and an accent ring marks it while the keyboard is in use.
 MouseArea {
   id: root
 
@@ -20,6 +23,18 @@ MouseArea {
 
   hoverEnabled: true
   cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+  activeFocusOnTab: enabled
+  // a key press emits the click without a pointer event: handlers that
+  // read the button (`e => e.button`) see null
+  Keys.onPressed: e => {
+    if (e.key !== Qt.Key_Return && e.key !== Qt.Key_Enter && e.key !== Qt.Key_Space)
+      return;
+    e.accepted = true;
+    if (e.isAutoRepeat)
+      return;
+    flash.restart();
+    root.clicked(null);
+  }
   implicitWidth: box.implicitWidth + padX * 2
   implicitHeight: box.implicitHeight + padY * 2
   opacity: enabled ? 1 : 0.5
@@ -27,14 +42,31 @@ MouseArea {
   Rectangle {
     id: bg
     anchors.fill: parent
-    radius: 8
-    color: !root.enabled ? root.color : root.pressed ? root.pressColor : root.containsMouse ? root.hoverColor : root.color
+    radius: Theme.radiusControl
+    color: !root.enabled ? root.color : root.pressed || flash.running ? root.pressColor : root.containsMouse ? root.hoverColor : root.color
 
+    // a press lands at once; hover and state changes ease
     Behavior on color {
       ColorAnimation {
-        duration: 200
+        duration: root.pressed || flash.running ? Theme.ms(60) : Theme.base
       }
     }
+  }
+
+  // a key press shows as a press
+  Timer {
+    id: flash
+    interval: 90
+  }
+
+  Rectangle {
+    anchors.fill: parent
+    radius: bg.radius
+    color: "transparent"
+    border.width: 2
+    // on an accent fill (a primary button, a connected tile) the ring is ink
+    border.color: Qt.colorEqual(root.color, Theme.accent) ? Theme.accentInk : Theme.accent
+    visible: root.activeFocus && Menus.keyboard
   }
 
   RowLayout {

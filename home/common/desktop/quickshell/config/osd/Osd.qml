@@ -14,7 +14,9 @@ import qs.services
 // whatever changed them; the brightness keys call
 // `qs -c bar ipc call osd brightness` after changing it; skips come from
 // Media wherever they were made, and a song ending into the next is not one.
-// Quiet while the system menu is open (it shows the same things).
+// Quiet while the system menu is open (it shows the same things). It rises
+// a little as it fades in and sinks as it fades out; while it is up, a new
+// change only updates it.
 PanelWindow {
   id: root
 
@@ -32,7 +34,11 @@ PanelWindow {
     if (!ready || Menus.screen !== "")
       return;
     kind = what;
-    visible = true;
+    if (!visible || leave.running) {
+      leave.stop();
+      visible = true;
+      arrive.restart();
+    }
     // a song's name takes longer to read than a level
     hide.interval = what === "track" ? 2500 : 1400;
     hide.restart();
@@ -60,7 +66,48 @@ PanelWindow {
   Timer {
     id: hide
     interval: 1400
-    onTriggered: root.visible = false
+    onTriggered: leave.restart()
+  }
+
+  ParallelAnimation {
+    id: arrive
+    NumberAnimation {
+      target: pill
+      property: "opacity"
+      to: 1
+      duration: Theme.enter
+      easing.type: Theme.easeOut
+    }
+    NumberAnimation {
+      target: rise
+      property: "y"
+      to: 0
+      duration: Theme.enter
+      easing.type: Theme.easeOut
+    }
+  }
+
+  SequentialAnimation {
+    id: leave
+    ParallelAnimation {
+      NumberAnimation {
+        target: pill
+        property: "opacity"
+        to: 0
+        duration: Theme.exit
+        easing.type: Theme.easeIn
+      }
+      NumberAnimation {
+        target: rise
+        property: "y"
+        to: 10
+        duration: Theme.exit
+        easing.type: Theme.easeIn
+      }
+    }
+    ScriptAction {
+      script: root.visible = false
+    }
   }
 
   Connections {
@@ -113,6 +160,10 @@ PanelWindow {
   PopupShadow {
     anchors.fill: pill
     radius: pill.radius
+    opacity: pill.opacity
+    transform: Translate {
+      y: rise.y
+    }
   }
 
   Rectangle {
@@ -121,12 +172,18 @@ PanelWindow {
     anchors.margins: 16
     radius: height / 2
     color: Theme.bgSolid
+    // starts below and clear; arrive brings it up
+    opacity: 0
+    transform: Translate {
+      id: rise
+      y: 10
+    }
 
     RowLayout {
       visible: root.kind !== "track"
       anchors.fill: parent
       anchors.leftMargin: 20
-      anchors.rightMargin: 24
+      anchors.rightMargin: 22
       spacing: 16
 
       Glyph {
@@ -142,9 +199,27 @@ PanelWindow {
         // smooth the steps of a held key
         Behavior on fraction {
           NumberAnimation {
-            duration: 120
-            easing.type: Easing.OutCubic
+            duration: Theme.fast
+            easing.type: Theme.easeOut
           }
+        }
+      }
+
+      // the level as a figure, for the step that a bar cannot show
+      Txt {
+        text: root.muted ? "off" : Math.round(root.level * 100)
+        color: root.muted ? Theme.fg : Theme.fgBright
+        font.pixelSize: 14
+        font.weight: Font.Medium
+        horizontalAlignment: Text.AlignRight
+        Layout.preferredWidth: metrics.advanceWidth
+
+        TextMetrics {
+          id: metrics
+          font.family: Theme.font
+          font.pixelSize: 14
+          font.weight: Font.Medium
+          text: "100"
         }
       }
     }

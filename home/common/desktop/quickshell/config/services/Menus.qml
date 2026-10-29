@@ -9,6 +9,8 @@ Singleton {
 
   property string screen: ""
   property string page: "main"
+  // a key has moved focus since the popout opened: focus rings show
+  property bool keyboard: false
 
   // the menu's focus grab covers its own bar, so a click on the bar button
   // arrives here instead of dismissing the menu first
@@ -19,6 +21,8 @@ Singleton {
       close();
       return;
     }
+    if (screen === "")
+      keyboard = false;
     screen = screenName;
     page = pageName;
   }

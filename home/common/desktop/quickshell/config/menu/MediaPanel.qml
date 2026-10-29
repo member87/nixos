@@ -14,7 +14,7 @@ ClippingRectangle {
   visible: player !== null
   Layout.fillWidth: true
   implicitHeight: Math.max(90, info.implicitHeight + 20)
-  radius: 10
+  radius: Theme.radiusSection
   color: Theme.sectionBg
 
   Image {
@@ -57,45 +57,10 @@ ClippingRectangle {
       Layout.fillWidth: true
     }
 
-    RowLayout {
-      spacing: 20
-
-      Repeater {
-        model: [
-          {
-            icon: Icons.mediaPrev,
-            run: () => root.player.previous(),
-            on: root.player?.canGoPrevious ?? false
-          },
-          {
-            icon: root.player?.isPlaying ? Icons.mediaPause : Icons.mediaPlay,
-            run: () => root.player.togglePlaying(),
-            on: root.player?.canTogglePlaying ?? false
-          },
-          {
-            icon: Icons.mediaNext,
-            run: () => root.player.next(),
-            on: root.player?.canGoNext ?? false
-          }
-        ]
-
-        Clickable {
-          id: control
-
-          required property var modelData
-
-          padX: 12
-          padY: 6
-          radius: 8
-          enabled: modelData.on
-          onClicked: modelData.run()
-
-          Glyph {
-            text: control.modelData.icon
-            font.pixelSize: 18
-          }
-        }
-      }
+    MediaControls {
+      player: root.player
+      size: 34
+      Layout.topMargin: 4
     }
   }
 }

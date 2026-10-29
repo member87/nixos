@@ -25,7 +25,7 @@ ShellRoot {
   // let the surfaces play their exit before the session is released
   Timer {
     id: release
-    interval: 380
+    interval: 320
     onTriggered: {
       if (root.preview) {
         Qt.quit();

@@ -29,7 +29,7 @@ Section {
       connected: Net.connected
       opensPage: true
       onClicked: e => {
-        if (e.button === Qt.RightButton && Net.wifi)
+        if (e?.button === Qt.RightButton && Net.wifi)
           Net.toggleWifi();
         else
           Menus.page = "network";
@@ -52,7 +52,7 @@ Section {
       connected: Bt.connected.length > 0
       opensPage: true
       onClicked: e => {
-        if (e.button === Qt.RightButton)
+        if (e?.button === Qt.RightButton)
           Bt.toggle();
         else
           Menus.page = "bluetooth";

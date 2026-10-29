@@ -5,7 +5,7 @@ import qs.components
 ColumnLayout {
   spacing: 10
 
-  TimeDate {}
+  SessionActions {}
 
   // speakers and microphone together: one sound section
   Section {

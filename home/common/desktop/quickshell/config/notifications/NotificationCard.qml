@@ -8,7 +8,8 @@ import qs.components
 import qs.services
 
 // One history entry: its picture, app and age, summary, body and actions.
-// A click on the card runs the default action; the cross dismisses it.
+// A click on the card runs the default action, when the app offers one (and
+// only then shows as clickable); the cross dismisses it.
 // Entries restored from a previous session have no live notification and
 // so no actions.
 Rectangle {
@@ -24,7 +25,7 @@ Rectangle {
   readonly property var actions: entry.live ? entry.live.actions.filter(a => a.identifier !== "default" && a.text !== "") : []
 
   implicitHeight: content.implicitHeight + 24
-  radius: 8
+  radius: Theme.radiusSection
   color: Theme.bgSolid
   border.width: critical ? 1 : 0
   border.color: Theme.critical
@@ -37,8 +38,29 @@ Rectangle {
     id: area
     anchors.fill: parent
     hoverEnabled: true
-    cursorShape: Qt.PointingHandCursor
+    cursorShape: Notifs.hasDefault(root.entry) ? Qt.PointingHandCursor : Qt.ArrowCursor
     onClicked: Notifs.activate(root.entry)
+    // in the centre the keyboard stops on the card: Enter opens it, Delete
+    // dismisses it (so its cross needs no stop of its own)
+    activeFocusOnTab: true
+    Keys.onPressed: e => {
+      if (e.key === Qt.Key_Return || e.key === Qt.Key_Enter || e.key === Qt.Key_Space)
+        Notifs.activate(root.entry);
+      else if (e.key === Qt.Key_Delete || e.key === Qt.Key_Backspace)
+        Notifs.dismiss(root.entry);
+      else
+        return;
+      e.accepted = true;
+    }
+  }
+
+  Rectangle {
+    anchors.fill: parent
+    radius: root.radius
+    color: "transparent"
+    border.width: 2
+    border.color: Theme.accent
+    visible: area.activeFocus && Menus.keyboard
   }
 
   RowLayout {
@@ -98,7 +120,8 @@ Rectangle {
 
           implicitWidth: 22
           implicitHeight: 22
-          radius: 5
+          radius: Theme.radiusControl
+          activeFocusOnTab: false
           onClicked: Notifs.dismiss(root.entry)
 
           Glyph {

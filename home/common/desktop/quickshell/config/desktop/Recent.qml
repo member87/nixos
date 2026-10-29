@@ -42,6 +42,10 @@ ColumnLayout {
     }
   }
 
+  UndoBar {
+    Layout.bottomMargin: 4
+  }
+
   Repeater {
     model: root.shown
 
@@ -52,10 +56,16 @@ ColumnLayout {
       readonly property string picture: modelData.image || Notifs.keepable(modelData.appIcon)
       readonly property string icon: picture === "" && modelData.appIcon !== "" ? Quickshell.iconPath(modelData.appIcon, true) : ""
 
+      // only a notification whose app can take the click looks clickable
+      readonly property bool actionable: Notifs.hasDefault(modelData)
+
       fill: true
       padX: 10
       padY: 8
       spacing: 12
+      cursorShape: actionable ? Qt.PointingHandCursor : Qt.ArrowCursor
+      hoverColor: actionable ? Theme.accentHover : "transparent"
+      pressColor: actionable ? Theme.accentActive : "transparent"
       Layout.fillWidth: true
       Layout.leftMargin: -10
       Layout.rightMargin: -10
@@ -65,7 +75,7 @@ ColumnLayout {
         implicitWidth: 32
         implicitHeight: 32
         Layout.alignment: Qt.AlignTop
-        radius: 5
+        radius: Theme.radiusControl
         color: "transparent"
 
         Image {
@@ -127,7 +137,7 @@ ColumnLayout {
     visible: root.more > 0
     padX: 10
     padY: 6
-    radius: 5
+    radius: Theme.radiusControl
     Layout.leftMargin: -10
     onClicked: Menus.toggle(root.screenName, "notifications")
 

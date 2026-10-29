@@ -101,6 +101,7 @@ ColumnLayout {
         Meter {
           implicitWidth: Math.min(280, root.maxWidth - root.size - track.spacing - 110)
           fraction: root.timed ? root.player.position / root.player.length : 0
+          glide: Theme.ms(220)
         }
 
         Txt {
@@ -113,47 +114,11 @@ ColumnLayout {
         }
       }
 
-      RowLayout {
+      MediaControls {
         visible: root.player !== null
-        spacing: 4
-        Layout.leftMargin: -10
-
-        Repeater {
-          model: [
-            {
-              icon: Icons.mediaPrev,
-              run: () => root.player.previous(),
-              on: root.player?.canGoPrevious ?? false
-            },
-            {
-              icon: root.player?.isPlaying ? Icons.mediaPause : Icons.mediaPlay,
-              run: () => root.player.togglePlaying(),
-              on: root.player?.canTogglePlaying ?? false
-            },
-            {
-              icon: Icons.mediaNext,
-              run: () => root.player.next(),
-              on: root.player?.canGoNext ?? false
-            }
-          ]
-
-          Clickable {
-            id: control
-
-            required property var modelData
-
-            padX: 10
-            padY: 6
-            radius: 8
-            enabled: modelData.on
-            onClicked: modelData.run()
-
-            Glyph {
-              text: control.modelData.icon
-              font.pixelSize: 22
-            }
-          }
-        }
+        player: root.player
+        size: 44
+        Layout.topMargin: 8
       }
 
       TextButton {

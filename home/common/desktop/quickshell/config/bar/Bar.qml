@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Services.SystemTray
 import Quickshell.Wayland
 import qs.common
 import qs.menu
@@ -45,24 +46,44 @@ PanelWindow {
       anchors.centerIn: parent
     }
 
+    // tray | privacy | status | notifications | clock, a hairline between
+    // each group that is showing
     RowLayout {
+      readonly property bool trayShown: SystemTray.items.values.length > 0
+
       anchors.right: parent.right
       anchors.verticalCenter: parent.verticalCenter
       spacing: 4
 
-      Tray {}
+      Tray {
+        visible: parent.trayShown
+      }
 
-      Privacy {}
+      Separator {
+        visible: parent.trayShown && privacy.visible
+      }
+
+      Privacy {
+        id: privacy
+      }
+
+      Separator {
+        visible: parent.trayShown || privacy.visible
+      }
 
       Indicators {
         id: indicators
         screenName: bar.screen.name
       }
 
+      Separator {}
+
       Notifications {
         id: bell
         screenName: bar.screen.name
       }
+
+      Separator {}
 
       Clock {}
     }

@@ -1,4 +1,5 @@
 import QtQuick
+import qs.common
 
 // Holds one desktop widget behind the stripes. The parent clips at the
 // stripe edge; on the stage's entered() the widget slides out past that edge
@@ -35,13 +36,13 @@ Item {
   SequentialAnimation {
     id: arrive
     PauseAnimation {
-      duration: root.order * 80
+      duration: Theme.ms(root.order * 64)
     }
     NumberAnimation {
       target: shift
       property: "y"
       to: 0
-      duration: 620
+      duration: Theme.stage
       easing.type: Easing.OutCubic
     }
   }
@@ -51,7 +52,7 @@ Item {
     target: shift
     property: "y"
     to: root.away
-    duration: 220
+    duration: Theme.ms(180)
     easing.type: Easing.InCubic
   }
 }

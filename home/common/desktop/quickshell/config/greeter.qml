@@ -21,7 +21,7 @@ ShellRoot {
   // play the exit, then hand over; greetd wants the greeter gone promptly
   Timer {
     id: launch
-    interval: 380
+    interval: 320
     onTriggered: greeterContext.launch()
   }
 
