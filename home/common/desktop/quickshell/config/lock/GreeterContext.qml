@@ -84,9 +84,12 @@ Scope {
       Greetd.cancelSession();
   }
 
-  // called by the window once the exit animation has played
+  // called by the window once the exit animation has played. The session
+  // type reaches pam_systemd: greetd would open a "tty" session, and logind
+  // prefers an older tty login (a rescue on another VT) as the user's
+  // display, which is where hypridle listens for loginctl lock-session
   function launch() {
-    Greetd.launch([session], [`XDG_SESSION_DESKTOP=${desktop}`, `XDG_CURRENT_DESKTOP=${desktop}`]);
+    Greetd.launch([session], ["XDG_SESSION_TYPE=wayland", `XDG_SESSION_DESKTOP=${desktop}`, `XDG_CURRENT_DESKTOP=${desktop}`]);
   }
 
   function checkCaps() {
