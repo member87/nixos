@@ -62,6 +62,9 @@ Item {
       }
     }
 
+    // the hidden offset is a binding, and an animation leaves it in place:
+    // pin the shift once it has played, or a later size change (the clock's
+    // digits, the message line under the field) would hide it again
     SequentialAnimation {
       running: true
       PauseAnimation {
@@ -73,6 +76,9 @@ Item {
         to: 0
         duration: Theme.ms(600)
         easing.type: Theme.easeStage
+      }
+      ScriptAction {
+        script: clockShift.y = 0
       }
     }
 
@@ -153,6 +159,7 @@ Item {
       }
     }
 
+    // pinned when done, as the clock's above
     SequentialAnimation {
       running: true
       PauseAnimation {
@@ -164,6 +171,9 @@ Item {
         to: 0
         duration: Theme.stage
         easing.type: Theme.easeStage
+      }
+      ScriptAction {
+        script: belowShift.y = 0
       }
     }
 
