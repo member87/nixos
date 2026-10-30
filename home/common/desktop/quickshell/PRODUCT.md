@@ -12,7 +12,7 @@ One person, Jack, on his own machines: odin (a 3440×1440 ultrawide desktop with
 
 ## Product Purpose
 
-A personal desktop shell that replaces ags, swaync, swayosd, lxqt-policykit-agent and a stock greeter with one Quickshell config. Success means everything the session needs (workspaces, status, sound, network, Bluetooth, notifications, media, the lock screen, login, admin prompts) is one glance or one click away, and none of it pulls attention while he works.
+A personal desktop shell that replaces ags, swaync, swayosd, lxqt-policykit-agent, hyprland-share-picker and a stock greeter with one Quickshell config. Success means everything the session needs (workspaces, status, sound, network, Bluetooth, notifications, media, the lock screen, login, admin prompts, screen sharing) is one glance or one click away, and none of it pulls attention while he works.
 
 ## Positioning
 
@@ -20,7 +20,7 @@ One coherent world drawn from his own wallpaper: gruvbox over five coloured stri
 
 ## Operating Context
 
-- `shell.qml` runs as the `quickshell` systemd user service (one bar and one desktop per screen; popups, OSD and polkit on the focused monitor). `lock.qml` runs under hypridle's `lock_cmd`, and `greeter.qml` under greetd inside a bare Hyprland.
+- `shell.qml` runs as the `quickshell` systemd user service (one bar and one desktop per screen; popups, OSD and polkit on the focused monitor). `lock.qml` runs under hypridle's `lock_cmd`, `greeter.qml` under greetd inside a bare Hyprland, and `sharepicker.qml` under xdg-desktop-portal-hyprland (its `custom_picker_binary`) when an app asks to share the screen.
 - It is opened by pointer and by keybind over IPC (`qs -c bar ipc call menu toggle <page>`, `ipc call osd brightness`).
 - Media widgets show Spotify only. Lyrics come from LRCLIB and the visualizer reads PipeWire peaks.
 - Casting goes through `bar-cast` (Chromecast and AirPlay).
