@@ -11,15 +11,26 @@
     hash = "sha256-kMvxA6MfTJv9TM/g790oGWQjrlHGI+DMgFpYVhjfb8Q=";
   };
 
-  appimageContents = appimageTools.extract {inherit pname version src;};
-in
-  appimageTools.wrapType2 {
+  appimageContents = appimageTools.extract {
     inherit pname version src;
+    # The bundled libva (VA-API 1.20) only searches Ubuntu's driver path and
+    # cannot load Mesa's radeonsi_drv_video.so, which exports
+    # __vaDriverInit_1_24, so mpv silently falls back to software decoding.
+    # Drop it so the FHS env's libva (NixOS driver path, current API) is used.
+    postExtract = ''
+      rm $out/lib/libva.so* $out/lib/libva-*.so*
+    '';
+  };
+in
+  appimageTools.wrapAppImage {
+    inherit pname version;
+    src = appimageContents;
 
     extraPkgs = pkgs: [
       pkgs.harfbuzzFull
       pkgs.libepoxy
       pkgs.libxv
+      pkgs.libva
     ];
 
     extraInstallCommands = ''
