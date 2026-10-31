@@ -21,7 +21,7 @@ One coherent world drawn from his own wallpaper: gruvbox over five coloured stri
 ## Operating Context
 
 - `shell.qml` runs as the `quickshell` systemd user service (one bar and one desktop per screen; popups, OSD and polkit on the focused monitor). `lock.qml` runs under hypridle's `lock_cmd`, `greeter.qml` under greetd inside a bare Hyprland, and `sharepicker.qml` under xdg-desktop-portal-hyprland (its `custom_picker_binary`) when an app asks to share the screen.
-- It is opened by pointer and by keybind over IPC (`qs -c bar ipc call menu toggle <page>`, `ipc call osd brightness`).
+- It is opened by pointer and by keybind over IPC (`qs -c bar ipc call menu toggle <page>`, `ipc call osd brightness`, `ipc call power set <profile>` / `ipc call power cycle`).
 - Media widgets show Spotify only. Lyrics come from LRCLIB and the visualizer reads PipeWire peaks.
 - Casting goes through `bar-cast` (Chromecast and AirPlay).
 
@@ -30,7 +30,7 @@ One coherent world drawn from his own wallpaper: gruvbox over five coloured stri
 - Wayland layer surfaces under Hyprland: popouts are xdg popups or layer surfaces with a Hyprland focus grab, and input masks limit where clicks land.
 - Previews: `QS_LOCK_PREVIEW=1` for the lock, and the greeter falls back to preview without a greetd socket.
 - It is packaged by the Home Manager module in `default.nix`. Config files are symlinked from the Nix store, so live testing runs `qs -p` against the repo.
-- Hosts differ: odin has no battery or brightness and thor has a fingerprint reader. The code must handle both when either is absent.
+- Hosts differ: odin has no battery, brightness or power-profiles-daemon, and thor has a fingerprint reader and power profiles. The code must handle both when either is absent.
 
 ## Brand Commitments
 

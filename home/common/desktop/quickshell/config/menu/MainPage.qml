@@ -23,6 +23,7 @@ ColumnLayout {
   AppMixer {}
   BrightnessControl {}
   BatteryStatus {}
+  PowerProfileControl {}
   QuickToggles {}
   MediaPanel {}
 }

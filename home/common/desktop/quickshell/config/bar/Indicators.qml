@@ -89,6 +89,13 @@ Clickable {
     tip: Cast.target ? `Casting audio to ${Cast.target.name}` : "Casting audio"
   }
 
+  // hosts without power-profiles-daemon (odin) have nothing to show
+  StatusGlyph {
+    visible: Power.available
+    text: Power.icon
+    tip: `Power profile: ${Power.label}`
+  }
+
   RowLayout {
     visible: root.battery?.isLaptopBattery ?? false
     spacing: 4

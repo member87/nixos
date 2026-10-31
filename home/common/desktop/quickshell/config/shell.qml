@@ -41,4 +41,19 @@ ShellRoot {
       Menus.toggle(screen, page || "main");
     }
   }
+
+  // `qs -c bar ipc call power set performance` (power-saver | balanced |
+  // performance) or `... power cycle`. Registered only where the daemon is
+  // (not odin); binding `enabled` also creates Power at startup, so the
+  // daemon's state is loaded before the first call
+  IpcHandler {
+    target: "power"
+    enabled: Power.available
+    function set(profile: string): void {
+      Power.setByName(profile);
+    }
+    function cycle(): void {
+      Power.cycle();
+    }
+  }
 }
