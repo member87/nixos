@@ -7,7 +7,8 @@
     inputs.vicinae.homeManagerModules.default
   ];
 
-  services.vicinae = {
+  # vicinae 0.29 renamed services.vicinae to programs.vicinae.
+  programs.vicinae = {
     enable = true;
     systemd = {
       enable = true;

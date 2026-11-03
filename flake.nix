@@ -29,18 +29,17 @@
     };
     nix-gaming.url = "github:fufexan/nix-gaming";
 
+    # No follows: nix-citizen's cache holds wine-astral, dxvk and the rest built against its
+    # own nixpkgs and nix-gaming; following ours would rebuild them on every nixpkgs bump.
     nix-citizen.url = "github:LovingMelody/nix-citizen";
-    nix-citizen.inputs.nixpkgs.follows = "nixpkgs";
-    nix-citizen.inputs.nix-gaming.follows = "nix-gaming";
 
     hyprland.url = "github:hyprwm/Hyprland";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    vicinae = {
-      url = "github:vicinaehq/vicinae/21cd41dbc67644c45d482e5ede7693662f2de234";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # No nixpkgs follows, so the package matches vicinae.cachix.org instead of building here.
+    # Pinned to a release tag; move it to a newer tag to update.
+    vicinae.url = "github:vicinaehq/vicinae/v0.29.2";
     vicinae-extensions = {
       url = "github:vicinaehq/extensions";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -90,7 +89,8 @@
   in {
     packages = libx.forAllSystems (
       system: let
-        pkgs = nixpkgs.legacyPackages.${system};
+        # qemu-stealth builds against pkgs.stable.
+        pkgs = nixpkgs.legacyPackages.${system}.extend outputs.overlays.stable-packages;
       in
         import ./pkgs pkgs
     );

@@ -5,6 +5,7 @@
     ./locale.nix
     ./desktop-base.nix
     ./packages.nix
+    ./nix-cache.nix
   ];
 
   networking.hostName = hostname;

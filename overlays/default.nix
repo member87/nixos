@@ -10,13 +10,6 @@
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
-    ghostty = prev.ghostty.overrideAttrs (oldAttrs: rec {
-      preBuild = ''
-        shopt -s globstar
-        sed -i 's/^const xev = @import("xev");$/const xev = @import("xev").Epoll;/' **/*.zig
-        shopt -u globstar
-      '';
-    });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will

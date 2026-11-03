@@ -16,8 +16,9 @@
 #     silently producing a half-patched binary.
 #
 # Because of the source patch this rebuilds QEMU from source (a few minutes, and
-# again whenever the nixpkgs QEMU bumps). Dropping the postPatch below reverts to
-# a fast binary-only patch of the prebuilt QEMU.
+# again whenever nixpkgs-stable's QEMU bumps; pkgs/default.nix passes stable's
+# qemu_kvm). Dropping the postPatch below reverts to a fast binary-only patch of
+# the prebuilt QEMU.
 {
   python3,
   writeText,
