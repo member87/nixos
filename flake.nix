@@ -29,18 +29,18 @@
     };
     nix-gaming.url = "github:fufexan/nix-gaming";
 
+    # No follows: nix-citizen's cache holds wine-astral, dxvk and the rest built against its
+    # own nixpkgs and nix-gaming; following ours would rebuild them on every nixpkgs bump.
     nix-citizen.url = "github:LovingMelody/nix-citizen";
-    nix-citizen.inputs.nixpkgs.follows = "nixpkgs";
-    nix-citizen.inputs.nix-gaming.follows = "nix-gaming";
 
     hyprland.url = "github:hyprwm/Hyprland";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    vicinae = {
-      url = "github:vicinaehq/vicinae/21cd41dbc67644c45d482e5ede7693662f2de234";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # No nixpkgs follows: vicinae is pinned, so with its own pinned nixpkgs it is built once
+    # and never again, instead of on every nixpkgs bump. (vicinae.cachix.org no longer has
+    # this old revision; it would cover a current one.)
+    vicinae.url = "github:vicinaehq/vicinae/21cd41dbc67644c45d482e5ede7693662f2de234";
     vicinae-extensions = {
       url = "github:vicinaehq/extensions";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -90,7 +90,8 @@
   in {
     packages = libx.forAllSystems (
       system: let
-        pkgs = nixpkgs.legacyPackages.${system};
+        # qemu-stealth builds against pkgs.stable.
+        pkgs = nixpkgs.legacyPackages.${system}.extend outputs.overlays.stable-packages;
       in
         import ./pkgs pkgs
     );

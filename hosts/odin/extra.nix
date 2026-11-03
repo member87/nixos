@@ -11,17 +11,25 @@
     inputs.nix-citizen.nixosModules.default
   ];
 
-  # nix-citizen cachix (Star Citizen binary cache)
+  # nix-citizen and nix-gaming cachix (Star Citizen's wine, dxvk, vkd3d-proton)
   nix.settings = {
-    extra-substituters = ["https://nix-citizen.cachix.org"];
+    extra-substituters = [
+      "https://nix-citizen.cachix.org"
+      "https://nix-gaming.cachix.org"
+    ];
     extra-trusted-public-keys = [
       "nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="
+      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
     ];
   };
 
   programs.rsi-launcher = {
     enable = true;
     location = "/run/1TBSSD/star-citizen";
+    # Use nix-citizen's own packages (cached on nix-citizen.cachix.org). Its overlay rebuilds
+    # wine-astral against our nixpkgs and changes enough of it that Hyprland and xwayland
+    # are rebuilt too.
+    includeOverlay = false;
   };
 
   services.udev.extraRules = ''
