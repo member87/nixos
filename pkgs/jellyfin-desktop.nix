@@ -28,10 +28,28 @@
     '';
   };
 
-  appimageContents = appimageTools.extract {inherit pname version src;};
-in
-  appimageTools.wrapType2 {
+  appimageContents = appimageTools.extract {
     inherit pname version src;
+    # The bundled glibc (Fedora, 2.43) cannot load the system Mesa: its
+    # libLLVM needs GLIBC_2.44, so dlopen of radv/radeonsi fails and both EGL
+    # dmabuf and wgpu paint fall back to wl_shm. Drop glibc so the FHS env's
+    # (newer, backward-compatible) one is used. AppRun symlinks the patched
+    # ELF interpreter to usr/lib/ld-linux-x86-64.so.2, so point that at the
+    # FHS loader.
+    postExtract = ''
+      cd $out/usr/lib
+      chmod u+w .
+      rm ld-linux-x86-64.so.2 libBrokenLocale.so* libanl.so* libc.so libc.so.6 \
+        libdl.so.2 libm.so libm.so.6 libmvec.so* libnss_compat.so.2 \
+        libnss_dns.so.2 libnss_files.so.2 libpcprofile.so libpthread.so.0 \
+        libresolv.so* librt.so.1 libthread_db.so* libutil.so.1
+      ln -s /lib64/ld-linux-x86-64.so.2 ld-linux-x86-64.so.2
+    '';
+  };
+in
+  appimageTools.wrapAppImage {
+    inherit pname version;
+    src = appimageContents;
 
     extraInstallCommands = ''
       install -Dm0644 ${appimageContents}/net.nullsum.JelliumDesktop.desktop \
