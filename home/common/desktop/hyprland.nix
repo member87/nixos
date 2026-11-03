@@ -75,7 +75,9 @@
 
       bind =
         [
-          ", Print, exec, hyprshot -m region --raw | satty --fullscreen --early-exit --copy-command \"wl-copy\" -f -"
+          # satty's default thumbnail is a temp file deleted as --early-exit
+          # quits, before the notification can show it: send its icon instead
+          ", Print, exec, hyprshot -m region --raw | satty --fullscreen --early-exit --notification-thumbnail app-icon --copy-command \"wl-copy\" -f -"
           "$mod, Return, exec, ghostty"
           "$mod SHIFT, Q, killactive"
           "$mod, left, movefocus, l"

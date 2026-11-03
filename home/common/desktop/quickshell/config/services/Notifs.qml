@@ -173,6 +173,13 @@ Singleton {
     return path.startsWith("/") || path.startsWith("file:") ? path : "";
   }
 
+  // Quickshell reads an image-path that is not a file: URI as an icon name,
+  // but GIO apps (satty) send a bare absolute path: that is a file
+  function imageOf(n: var): string {
+    const path = n.hints["image-path"] ?? n.hints["image_path"] ?? "";
+    return n.image.startsWith("image://icon/") && path.startsWith("/") ? `file://${path}` : n.image;
+  }
+
   function save() {
     const plain = entries.map(e => ({
           appName: e.appName,
@@ -192,7 +199,7 @@ Singleton {
     entries = entries.map(e => e.live !== n ? e : Object.assign({}, e, {
           appName: n.appName,
           appIcon: n.appIcon,
-          image: n.image,
+          image: root.imageOf(n),
           summary: n.summary,
           body: n.body,
           urgency: n.urgency
@@ -225,7 +232,7 @@ Singleton {
         live: n,
         appName: n.appName,
         appIcon: n.appIcon,
-        image: n.image,
+        image: root.imageOf(n),
         summary: n.summary,
         body: n.body,
         urgency: n.urgency,

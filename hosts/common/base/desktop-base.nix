@@ -125,6 +125,14 @@ in {
     };
   };
 
+  # Secret Service (org.freedesktop.secrets) for apps that store credentials,
+  # e.g. Chromium's Safe Storage key. The module unlocks the keyring in
+  # `login`'s stack, but greetd's auth runs through quickshell-lock above, so
+  # that stack has to hand the password over; `login`'s session (included by
+  # greetd) starts the daemon with it.
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.quickshell-lock.enableGnomeKeyring = true;
+
   services.spice-vdagentd.enable = true;
 
   fonts.packages = with pkgs; [
