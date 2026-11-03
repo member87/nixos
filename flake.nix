@@ -37,10 +37,9 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    # No nixpkgs follows: vicinae is pinned, so with its own pinned nixpkgs it is built once
-    # and never again, instead of on every nixpkgs bump. (vicinae.cachix.org no longer has
-    # this old revision; it would cover a current one.)
-    vicinae.url = "github:vicinaehq/vicinae/21cd41dbc67644c45d482e5ede7693662f2de234";
+    # No nixpkgs follows, so the package matches vicinae.cachix.org instead of building here.
+    # Pinned to a release tag; move it to a newer tag to update.
+    vicinae.url = "github:vicinaehq/vicinae/v0.29.2";
     vicinae-extensions = {
       url = "github:vicinaehq/extensions";
       inputs.nixpkgs.follows = "nixpkgs";
