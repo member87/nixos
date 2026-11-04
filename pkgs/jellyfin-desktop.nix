@@ -55,6 +55,10 @@ in
     inherit pname version;
     src = appimageContents;
 
+    # MangoHud's session-wide Vulkan layer hooks mpv's swapchain and crashes the player
+    # (ImGui assert in create_fonts on resize, segfault in NewFrame on present).
+    profile = "export DISABLE_MANGOHUD=1";
+
     extraInstallCommands = ''
       install -Dm0644 ${appimageContents}/net.nullsum.JelliumDesktop.desktop \
         $out/share/applications/net.nullsum.JelliumDesktop.desktop
