@@ -1,8 +1,4 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     inputs.zen-browser.homeModules.default
   ];
@@ -20,14 +16,12 @@
         }
       ];
     };
+    # AutoLaunchProtocolsFromOrigins above lets Spotify's pages open spotify:// without a
+    # prompt; these prefs hand the scheme to the system handler.
     extraPrefs = ''
-      // When encountering spotify:// URIs, hand off to the system handler
-      // without prompting the user
       pref("network.protocol-handler.expose.spotify", false);
       pref("network.protocol-handler.external.spotify", true);
       pref("network.protocol-handler.warn-external.spotify", false);
-      // Allow content-initiated external protocol launches (e.g. JS redirects)
-      pref("security.external_protocol_requires_permission", false);
     '';
   };
 }

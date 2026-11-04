@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   lib,
   ...
 }: {
@@ -8,6 +7,8 @@
     Unit = {
       Description = "Battery level notification daemon";
       After = ["graphical-session.target"];
+      # odin has no battery; don't poll for one forever.
+      ConditionPathExists = "/sys/class/power_supply/BAT1";
     };
     Service = {
       Type = "simple";

@@ -680,9 +680,9 @@
     source = parsePci device.pci;
     guest = device.guestAddress;
 
-    romXml = optionalString (device.romFile != null) ''
+    romXml = optionalString (device.romFile != null || device.romBar != "on") ''
 
-      <rom bar='${device.romBar}' file='${device.romFile}'/>'';
+      <rom bar='${device.romBar}'${optionalString (device.romFile != null) " file='${device.romFile}'"}/>'';
 
     guestXml = optionalString (guest != null) ''
 

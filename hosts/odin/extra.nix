@@ -1,8 +1,5 @@
-# This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
-  hostname,
   pkgs,
   ...
 }: {
@@ -56,18 +53,14 @@
   ];
 
   hardware.i2c.enable = true;
-  hardware.graphics.enable = true;
   services.hardware.openrgb.enable = true;
 
   environment.systemPackages = with pkgs; [
-    talosctl
-    kubectl
     gamescope
     stable.darktable
     libfido2 # Provides virtual authenticator tools
     tor-browser
     openra
     prismlauncher
-    r2modman
   ];
 }

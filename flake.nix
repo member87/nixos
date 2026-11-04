@@ -1,18 +1,14 @@
 {
-  description = "Your new nix config";
+  description = "NixOS and Home Manager configuration for odin and thor";
 
   inputs = {
-    # Nixpkgs
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
-    # You can access packages and modules from different nixpkgs revs
-    # at the same time. Here's an working example:
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
+    # Reached through pkgs.stable (overlays/default.nix).
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Home manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -20,21 +16,14 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-gaming.url = "github:fufexan/nix-gaming";
 
     # No follows: nix-citizen's cache holds wine-astral, dxvk and the rest built against its
     # own nixpkgs and nix-gaming; following ours would rebuild them on every nixpkgs bump.
     nix-citizen.url = "github:LovingMelody/nix-citizen";
-
-    hyprland.url = "github:hyprwm/Hyprland";
-
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     # No nixpkgs follows, so the package matches vicinae.cachix.org instead of building here.
@@ -64,21 +53,15 @@
   outputs = {
     self,
     nixpkgs,
-    home-manager,
-    nixpkgs-stable,
-    agenix,
-    spicetify-nix,
-    nixos-hardware,
     ...
   } @ inputs: let
     inherit (self) outputs;
     stateVersion = "26.05";
     username = "jack";
-    flakePath = "/home/jack/nixos";
+    flakePath = "/home/${username}/nixos";
 
     libx = import ./lib {
       inherit
-        self
         inputs
         outputs
         stateVersion
@@ -87,32 +70,18 @@
         ;
     };
   in {
-    packages = libx.forAllSystems (
-      system: let
-        # qemu-stealth builds against pkgs.stable.
-        pkgs = nixpkgs.legacyPackages.${system}.extend outputs.overlays.stable-packages;
-      in
-        import ./pkgs pkgs
-    );
+    packages = libx.forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+
+    nixosModules = import ./modules/nixos;
 
     nixosConfigurations = {
-      odin = libx.mkHost {
-        hostname = "odin";
-      };
-
-      thor = libx.mkHost {
-        hostname = "thor";
-      };
+      odin = libx.mkHost {hostname = "odin";};
+      thor = libx.mkHost {hostname = "thor";};
     };
 
     homeConfigurations = {
-      "${username}@odin" = libx.mkHome {
-        hostname = "odin";
-      };
-
-      "${username}@thor" = libx.mkHome {
-        hostname = "thor";
-      };
+      "${username}@odin" = libx.mkHome {hostname = "odin";};
+      "${username}@thor" = libx.mkHome {hostname = "thor";};
     };
 
     formatter = libx.forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);

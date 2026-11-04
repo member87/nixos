@@ -1,9 +1,10 @@
 {pkgs, ...}: {
   services.openssh = {
     enable = true;
+    # Key only: jack has passwordless sudo, so a guessed password would be root.
     settings = {
-      PasswordAuthentication = true;
-      UseDns = true;
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
       X11Forwarding = false;
       PermitRootLogin = "prohibit-password";
     };

@@ -12,7 +12,7 @@
   };
 
   # Fixed ports used by `uxplay -p`.
-  networking.firewall = {
+  networking.firewall.lan = {
     allowedTCPPorts = [7000 7001 7100];
     allowedUDPPorts = [6000 6001 7011];
   };

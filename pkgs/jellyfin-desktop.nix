@@ -6,10 +6,14 @@
   appimageTools,
 }: let
   pname = "jellyfin-desktop";
+  # A build-linux-appimage run on main. Upstream has no releases, and a branch URL changes
+  # under a fixed hash, so pin the run; scripts/nightly-update.sh moves it to the newest one
+  # (GitHub drops artifacts after 90 days).
   version = "unstable-2026-10-19";
+  runId = "39185604323";
 
   artifact = fetchurl {
-    url = "https://nightly.link/andrewrabert/jellium-desktop/workflows/build-linux-appimage/main/linux-appimage-x86_64.zip";
+    url = "https://nightly.link/andrewrabert/jellium-desktop/actions/runs/${runId}/linux-appimage-x86_64.zip";
     hash = "sha256-zkAx/JM6dnA4BAfuQ5jeqosHXg+W7wnu/tZOQjWsATE=";
   };
 

@@ -1,8 +1,4 @@
 {
-  pkgs,
-  inputs,
-  ...
-}: {
   programs.hyprland = {
     enable = true;
     # nixpkgs builds Hyprland with UWSM support; the module's default (false) rebuilds it,
