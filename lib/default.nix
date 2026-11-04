@@ -5,26 +5,6 @@
   username,
   flakePath,
 }: {
-  mkHome = {
-    hostname,
-    user ? username,
-    system ? "x86_64-linux",
-  }:
-    inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = inputs.nixpkgs.legacyPackages.${system};
-      extraSpecialArgs = {
-        inherit
-          inputs
-          outputs
-          stateVersion
-          hostname
-          flakePath
-          ;
-        username = user;
-      };
-      modules = [../home];
-    };
-
   mkHost = {hostname}:
     inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {

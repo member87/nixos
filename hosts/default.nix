@@ -1,24 +1,22 @@
+# Shared by every host. Roles (common/desktop, gaming.nix, dev.nix) are opted into by each
+# host's own default.nix.
 {
-  config,
+  flakePath,
   hostname,
   inputs,
-  lib,
   modulesPath,
   outputs,
   stateVersion,
   username,
   ...
 }: {
-  imports =
-    [
-      (modulesPath + "/installer/scan/not-detected.nix")
-      (./. + "/${hostname}/boot.nix")
-      (./. + "/${hostname}/hardware.nix")
-
-      ./common/base
-      ./common/users/${username}
-    ]
-    ++ lib.optional (builtins.pathExists (./. + "/${hostname}/extra.nix")) ./${hostname}/extra.nix;
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.home-manager.nixosModules.home-manager
+    ./${hostname}
+    ./common/core
+    ./common/users/${username}
+  ];
 
   nixpkgs = {
     overlays = [
@@ -34,30 +32,22 @@
     };
   };
 
-  nix = {
-    # This will add each flake input as a registry
-    # To make nix3 commands consistent with your flake
-    registry = lib.mkForce (lib.mapAttrs (_: value: {flake = value;}) inputs);
-
-    # This will additionally add your inputs to the system's legacy channels
-    # Making legacy nix commands consistent as well, awesome!
-    nixPath = lib.mkForce (
-      lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry
-    );
-
-    optimise.automatic = true;
-    settings = {
-      warn-dirty = false; # Disable warning about dirty working directory - annoying af
-      auto-optimise-store = true;
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      trusted-users = [
-        "root"
-        "@wheel"
-      ];
+  # Home Manager runs as part of the system: one build, one switch, one rollback.
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    # A file Home Manager does not own yet is moved aside instead of failing the switch.
+    backupFileExtension = "hm-backup";
+    extraSpecialArgs = {
+      inherit
+        inputs
+        stateVersion
+        hostname
+        username
+        flakePath
+        ;
     };
+    users.${username} = ../home;
   };
 
   system = {

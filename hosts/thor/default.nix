@@ -5,8 +5,13 @@
   ...
 }: {
   imports = [
-    inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
+    ./boot.nix
+    ./hardware.nix
     ./power.nix
+    ../common/desktop
+    ../common/dev.nix
+    ../common/gaming.nix
+    inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
   ];
 
   services.printing.enable = true;
