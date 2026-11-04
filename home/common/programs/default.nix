@@ -1,11 +1,10 @@
-{pkgs, ...}: {
+{
   imports = [
     ./simple.nix
     ./zsh.nix
     ./starship.nix
     ./spotify.nix
     ./git.nix
-    ./winapps.nix
     ./nvim.nix
     ./btop.nix
     ./lazygit.nix
@@ -14,9 +13,5 @@
     ./oh-my-pi.nix
     ./prismlauncher.nix
     ./zen.nix
-  ];
-
-  home.packages = with pkgs; [
-    # beammp-launcher
   ];
 }

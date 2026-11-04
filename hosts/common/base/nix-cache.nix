@@ -47,9 +47,11 @@ in {
   # the system's window.
   systemd.user.services.home-manager-auto-upgrade = {
     unitConfig.ConditionUser = username;
-    after = ["network-online.target"];
     path = [config.nix.package pkgs.git];
     serviceConfig.Type = "oneshot";
+    # User units cannot order after the system's network-online.target, and with Persistent
+    # the timer fires straight after boot or wake, before Wi-Fi is back: wait for it here.
+    preStart = "${config.networking.networkmanager.package}/bin/nm-online -q --timeout=300";
     script = ''
       ${lib.getExe home-manager} switch --flake ${lib.escapeShellArg "${flake}#${username}@${hostname}"}
     '';

@@ -1,8 +1,8 @@
 {
+  config,
   outputs,
   stateVersion,
   username,
-  inputs,
   ...
 }: {
   imports = [
@@ -14,27 +14,17 @@
     homeDirectory = "/home/${username}";
 
     sessionPath = [
-      "/home/jack/.local/share/pnpm"
+      "${config.home.homeDirectory}/.local/share/pnpm"
       # `make -C META/zw install` symlinks zw here
-      "/home/jack/bin"
+      "${config.home.homeDirectory}/bin"
     ];
   };
 
   nixpkgs = {
     overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
-      outputs.overlays.modifications
       outputs.overlays.stable-packages
-
-      # You can also add overlays exported from other flakes:
-      inputs.agenix.overlays.default
     ];
-
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-      # permittedInsecurePackages = [ "electron-25.9.0" ];
-    };
+    config.allowUnfree = true;
   };
 }

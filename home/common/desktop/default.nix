@@ -10,5 +10,4 @@
     ./discord.nix
     ./udiskie.nix
   ];
-
 }

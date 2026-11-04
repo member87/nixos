@@ -1,4 +1,12 @@
-{pkgs, ...}: let
+{
+  outputs,
+  pkgs,
+  username,
+  ...
+}: let
+  # odin-only, so thor never evaluates or builds it.
+  qemu-stealth = pkgs.callPackage ./qemu-stealth.nix {inherit (pkgs.stable) qemu_kvm;};
+
   # Extra SMBIOS structures QEMU never emits, appended to the guest tables via
   # -smbios file=. Contains this host's real L1/L2/L3 cache (type 7, byte
   # identical - the passthrough CPU is the same 9800X3D) plus fabricated memory
@@ -37,7 +45,7 @@
   '';
 in {
   imports = [
-    ../common/base/services/vfio-vm.nix
+    outputs.nixosModules.vfio-vm
   ];
 
   services.vfioVm = {
@@ -50,7 +58,6 @@ in {
         pci = "0000:03:00.0";
         hostDriver = "amdgpu";
         resetMethod = "sbr";
-        romFile = "/var/lib/libvirt/vbios/rx7900-03-00-0.rom";
         romBar = "off";
         guestAddress = {
           bus = "0x05";
@@ -72,7 +79,7 @@ in {
       }
     ];
 
-    user = "jack";
+    user = username;
     userUid = 1000;
 
     # The RX 7900 XT (Navi 31) cannot be reset well enough for amdgpu to
@@ -132,7 +139,7 @@ in {
       ];
       emulatorPin = "0,8";
 
-      emulator = "${pkgs.qemu-stealth}/bin/qemu-system-x86_64";
+      emulator = "${qemu-stealth}/bin/qemu-system-x86_64";
       machine = "pc-q35-10.2";
 
       # Hide the hypervisor entirely: no Hyper-V enlightenments, so cpuid leaf

@@ -1,9 +1,7 @@
-# This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
-  hostname,
   pkgs,
+  username,
   ...
 }: {
   imports = [
@@ -22,7 +20,7 @@
   };
 
   environment.variables = {
-    PNPM_HOME = "/home/jack/.local/share/pnpm";
+    PNPM_HOME = "/home/${username}/.local/share/pnpm";
     AQ_DRM_DEVICES = "/dev/dri/card1";
     GDK_SCALE = 2;
   };
@@ -32,8 +30,6 @@
     "9.9.9.9"
   ];
 
-  hardware.graphics.package = pkgs.mesa;
-
   environment.systemPackages = with pkgs; [
     alacritty
     gh
@@ -41,9 +37,6 @@
     cheese
     pnpm
     wireguard-tools
-    proton-vpn
-    brightnessctl
-    fprintd
     openrazer-daemon
     polychromatic
   ];

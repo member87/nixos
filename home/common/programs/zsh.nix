@@ -1,8 +1,4 @@
-{
-  lib,
-  config,
-  ...
-}: {
+{config, ...}: {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -22,9 +18,8 @@
 
     oh-my-zsh = {
       enable = true;
+      # zoxide and starship are initialised by their own Home Manager modules.
       plugins = [
-        "zoxide"
-        "starship"
         "sudo"
         "ssh"
         "ssh-agent"

@@ -1,7 +1,7 @@
 {
   imports = [
+    ./lan-firewall.nix
     ./ssh.nix
-    ./xserver.nix
     ./hyprland.nix
     ./pipewire.nix
     ./bluetooth.nix

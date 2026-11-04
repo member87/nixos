@@ -7,6 +7,5 @@ let
     thor
   ];
 in {
-  # Wireguard Configs
-  "wiregaurd_proton_london.age".publicKeys = systems;
+  "wireguard_proton_london.age".publicKeys = systems;
 }

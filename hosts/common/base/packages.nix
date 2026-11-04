@@ -1,11 +1,14 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
+{pkgs, ...}: {
   programs.kdeconnect.enable = true;
-  programs.localsend.enable = true;
-  programs.localsend.openFirewall = true;
+  programs.localsend = {
+    enable = true;
+    # The module opens 53317 on every interface by default; lan-firewall.nix scopes it.
+    openFirewall = false;
+  };
+  networking.firewall.lan = {
+    allowedTCPPorts = [53317];
+    allowedUDPPorts = [53317];
+  };
 
   environment.systemPackages = with pkgs; [
     ghostty
@@ -25,7 +28,6 @@
     google-chrome
     stable.freecad
     hyprshot
-    hyprpaper
     impala
     jellyfin-desktop
     jq
@@ -42,7 +44,6 @@
     ledger-live-desktop
     libnotify
     lxqt.lxqt-openssh-askpass
-    mangohud
     moonfin
     neovim
     nodejs
@@ -51,7 +52,6 @@
     obsidian
     rsync
     nwg-displays
-
     openssl
     pavucontrol
     playerctl

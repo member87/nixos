@@ -1,4 +1,8 @@
-{hostname, ...}: {
+{
+  hostname,
+  username,
+  ...
+}: {
   imports = [
     ./services
     ./programs.nix
@@ -9,9 +13,6 @@
   ];
 
   networking.hostName = hostname;
-  networking.dhcpcd.extraConfig = ''
-    nohook resolv.conf
-  '';
 
   fileSystems."/mnt/nas" = {
     device = "nas-nfs.lab.jackhumes.com:/volume1/photos";
@@ -28,6 +29,6 @@
   users.groups.plugdev = {};
 
   age.identityPaths = [
-    "/home/jack/.ssh/id_ed25519"
+    "/home/${username}/.ssh/id_ed25519"
   ];
 }
