@@ -1,4 +1,11 @@
 {...}: {
+  # Set here, not left to programs.hyprland's default (nixpkgs 0bb2eed enables it,
+  # 31ecbac did not). A switch that adds RTKit restarts xdg-desktop-portal before the
+  # system bus loads RTKit's activation file; the portal then caches a 0 RTTIME limit,
+  # and sandboxed PipeWire clients (pkgs/jellyfin-desktop.nix) are SIGKILLed when
+  # their audio thread goes realtime.
+  security.rtkit.enable = true;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
