@@ -4,7 +4,12 @@
   ...
 }: {
   imports = [
+    ./boot.nix
+    ./hardware.nix
     ./vfio.nix
+    ../common/desktop
+    ../common/dev.nix
+    ../common/gaming.nix
     inputs.nix-citizen.nixosModules.default
   ];
 
@@ -29,12 +34,8 @@
     includeOverlay = false;
   };
 
+  # Virtual FIDO2/U2F device for WebAuthn
   services.udev.extraRules = ''
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="1b7c|2b7c|3b7c|4b7c", TAG+="uaccess", TAG+="udev-acl"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2c97", TAG+="uaccess", TAG+="udev-acl"
-    KERNEL=="hidraw*", ATTRS{idVendor}=="2c97", MODE="0666"
-
-    # Virtual FIDO2/U2F device for WebAuthn
     KERNEL=="uhid", SUBSYSTEM=="misc", MODE="0660", TAG+="uaccess"
   '';
 
@@ -57,7 +58,6 @@
 
   environment.systemPackages = with pkgs; [
     gamescope
-    stable.darktable
     libfido2 # Provides virtual authenticator tools
     tor-browser
     openra

@@ -1,6 +1,6 @@
 // The login screen: the lock screen's design over greetd. It runs inside a
 // bare Hyprland started by greetd as the "greeter" user (see
-// hosts/common/base/desktop-base.nix), and exits once greetd has the session.
+// hosts/common/desktop/greeter.nix), and exits once greetd has the session.
 // Run in a normal session it is a preview: it cannot log in, power buttons
 // are disabled, and Escape closes it.
 

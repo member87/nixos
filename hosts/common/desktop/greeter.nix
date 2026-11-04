@@ -45,63 +45,6 @@
     end)
   '';
 in {
-  nix.settings = {
-    substituters = [
-      "https://nix-community.cachix.org"
-      "https://vicinae.cachix.org"
-      "https://cache.nixos.org/"
-    ];
-    trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
-    ];
-  };
-
-  networking.wireless.iwd.enable = true;
-  # iwd's own autoconnect races NetworkManager and blacklists networks with
-  # an exponential backoff after a single failed association (e.g. mt7925e
-  # flakiness after resume), leaving the machine offline for minutes. Hand
-  # autoconnect to NetworkManager; impala still works (explicit connects).
-  networking.wireless.iwd.settings.General.AutoConnect = false;
-  networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
-  # NM only uses its own autoconnect with the iwd backend if this is unset/
-  # false; otherwise iwd's blacklist logic decides everything.
-  environment.etc."NetworkManager/conf.d/wifi-iwd-autoconnect.conf".text = ''
-    [device]
-    wifi.iwd.autoconnect=false
-  '';
-
-  boot = {
-    consoleLogLevel = 0;
-    kernelParams = [
-      "quiet"
-      "udev.log_level=3"
-      "systemd.show_status=auto"
-    ];
-  };
-
-  programs.thunar.enable = true;
-
-  services.udisks2.enable = true;
-  services.gvfs.enable = true;
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc.lib
-    glibc
-    zlib
-  ];
-
-  virtualisation = {
-    docker.enable = true;
-  };
-
   services.greetd = {
     enable = true;
     settings = {
@@ -131,13 +74,4 @@ in {
   # greetd) starts the daemon with it.
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.quickshell-lock.enableGnomeKeyring = true;
-
-  services.spice-vdagentd.enable = true;
-
-  fonts.packages = with pkgs; [
-    font-awesome
-    monaspace
-    nerd-fonts.roboto-mono
-    nerd-fonts.fira-code
-  ];
 }

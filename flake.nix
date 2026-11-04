@@ -1,5 +1,5 @@
 {
-  description = "NixOS and Home Manager configuration for odin and thor";
+  description = "NixOS configuration (with Home Manager) for odin and thor";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -15,16 +15,23 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
 
     # No follows: nix-citizen's cache holds wine-astral, dxvk and the rest built against its
     # own nixpkgs and nix-gaming; following ours would rebuild them on every nixpkgs bump.
     nix-citizen.url = "github:LovingMelody/nix-citizen";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # No nixpkgs follows, so the package matches vicinae.cachix.org instead of building here.
     # Pinned to a release tag; move it to a newer tag to update.
@@ -35,9 +42,18 @@
       inputs.vicinae.follows = "vicinae";
     };
 
-    nixcord.url = "github:FlameFlag/nixcord";
+    nixcord = {
+      url = "github:FlameFlag/nixcord";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
 
-    omp.url = "github:can1357/oh-my-pi";
+    # Only its Home Manager module is used (the package is pkgs/omp-bin.nix), so its own
+    # nixpkgs would be fetched for nothing.
+    omp = {
+      url = "github:can1357/oh-my-pi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # omp skills (not flakes; linked into ~/.omp/agent/skills by home-manager)
     skill-impeccable = {
@@ -79,10 +95,8 @@
       thor = libx.mkHost {hostname = "thor";};
     };
 
-    homeConfigurations = {
-      "${username}@odin" = libx.mkHome {hostname = "odin";};
-      "${username}@thor" = libx.mkHome {hostname = "thor";};
-    };
+    # `nix flake check` builds every host, Home Manager included.
+    checks.x86_64-linux = nixpkgs.lib.mapAttrs (_: host: host.config.system.build.toplevel) self.nixosConfigurations;
 
     formatter = libx.forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
     overlays = import ./overlays {inherit inputs;};

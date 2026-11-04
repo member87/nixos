@@ -5,7 +5,7 @@ import Quickshell.Services.Pam
 
 // Authentication state shared by the lock surfaces of every screen.
 // Password and fingerprint are two separate PAM conversations (see
-// hosts/common/base/services/lockscreen.nix): one stack with both would make
+// hosts/common/desktop/lockscreen.nix): one stack with both would make
 // the password wait for the fingerprint reader to time out.
 Scope {
   id: root
