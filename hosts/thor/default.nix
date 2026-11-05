@@ -14,6 +14,11 @@
     inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
   ];
 
+  # nixos-hardware turns panel self-refresh off on every AMD Framework 13
+  # for a 2024 hang on the 7040 (drm/amd#3647). PSR lets the display path
+  # idle on a static screen; back to true if hangs or flicker return.
+  hardware.amdgpu.dcDebugMask.disablePsr = false;
+
   services.printing.enable = true;
 
   hardware.fw-fanctrl = {

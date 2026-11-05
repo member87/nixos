@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   powerManagement.enable = true;
 
   boot.resumeDevice = "/dev/disk/by-uuid/79423f9e-f360-4279-a45e-2051edcaa0bc";
@@ -25,6 +29,12 @@
   # the unit is only D-Bus activated; start it at boot so the saved profile is
   # restored before anything asks for it
   systemd.services.power-profiles-daemon.wantedBy = ["graphical.target"];
+  # amdgpu panel power savings (ABM: backlight down, contrast up) ships
+  # disabled; enabled it follows the profile and the charge, from none above
+  # 50% up to level 3 below 20% in power-saver. The daemon keeps the setting
+  # in its state file; this sets it after each start (Type=dbus: the name is
+  # up). "-": a failure leaves the daemon running.
+  systemd.services.power-profiles-daemon.serviceConfig.ExecStartPost = "-${config.services.power-profiles-daemon.package}/bin/powerprofilesctl configure-action amdgpu_panel_power --enable";
 
   environment.systemPackages = with pkgs; [
     powertop

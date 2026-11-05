@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  osConfig,
+  ...
+}: {
   services.hypridle = {
     enable = true;
 
@@ -23,7 +27,12 @@
         }
         {
           timeout = 1800;
-          on-timeout = "systemctl suspend";
+          # hibernates after logind's HibernateDelaySec where the host can
+          # resume (thor), as the lid does; plain suspend elsewhere (odin)
+          on-timeout =
+            if osConfig.boot.resumeDevice != ""
+            then "systemctl suspend-then-hibernate"
+            else "systemctl suspend";
         }
       ];
     };
