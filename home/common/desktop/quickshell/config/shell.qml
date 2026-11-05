@@ -32,7 +32,7 @@ ShellRoot {
   PolkitDialog {}
 
   // `qs -c bar ipc call menu toggle network` - opens on the focused monitor;
-  // pages: main, network, bluetooth, notifications
+  // pages: main, network, bluetooth, nixos, notifications
   IpcHandler {
     target: "menu"
     function toggle(page: string): void {

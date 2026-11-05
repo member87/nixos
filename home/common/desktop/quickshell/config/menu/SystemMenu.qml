@@ -7,7 +7,7 @@ import qs.common
 import qs.components
 import qs.services
 
-// The popover under the status icons; pages: main, network, bluetooth.
+// The popover under the status icons; pages: main, network, bluetooth, nixos.
 // A layer surface with a Hyprland focus grab rather than an xdg popup: a
 // popup's grab needs a fresh click, so one opened from a keybind (IPC) was
 // dismissed at once and could never take keyboard input for the wifi
@@ -153,7 +153,18 @@ PanelWindow {
           // pages are built on open and torn down on close, so wifi scans,
           // bluetooth discovery and nmcli polling only run while visible
           active: root.visible
-          sourceComponent: root.shownPage === "network" ? networkPage : root.shownPage === "bluetooth" ? bluetoothPage : mainPage
+          sourceComponent: {
+            switch (root.shownPage) {
+            case "network":
+              return networkPage;
+            case "bluetooth":
+              return bluetoothPage;
+            case "nixos":
+              return nixosPage;
+            default:
+              return mainPage;
+            }
+          }
           transform: Translate {
             id: pageShift
           }
@@ -175,5 +186,10 @@ PanelWindow {
   Component {
     id: bluetoothPage
     BluetoothPage {}
+  }
+
+  Component {
+    id: nixosPage
+    NixosPage {}
   }
 }

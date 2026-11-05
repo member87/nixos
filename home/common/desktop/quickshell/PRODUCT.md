@@ -21,10 +21,10 @@ One coherent world drawn from his own wallpaper: gruvbox over five coloured stri
 ## Operating Context
 
 - `shell.qml` runs as the `quickshell` systemd user service (one bar and one desktop per screen; popups, OSD and polkit on the focused monitor). `lock.qml` runs under hypridle's `lock_cmd`, `greeter.qml` under greetd inside a bare Hyprland, and `sharepicker.qml` under xdg-desktop-portal-hyprland (its `custom_picker_binary`) when an app asks to share the screen.
-- It is opened by pointer and by keybind over IPC (`qs -c bar ipc call menu toggle <page>`, `ipc call osd brightness`, `ipc call power set <profile>` / `ipc call power cycle`).
+- It is opened by pointer and by keybind over IPC (`qs -c bar ipc call menu toggle <page>` with main, network, bluetooth, nixos or notifications, `ipc call osd brightness`, `ipc call power set <profile>` / `ipc call power cycle`).
 - Media widgets show Spotify only. Lyrics come from LRCLIB and the visualizer reads PipeWire peaks.
 - Casting goes through `bar-cast` (Chromecast and AirPlay).
-- The system menu's NixOS section compares the running generation (`nixos-version --json`) with `main` of github:member87/nixos, which the nightly builder pushes and the 05:00 upgrade installs. It checks as the menu opens, GitHub at most every 10 minutes, unauthenticated.
+- The system menu's NixOS section compares the running generation (`nixos-version --json`) with `main` of github:member87/nixos, which the nightly builder pushes and the 05:00 upgrade installs. It checks as the menu opens, GitHub at most every 10 minutes, unauthenticated. A click opens the NixOS page: the same comparison in detail, the running and next-boot kernel, what the generation brought into the store against the previous one (by cache signature, built here, or already present; `nix path-info`), and the nixos-upgrade service's last run (result, nix's reported download, from the journal) and next run.
 
 ## Capabilities and Constraints
 

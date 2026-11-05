@@ -47,6 +47,20 @@ Singleton {
   readonly property bool outOfDate: known && (behindBy > 0 || (behindBy < 0 && nixpkgsBehind))
   readonly property bool localBuild: dirty || aheadBy > 0 || unpushed
   readonly property bool upToDate: known && version !== "" && !outOfDate && !localBuild
+  // one line for the menu and the NixOS page
+  readonly property string status: {
+    if (error !== "")
+      return error;
+    if (version === "")
+      return "Running version unknown";
+    if (!known)
+      return "Checking GitHub…";
+    if (outOfDate)
+      return "Update available";
+    if (localBuild)
+      return "Local build";
+    return "Up to date";
+  }
 
   // "20261103" in "26.11.20261103.1d06008", as a UTC timestamp
   function dayOf(v: string): real {

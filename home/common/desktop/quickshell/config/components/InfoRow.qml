@@ -8,6 +8,7 @@ RowLayout {
 
   property string key: ""
   property string value: ""
+  property color valueColor: Theme.fgBright
 
   visible: value !== ""
   spacing: 8
@@ -20,7 +21,7 @@ RowLayout {
 
   Txt {
     text: root.value
-    color: Theme.fgBright
+    color: root.valueColor
     font.pixelSize: 12
     elide: Text.ElideMiddle
     Layout.fillWidth: true
