@@ -26,4 +26,5 @@ ColumnLayout {
   PowerProfileControl {}
   QuickToggles {}
   MediaPanel {}
+  SystemVersion {}
 }

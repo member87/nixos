@@ -24,6 +24,7 @@ One coherent world drawn from his own wallpaper: gruvbox over five coloured stri
 - It is opened by pointer and by keybind over IPC (`qs -c bar ipc call menu toggle <page>`, `ipc call osd brightness`, `ipc call power set <profile>` / `ipc call power cycle`).
 - Media widgets show Spotify only. Lyrics come from LRCLIB and the visualizer reads PipeWire peaks.
 - Casting goes through `bar-cast` (Chromecast and AirPlay).
+- The system menu's NixOS section compares the running generation (`nixos-version --json`) with `main` of github:member87/nixos, which the nightly builder pushes and the 05:00 upgrade installs. It checks as the menu opens, GitHub at most every 10 minutes, unauthenticated.
 
 ## Capabilities and Constraints
 
