@@ -47,7 +47,7 @@ BarPopup {
   // a passing pointer does not open it; leaving for a moment does not close it
   Timer {
     id: opening
-    interval: 250
+    interval: 100
     onTriggered: root.open()
   }
 
