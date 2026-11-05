@@ -49,6 +49,15 @@
     ];
   };
 
+  # Steam's client runs in a pressure-vessel container that shares /mnt but not
+  # /run/*, so the library must live at a path both it and game launches see.
+  fileSystems."/mnt/1TBSSD" = {
+    device = "/run/1TBSSD";
+    fsType = "none";
+    options = ["bind"];
+    depends = ["/run/1TBSSD"];
+  };
+
   networking.nameservers = [
     "10.0.0.201"
   ];
