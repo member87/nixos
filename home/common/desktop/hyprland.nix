@@ -58,6 +58,10 @@
 
       misc = {
         force_default_wallpaper = 0;
+        # quickshell draws the wallpaper (desktop/Wallpaper.qml); before it
+        # does, and while it restarts, the wallpaper's ground colour
+        disable_hyprland_logo = true;
+        background_color = "rgb(282828)";
         # a crashed lock screen leaves the session locked on a solid colour;
         # this lets a fresh one (loginctl lock-session from a tty) take over
         allow_session_lock_restore = true;

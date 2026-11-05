@@ -3,6 +3,13 @@
   pkgs,
   ...
 }: let
+  # drawn by desktop/Wallpaper.qml, which finds it through QS_WALLPAPER;
+  # the desktop's layout is measured against it (desktop/Desktop.qml)
+  wallpaper = pkgs.fetchurl {
+    url = "https://cdn.lab.jackhumes.com/background.jpg";
+    sha256 = "sha256-oyDi8qJv9vq/Z5YYpDREjZlt/4IV3DL50etwIPiI7zM=";
+  };
+
   # casts this computer's audio to a Chromecast; driven by the output chooser
   bar-cast = pkgs.writeShellApplication {
     name = "bar-cast";
@@ -64,6 +71,7 @@ in {
     # a compositor crash: retry slowly enough to stay under the start limit
     # (5 in 10s) until it is back
     Service.RestartSec = 3;
+    Service.Environment = ["QS_WALLPAPER=${wallpaper}"];
   };
 
   home.packages = [

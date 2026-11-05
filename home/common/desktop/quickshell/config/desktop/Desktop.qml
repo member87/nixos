@@ -24,7 +24,7 @@ PanelWindow {
   signal entered
   signal left
 
-  // the wallpaper (hyprpaper.nix, 3840x2160) as hyprpaper draws it: scaled
+  // the wallpaper (Wallpaper.qml, 3840x2160) as it is drawn: scaled
   // to cover the screen and centred. Its stripes run from y 985 to 1175,
   // 38px a band; Tux sits between x 1728 and 2110.
   readonly property real cover: Math.max(width / 3840, height / 2160)

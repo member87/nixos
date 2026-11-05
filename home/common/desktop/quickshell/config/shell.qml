@@ -19,6 +19,13 @@ ShellRoot {
     Bar {}
   }
 
+  // the wallpaper, under everything
+  Variants {
+    model: Quickshell.screens
+
+    Wallpaper {}
+  }
+
   // the widgets of an empty workspace, under the windows
   Variants {
     model: Quickshell.screens

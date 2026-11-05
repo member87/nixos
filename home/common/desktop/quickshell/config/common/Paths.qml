@@ -13,4 +13,7 @@ Singleton {
   readonly property string notifications: `${state}/notifications.json`
   // lyrics looked up on LRCLIB, so a song played again needs no lookup
   readonly property string lyrics: `${cache}/lyrics.json`
+  // the wallpaper image, from the quickshell service's environment
+  // (default.nix); "" when the shell runs without it (qs -p)
+  readonly property string wallpaper: Quickshell.env("QS_WALLPAPER") || ""
 }
