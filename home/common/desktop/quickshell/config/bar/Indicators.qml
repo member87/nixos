@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Services.UPower
 import qs.common
 import qs.components
 import qs.services
@@ -11,14 +10,6 @@ Clickable {
   id: root
 
   required property string screenName
-  readonly property var battery: UPower.displayDevice
-  readonly property int batteryPercent: Math.round((battery?.percentage ?? 0) * 100)
-  readonly property bool charging: battery?.state === UPowerDeviceState.Charging
-
-  function duration(seconds: real): string {
-    const m = Math.round(seconds / 60);
-    return m >= 60 ? `${Math.floor(m / 60)} h ${m % 60} min` : `${m} min`;
-  }
 
   padX: 6
   padY: 2
@@ -97,24 +88,17 @@ Clickable {
   }
 
   RowLayout {
-    visible: root.battery?.isLaptopBattery ?? false
+    visible: Battery.present
     spacing: 4
 
     StatusGlyph {
-      text: Icons.battery(root.batteryPercent, root.charging)
-      color: root.batteryPercent <= 10 ? Theme.critical : root.batteryPercent >= 100 ? Theme.good : Theme.accent
-      tip: {
-        const b = root.battery;
-        if (root.charging)
-          return b?.timeToFull > 0 ? `Charging, full in ${root.duration(b.timeToFull)}` : "Charging";
-        if (b?.state === UPowerDeviceState.FullyCharged)
-          return "Fully charged";
-        return b?.timeToEmpty > 0 ? `${root.duration(b.timeToEmpty)} left` : `${root.batteryPercent}%`;
-      }
+      text: Icons.battery(Battery.percent, Battery.charging)
+      color: Battery.percent <= 10 ? Theme.critical : Battery.percent >= 100 ? Theme.good : Theme.accent
+      tip: Battery.status
     }
 
     Txt {
-      text: `${root.batteryPercent}%`
+      text: `${Battery.percent}%`
     }
   }
 }
