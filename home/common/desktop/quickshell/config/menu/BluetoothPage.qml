@@ -43,31 +43,30 @@ ColumnLayout {
     }
   }
 
-  Section {
+  Txt {
     visible: !Bt.powered
-
-    Txt {
-      font.pixelSize: 12
-      text: {
-        if (!Bt.adapter)
-          return "No Bluetooth adapter found";
-        if (Bt.adapter.state === BluetoothAdapterState.Blocked)
-          return "Bluetooth is blocked (rfkill)";
-        return "Bluetooth is off";
-      }
+    font.pixelSize: 12
+    Layout.leftMargin: 2
+    text: {
+      if (!Bt.adapter)
+        return "No Bluetooth adapter found";
+      if (Bt.adapter.state === BluetoothAdapterState.Blocked)
+        return "Bluetooth is blocked (rfkill)";
+      return "Bluetooth is off";
     }
   }
 
-  Section {
+  ColumnLayout {
     visible: Bt.powered
     spacing: 2
+    Layout.fillWidth: true
 
     Txt {
       text: "My devices"
       color: Theme.fgBright
-      font.pixelSize: 13
+      font.pixelSize: 12
       font.weight: Font.Medium
-      Layout.leftMargin: 6
+      Layout.leftMargin: 2
       Layout.bottomMargin: 4
     }
 
@@ -75,7 +74,7 @@ ColumnLayout {
       visible: Bt.paired.length === 0
       text: "No paired devices"
       font.pixelSize: 12
-      Layout.leftMargin: 6
+      Layout.leftMargin: 2
     }
 
     Repeater {
@@ -85,18 +84,23 @@ ColumnLayout {
     }
   }
 
-  Section {
+  ColumnLayout {
     visible: Bt.powered
     spacing: 2
+    Layout.fillWidth: true
+
+    Rule {
+      Layout.bottomMargin: 8
+    }
 
     RowLayout {
-      Layout.leftMargin: 6
+      Layout.leftMargin: 2
       Layout.bottomMargin: 4
 
       Txt {
         text: "Nearby"
         color: Theme.fgBright
-        font.pixelSize: 13
+        font.pixelSize: 12
         font.weight: Font.Medium
         Layout.fillWidth: true
       }
@@ -128,7 +132,7 @@ ColumnLayout {
       font.pixelSize: 12
       wrapMode: Text.WordWrap
       Layout.fillWidth: true
-      Layout.leftMargin: 6
+      Layout.leftMargin: 2
     }
 
     Repeater {

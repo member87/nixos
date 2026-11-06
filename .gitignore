@@ -1,3 +1,6 @@
 # nixos-rebuild build / nix build output symlinks
 result
 result-*
+
+# impeccable design artifacts (mockups, surface briefs, review captures)
+.impeccable/

@@ -34,6 +34,7 @@ Singleton {
   readonly property string close: "\u{F0156}"
   readonly property string app: "\u{F08C6}"
   readonly property string nixos: "\u{F1105}"
+  readonly property string power: "\u{F0425}"
 
   function battery(percentage: int, charging: bool): string {
     if (charging) return "\u{F0084}";

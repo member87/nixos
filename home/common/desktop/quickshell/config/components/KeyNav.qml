@@ -6,7 +6,8 @@ import qs.services
 // reading order (wrapping at the ends), Enter or Space presses the one in
 // focus, Escape leaves (`cancelled`). The first key also turns on the focus ring, which
 // stays off for the pointer. Put the popout's content inside; `flick`
-// scrolls to keep the focused control in view.
+// scrolls to keep the focused control in view. Any other key no control
+// took arrives in `unhandled`; accept it there to keep it.
 FocusScope {
   id: root
 
@@ -16,6 +17,7 @@ FocusScope {
   property bool arrowsSideways: true
   signal cancelled
   signal back
+  signal unhandled(var event)
 
   function inside(item: Item): bool {
     for (let i = item; i; i = i.parent)
@@ -74,6 +76,7 @@ FocusScope {
       root.step(false);
       break;
     default:
+      root.unhandled(e);
       return;
     }
     e.accepted = true;

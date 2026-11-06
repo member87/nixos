@@ -5,6 +5,8 @@ import qs.common
 import qs.components
 import qs.services
 
+// Ethernet ports, the Wi-Fi card and the network it is on, the VPN, and the
+// networks in range: one group each, hairlines between them.
 ColumnLayout {
   id: root
 
@@ -24,12 +26,12 @@ ColumnLayout {
       return "";
     }
   }
-  // the connected network is listed in the Wi-Fi section, not here
+  // the connected network is listed in the Wi-Fi group, not here
   readonly property var others: Net.wifiNetworks.filter(n => !n.connected && n.name !== "").sort((a, b) => b.known - a.known || b.signalStrength - a.signalStrength)
 
   spacing: 10
 
-  // scanning keeps the network list live; only while this page is open
+  // scanning keeps the network list live; only while this tab is open
   Component.onCompleted: {
     if (Net.wifi)
       Net.wifi.scannerEnabled = true;
@@ -43,33 +45,34 @@ ColumnLayout {
     title: "Network"
   }
 
-  Section {
+  Txt {
     visible: Net.devices.length === 0
-
-    Txt {
-      text: "NetworkManager reports no network devices"
-      font.pixelSize: 12
-    }
+    text: "NetworkManager reports no network devices"
+    font.pixelSize: 12
+    Layout.leftMargin: 2
   }
 
   // ethernet ports
   Repeater {
     model: Net.wired
 
-    Section {
+    ColumnLayout {
       id: wired
 
       required property var modelData
       readonly property bool up: modelData.state === ConnectionState.Connected
 
+      spacing: 8
+      Layout.fillWidth: true
+
       RowLayout {
-        spacing: 10
+        spacing: 8
 
         Glyph {
           text: Icons.ethernet
           color: wired.up ? Theme.accent : Theme.fg
           font.pixelSize: 18
-          Layout.preferredWidth: 26
+          Layout.preferredWidth: 24
         }
 
         ColumnLayout {
@@ -99,21 +102,16 @@ ColumnLayout {
         }
 
         TextButton {
-          visible: wired.modelData.hasLink && (wired.up || wired.modelData.network !== null)
-          text: wired.up ? "Disconnect" : "Connect"
-          onClicked: {
-            if (wired.up)
-              wired.modelData.disconnect();
-            else
-              wired.modelData.network.connect();
-          }
+          visible: !wired.up && wired.modelData.hasLink && wired.modelData.network !== null
+          text: "Connect"
+          onClicked: wired.modelData.network.connect()
         }
       }
 
       ColumnLayout {
         visible: wired.up
         spacing: 4
-        Layout.leftMargin: 36
+        Layout.leftMargin: 32
 
         ConnInfo {
           id: wiredInfo
@@ -152,26 +150,38 @@ ColumnLayout {
           key: "MAC"
           value: wired.modelData.address
         }
+
+        TextButton {
+          text: "Disconnect"
+          onClicked: wired.modelData.disconnect()
+          Layout.topMargin: 4
+        }
+      }
+
+      Rule {
+        Layout.topMargin: 2
       }
     }
   }
 
-  // wifi card, its switch and the network it is on
-  Section {
+  // the wifi card, its switch and the network it is on
+  ColumnLayout {
     id: wifi
 
     readonly property var network: Net.wifiNetwork
 
     visible: Net.wifi !== null
+    spacing: 8
+    Layout.fillWidth: true
 
     RowLayout {
-      spacing: 10
+      spacing: 8
 
       Glyph {
-        text: Net.wifiEnabled ? (wifi.network ? Icons.wifi(Net.strength, false) : Icons.wifiFull) : Icons.wifiOff
+        text: Net.wifiEnabled ? (wifi.network ? Icons.wifi(Net.strength, Net.secured(wifi.network)) : Icons.wifiFull) : Icons.wifiOff
         color: wifi.network ? Theme.accent : Theme.fg
         font.pixelSize: 18
-        Layout.preferredWidth: 26
+        Layout.preferredWidth: 24
       }
 
       ColumnLayout {
@@ -179,10 +189,12 @@ ColumnLayout {
         Layout.fillWidth: true
 
         Txt {
-          text: "Wi-Fi"
+          text: wifi.network ? wifi.network.name : "Wi-Fi"
           color: Theme.fgBright
           font.pixelSize: 13
           font.weight: Font.Medium
+          elide: Text.ElideRight
+          Layout.fillWidth: true
         }
 
         Txt {
@@ -191,10 +203,12 @@ ColumnLayout {
           Layout.fillWidth: true
           text: {
             if (!Networking.wifiHardwareEnabled)
-              return "Blocked by hardware switch";
+              return "Wi-Fi blocked by hardware switch";
             if (!Net.wifiEnabled)
-              return "Off";
-            return wifi.network ? `Connected to ${wifi.network.name}` : "Not connected";
+              return "Wi-Fi off";
+            if (!wifi.network)
+              return "Not connected";
+            return `Connected · ${Net.strength}% · ${Net.securityName(wifi.network)}`;
           }
         }
       }
@@ -203,27 +217,20 @@ ColumnLayout {
         checked: Net.wifiEnabled
         enabled: Networking.wifiHardwareEnabled
         onToggled: Net.toggleWifi()
+        Accessible.name: "Wi-Fi"
       }
     }
 
     ColumnLayout {
       visible: wifi.network !== null
       spacing: 4
-      Layout.leftMargin: 36
+      Layout.leftMargin: 32
 
       ConnInfo {
         id: wifiInfo
         iface: wifi.network ? Net.wifi.name : ""
       }
 
-      InfoRow {
-        key: "Signal"
-        value: wifi.network ? `${Net.strength}%` : ""
-      }
-      InfoRow {
-        key: "Security"
-        value: wifi.network ? Net.securityName(wifi.network) : ""
-      }
       InfoRow {
         key: "Internet"
         value: root.internet
@@ -270,19 +277,56 @@ ColumnLayout {
         }
       }
     }
+
+    Rule {
+      Layout.topMargin: 2
+    }
+  }
+
+  // ProtonVPN: status only, it is brought up from its own app
+  RowLayout {
+    spacing: 8
+
+    Glyph {
+      text: Vpn.connected ? Icons.vpnLocked : Icons.vpnUnlocked
+      color: Vpn.connected ? Theme.accent : Theme.fg
+      font.pixelSize: 18
+      Layout.preferredWidth: 24
+    }
+
+    ColumnLayout {
+      spacing: 0
+      Layout.fillWidth: true
+
+      Txt {
+        text: "VPN"
+        color: Theme.fgBright
+        font.pixelSize: 12
+      }
+
+      Txt {
+        text: Vpn.connected ? `Connected · ${Vpn.ip}` : "Off"
+        font.pixelSize: 12
+      }
+    }
   }
 
   // networks in range
-  Section {
+  ColumnLayout {
     visible: Net.wifi !== null && Net.wifiEnabled
     spacing: 2
+    Layout.fillWidth: true
+
+    Rule {
+      Layout.bottomMargin: 8
+    }
 
     Txt {
       text: "Networks"
       color: Theme.fgBright
-      font.pixelSize: 13
+      font.pixelSize: 12
       font.weight: Font.Medium
-      Layout.leftMargin: 6
+      Layout.leftMargin: 2
       Layout.bottomMargin: 4
     }
 
@@ -290,7 +334,7 @@ ColumnLayout {
       visible: root.others.length === 0
       text: "Searching for networks…"
       font.pixelSize: 12
-      Layout.leftMargin: 6
+      Layout.leftMargin: 2
     }
 
     Repeater {

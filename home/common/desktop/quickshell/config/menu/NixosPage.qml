@@ -92,15 +92,18 @@ ColumnLayout {
   }
 
   // against main on GitHub
-  Section {
+  ColumnLayout {
+    spacing: 8
+    Layout.fillWidth: true
+
     RowLayout {
-      spacing: 10
+      spacing: 8
 
       Glyph {
         text: Icons.nixos
         color: Updates.outOfDate ? Theme.accent : Theme.fg
         font.pixelSize: 18
-        Layout.preferredWidth: 26
+        Layout.preferredWidth: 24
       }
 
       ColumnLayout {
@@ -126,7 +129,7 @@ ColumnLayout {
 
     ColumnLayout {
       spacing: 4
-      Layout.leftMargin: 36
+      Layout.leftMargin: 32
 
       InfoRow {
         key: "Running"
@@ -188,9 +191,15 @@ ColumnLayout {
     }
   }
 
-  // what the generation brought, by where it came from
-  Section {
+  Rule {
     visible: gen.number > 0
+  }
+
+  // what the generation brought, by where it came from
+  ColumnLayout {
+    visible: gen.number > 0
+    spacing: 8
+    Layout.fillWidth: true
 
     ColumnLayout {
       spacing: 0
@@ -331,14 +340,20 @@ ColumnLayout {
     }
   }
 
-  // system.autoUpgrade's last and next run
-  Section {
+  Rule {
     visible: gen.upgrades
+  }
+
+  // system.autoUpgrade's last and next run
+  ColumnLayout {
+    visible: gen.upgrades
+    spacing: 8
+    Layout.fillWidth: true
 
     Txt {
       text: "Nightly upgrade"
       color: Theme.fgBright
-      font.pixelSize: 13
+      font.pixelSize: 12
       font.weight: Font.Medium
     }
 
@@ -347,12 +362,12 @@ ColumnLayout {
 
       InfoRow {
         key: "Last run"
-        value: {
-          if (gen.runState === "")
-            return "No run in the journal";
-          const start = root.when(gen.runStart);
-          return gen.runEnd > 0 ? `${start} · took ${root.duration(gen.runEnd - gen.runStart)}` : start;
-        }
+        value: gen.runState === "" ? "No run in the journal" : root.when(gen.runStart)
+      }
+      // its own row: beside the start it ran past the tab's width
+      InfoRow {
+        key: "Took"
+        value: gen.runState !== "" && gen.runEnd > 0 ? root.duration(gen.runEnd - gen.runStart) : ""
       }
       InfoRow {
         key: "Result"

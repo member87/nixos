@@ -4,10 +4,16 @@ import qs.common
 import qs.components
 import qs.services
 
-Section {
+// the backlight, on the Power tab; hidden without one (odin)
+Item {
   visible: Brightness.available
+  implicitHeight: row.implicitHeight
+  Layout.fillWidth: true
 
   VolumeRow {
+    id: row
+    anchors.left: parent.left
+    anchors.right: parent.right
     glyph: Icons.brightness
     title: "Screen brightness"
     iconEnabled: false

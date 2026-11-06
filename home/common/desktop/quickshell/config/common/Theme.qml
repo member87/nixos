@@ -17,6 +17,8 @@ Singleton {
   readonly property color accentHover: Qt.rgba(250 / 255, 189 / 255, 47 / 255, 0.1)
   readonly property color accentActive: Qt.rgba(250 / 255, 189 / 255, 47 / 255, 0.2)
   readonly property color border: "#665c54"
+  // a hairline between groups inside a popout: the border at half strength
+  readonly property color rule: Qt.rgba(102 / 255, 92 / 255, 84 / 255, 0.5)
   readonly property color critical: "#fb4934"
   readonly property color good: "#b8bb26"
   // privacy indicators: orange for the microphone (the window border's

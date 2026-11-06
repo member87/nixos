@@ -5,10 +5,11 @@ import qs.common
 import qs.components
 import qs.services
 
-// Lock, suspend, log out, restart, shut down: the menu's first row. The
-// three that end the session ask first, in place: one click turns the
-// button red and says what a second click will do; left alone, it settles.
-Section {
+// Lock, suspend, log out, restart, shut down: labelled buttons at the foot
+// of the Power tab, shut down alone on the last row. The three that end the
+// session ask first, in place: one click turns the button red and a line
+// under them says what a second click will do; left alone, it settles.
+ColumnLayout {
   id: root
 
   // the action asked about, or ""
@@ -46,12 +47,11 @@ Section {
     {
       id: "poweroff",
       label: "Shut down",
-      icon: "\u{F0425}",
+      icon: Icons.power,
       command: ["systemctl", "poweroff"],
       ask: true
     }
   ]
-  readonly property var asked: actions.find(a => a.id === armed) ?? null
 
   function run(action: var) {
     if (action.ask && armed !== action.id) {
@@ -64,8 +64,10 @@ Section {
     Quickshell.execDetached(action.command);
   }
 
-  padding: 6
+  readonly property var asked: actions.find(a => a.id === armed) ?? null
+
   spacing: 6
+  Layout.fillWidth: true
 
   Timer {
     id: settle
@@ -73,8 +75,10 @@ Section {
     onTriggered: root.armed = ""
   }
 
-  RowLayout {
-    spacing: 6
+  GridLayout {
+    columns: 2
+    rowSpacing: 6
+    columnSpacing: 6
     Layout.fillWidth: true
 
     Repeater {
@@ -84,26 +88,36 @@ Section {
         id: button
 
         required property var modelData
+        required property int index
         readonly property bool isArmed: root.armed === modelData.id
 
         Layout.fillWidth: true
-        implicitHeight: 38
+        Layout.preferredWidth: 1
+        // an odd one out spans the row
+        Layout.columnSpan: index === root.actions.length - 1 && root.actions.length % 2 === 1 ? 2 : 1
+        implicitHeight: 34
+        fill: true
+        padX: 10
+        spacing: 8
         radius: Theme.radiusControl + 2
-        color: isArmed ? Theme.critical : "transparent"
-        hoverColor: isArmed ? Qt.lighter(Theme.critical, 1.12) : Theme.accentHover
-        pressColor: isArmed ? Qt.darker(Theme.critical, 1.1) : Theme.accentActive
+        color: isArmed ? Theme.critical : Theme.sectionBg
+        hoverColor: isArmed ? Qt.lighter(Theme.critical, 1.12) : Theme.accentActive
+        pressColor: isArmed ? Qt.darker(Theme.critical, 1.1) : Qt.rgba(250 / 255, 189 / 255, 47 / 255, 0.3)
         onClicked: root.run(modelData)
 
         Glyph {
           text: button.modelData.icon
           color: button.isArmed ? Theme.accentInk : Theme.accent
-          font.pixelSize: 18
+          font.pixelSize: 16
+          Layout.preferredWidth: 18
         }
 
-        Tooltip {
-          target: button
-          hovered: button.containsMouse && !button.isArmed
+        Txt {
           text: button.modelData.label
+          color: button.isArmed ? Theme.accentInk : Theme.fgBright
+          font.pixelSize: 12
+          elide: Text.ElideRight
+          Layout.fillWidth: true
         }
       }
     }
@@ -117,6 +131,5 @@ Section {
     font.pixelSize: 12
     horizontalAlignment: Text.AlignHCenter
     Layout.fillWidth: true
-    Layout.bottomMargin: 2
   }
 }

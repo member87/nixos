@@ -6,7 +6,6 @@ import Quickshell.Io
 
 // UI choices that survive a restart (~/.local/state/quickshell/...)
 Singleton {
-  property alias mixerShown: adapter.mixerShown
   property alias doNotDisturb: adapter.doNotDisturb
 
   FileView {
@@ -23,7 +22,6 @@ Singleton {
 
     JsonAdapter {
       id: adapter
-      property bool mixerShown: false
       property bool doNotDisturb: false
     }
   }

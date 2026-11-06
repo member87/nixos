@@ -13,6 +13,9 @@ MouseArea {
   default property alias content: box.data
   property alias spacing: box.spacing
   property alias radius: bg.radius
+  // the fill, for a shape other than evenly round (per-corner radii); the
+  // focus ring follows its corners
+  readonly property alias background: bg
   property color color: "transparent"
   property color hoverColor: Theme.accentHover
   property color pressColor: Theme.accentActive
@@ -62,6 +65,10 @@ MouseArea {
   Rectangle {
     anchors.fill: parent
     radius: bg.radius
+    topLeftRadius: bg.topLeftRadius
+    topRightRadius: bg.topRightRadius
+    bottomLeftRadius: bg.bottomLeftRadius
+    bottomRightRadius: bg.bottomRightRadius
     color: "transparent"
     border.width: 2
     // on an accent fill (a primary button, a connected tile) the ring is ink
