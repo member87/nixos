@@ -110,6 +110,12 @@ in {
       hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
       hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
+      -- the screenshot freeze (hyprpicker) stays above popups that open while
+      -- a region is picked (notifications, OSDs), so they are not captured;
+      -- slurp's selection stays above the freeze. A lower order is drawn
+      -- higher; layers default to 0
+      hl.layer_rule({ name = "screenshot-freeze", match = { namespace = "^hyprpicker$" }, order = -100 })
+      hl.layer_rule({ name = "screenshot-selection", match = { namespace = "^selection$" }, order = -101 })
       hl.bind("Print", exec("${screenshot}/bin/screenshot"))
       hl.bind(mod .. " + Return", exec("ghostty"))
       hl.bind(mod .. " + SHIFT + Q", hl.dsp.window.close())
