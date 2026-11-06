@@ -8,30 +8,42 @@
     x11.enable = true;
   };
 
+  # Hyprland 0.57 reads only Lua (hyprland.lua); hyprlang configs are ignored
+  # and replaced by its example. Options render as one hl.config({...}); the
+  # binds are Lua below. The same API drives `hyprctl dispatch`, so callers
+  # pass dispatchers too: hyprctl dispatch 'hl.dsp.exit()'.
   wayland.windowManager.hyprland = {
-    configType = "hyprlang";
+    configType = "lua";
     systemd.variables = ["--all"];
     enable = true;
 
-    settings = {
-      "$mod" = "SUPER";
-
+    settings.config = {
       general = {
         gaps_in = 0;
         gaps_out = 0;
         border_size = 2;
-        "col.active_border" = "rgb(fe8019) rgb(fabd2f) 45deg";
-        "col.inactive_border" = "rgb(1d2021)";
+        col = {
+          active_border = {
+            colors = ["rgb(fe8019)" "rgb(fabd2f)"];
+            angle = 45;
+          };
+          inactive_border = "rgb(1d2021)";
+        };
         allow_tearing = false;
         layout = "dwindle";
       };
 
       group = {
-        "col.border_active" = "rgb(fe8019) rgb(fabd2f) 45deg";
-        "col.border_inactive" = "rgb(1d2021)";
-        groupbar = {
-          "col.active" = "rgb(fe8019)";
-          "col.inactive" = "rgb(1d2021)";
+        col = {
+          border_active = {
+            colors = ["rgb(fe8019)" "rgb(fabd2f)"];
+            angle = 45;
+          };
+          border_inactive = "rgb(1d2021)";
+        };
+        groupbar.col = {
+          active = "rgb(fe8019)";
+          inactive = "rgb(1d2021)";
         };
       };
 
@@ -52,95 +64,76 @@
         blur.enabled = false;
       };
 
-      animations = {
-        enabled = 0;
-      };
+      animations.enabled = false;
 
       misc = {
         force_default_wallpaper = 0;
         # quickshell draws the wallpaper (desktop/Wallpaper.qml); before it
         # does, and while it restarts, the wallpaper's ground colour
         disable_hyprland_logo = true;
-        background_color = "rgb(282828)";
+        background_color = 4280821800; # 0xff282828
         # a crashed lock screen leaves the session locked on a solid colour;
         # this lets a fresh one (loginctl lock-session from a tty) take over
         allow_session_lock_restore = true;
       };
-
-      bindm = [
-        "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
-      ];
-
-      bind =
-        [
-          # satty's default thumbnail is a temp file deleted as --early-exit
-          # quits, before the notification can show it: send its icon instead
-          ", Print, exec, hyprshot -m region --raw | satty --fullscreen --early-exit --notification-thumbnail app-icon --copy-command \"wl-copy\" -f -"
-          "$mod, Return, exec, ghostty"
-          "$mod SHIFT, Q, killactive"
-          "$mod, left, movefocus, l"
-          "$mod, right, movefocus, r"
-          "$mod, up, movefocus, u"
-          "$mod, down, movefocus, d"
-          "$mod SHIFT, left, movewindow, l"
-          "$mod SHIFT, right, movewindow, r"
-          "$mod SHIFT, up, movewindow, u"
-          "$mod SHIFT, down, movewindow, d"
-          "$mod, d, exec, vicinae open"
-          "$mod SHIFT, e, exit"
-          # hypridle's lock_cmd starts the quickshell lock screen
-          "$mod, l, exec, loginctl lock-session"
-          "$mod, f, fullscreen"
-          "$mod, space, togglefloating"
-          "$mod, w, togglegroup"
-          "$mod, tab, changegroupactive"
-          "$mod SHIFT, tab, changegroupactive, b"
-
-          # Volume and media keys; the bar's OSD shows the change (volume it
-          # sees in PipeWire, brightness it is told about)
-          ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-          ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-          ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-          ", XF86MonBrightnessUp, exec, brightnessctl -q set 5%+ && qs -c bar ipc call osd brightness"
-          ", XF86MonBrightnessDown, exec, brightnessctl -q set 5%- && qs -c bar ipc call osd brightness"
-          ", XF86AudioNext, exec, playerctl next"
-          ", XF86AudioPause, exec, playerctl play-pause"
-          ", XF86AudioPlay, exec, playerctl play-pause"
-          ", XF86AudioPrev, exec, playerctl previous"
-        ]
-        ++ (
-          # workspaces
-          builtins.concatLists (
-            builtins.genList (
-              i: let
-                ws = i + 1;
-              in [
-                "$mod, code:1${toString i}, workspace, ${toString ws}"
-                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-              ]
-            )
-            10
-          )
-        );
     };
 
     extraConfig = ''
-      # monitors.conf is written by nwg-displays and may not exist yet;
-      # noerror makes the source a no-op instead of a config error when missing.
-      # hyprlang noerror true
-      source = ~/.config/hypr/monitors.conf
-      # hyprlang noerror false
+      -- monitors.lua is written by nwg-displays and may not exist yet
+      pcall(require, "monitors")
 
-      bind = $mod, S, submap, resize
+      local mod = "SUPER"
+      local function exec(cmd) return hl.dsp.exec_cmd(cmd) end
 
-      submap = resize
-      binde = , right, resizeactive, 10 0
-      binde = , left, resizeactive, -10 0
-      binde = , up, resizeactive, 0 -10
-      binde = , down, resizeactive, 0 10
-      bind = , escape, submap, reset
-      submap = reset
+      hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+      hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+      -- satty's default thumbnail is a temp file deleted as --early-exit
+      -- quits, before the notification can show it: send its icon instead
+      hl.bind("Print", exec([[hyprshot -m region --raw | satty --fullscreen --early-exit --notification-thumbnail app-icon --copy-command "wl-copy" -f -]]))
+      hl.bind(mod .. " + Return", exec("ghostty"))
+      hl.bind(mod .. " + SHIFT + Q", hl.dsp.window.close())
+      for _, dir in ipairs({ "left", "right", "up", "down" }) do
+        hl.bind(mod .. " + " .. dir, hl.dsp.focus({ direction = dir }))
+        hl.bind(mod .. " + SHIFT + " .. dir, hl.dsp.window.move({ direction = dir }))
+      end
+      hl.bind(mod .. " + D", exec("vicinae open"))
+      hl.bind(mod .. " + SHIFT + E", hl.dsp.exit())
+      -- hypridle's lock_cmd starts the quickshell lock screen
+      hl.bind(mod .. " + L", exec("loginctl lock-session"))
+      hl.bind(mod .. " + F", hl.dsp.window.fullscreen())
+      hl.bind(mod .. " + space", hl.dsp.window.float({ action = "toggle" }))
+      hl.bind(mod .. " + W", hl.dsp.group.toggle())
+      hl.bind(mod .. " + tab", hl.dsp.group.next())
+      hl.bind(mod .. " + SHIFT + tab", hl.dsp.group.prev())
+
+      -- Volume and media keys; the bar's OSD shows the change (volume it
+      -- sees in PipeWire, brightness it is told about)
+      hl.bind("XF86AudioRaiseVolume", exec("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"))
+      hl.bind("XF86AudioLowerVolume", exec("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
+      hl.bind("XF86AudioMute", exec("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
+      hl.bind("XF86MonBrightnessUp", exec("brightnessctl -q set 5%+ && qs -c bar ipc call osd brightness"))
+      hl.bind("XF86MonBrightnessDown", exec("brightnessctl -q set 5%- && qs -c bar ipc call osd brightness"))
+      hl.bind("XF86AudioNext", exec("playerctl next"))
+      hl.bind("XF86AudioPause", exec("playerctl play-pause"))
+      hl.bind("XF86AudioPlay", exec("playerctl play-pause"))
+      hl.bind("XF86AudioPrev", exec("playerctl previous"))
+
+      -- workspaces 1-10 on the number row by keycode (10 is "1"), whatever
+      -- the layout
+      for i = 0, 9 do
+        hl.bind(mod .. " + code:1" .. i, hl.dsp.focus({ workspace = i + 1 }))
+        hl.bind(mod .. " + SHIFT + code:1" .. i, hl.dsp.window.move({ workspace = i + 1 }))
+      end
+
+      hl.bind(mod .. " + S", hl.dsp.submap("resize"))
+      hl.define_submap("resize", function()
+        hl.bind("right", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
+        hl.bind("left", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
+        hl.bind("up", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
+        hl.bind("down", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
+        hl.bind("escape", hl.dsp.submap("reset"))
+      end)
     '';
   };
 }

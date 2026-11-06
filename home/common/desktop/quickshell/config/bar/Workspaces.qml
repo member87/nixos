@@ -97,7 +97,7 @@ Item {
         height: Theme.barHeight
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onClicked: Hyprland.dispatch(`workspace ${wsId}`)
+        onClicked: Hyprland.dispatch(`hl.dsp.focus({ workspace = ${wsId} })`)
 
         Txt {
           anchors.centerIn: parent
@@ -127,6 +127,6 @@ Item {
 
   WheelHandler {
     acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-    onWheel: e => Hyprland.dispatch(e.angleDelta.y < 0 ? "workspace +1" : "workspace -1")
+    onWheel: e => Hyprland.dispatch(`hl.dsp.focus({ workspace = "${e.angleDelta.y < 0 ? "+1" : "-1"}" })`)
   }
 }

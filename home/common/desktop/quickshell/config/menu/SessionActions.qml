@@ -33,7 +33,7 @@ Section {
       id: "logout",
       label: "Log out",
       icon: "\u{F0343}",
-      command: ["hyprctl", "dispatch", "exit"],
+      command: ["hyprctl", "dispatch", "hl.dsp.exit()"],
       ask: true
     },
     {
