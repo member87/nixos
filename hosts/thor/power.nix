@@ -43,7 +43,8 @@
   # power-profiles-daemon signal, and each minute in case a resume resets it.
   systemd.services.panel-power-savings = {
     description = "amdgpu panel power savings from the power profile and battery";
-    wantedBy = ["multi-user.target"];
+    # power-profiles-daemon is ordered after multi-user.target
+    wantedBy = ["graphical.target"];
     after = ["upower.service" "power-profiles-daemon.service"];
     wants = ["upower.service" "power-profiles-daemon.service"];
     path = [pkgs.glib pkgs.systemd pkgs.coreutils];
