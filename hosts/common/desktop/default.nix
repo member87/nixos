@@ -68,7 +68,6 @@
     ghostty
     google-chrome
     gphoto2
-    hyprshot
     jellyfin-desktop
     ledger-live-desktop
     libnotify

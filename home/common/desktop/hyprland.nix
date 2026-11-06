@@ -1,4 +1,26 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  # Print: freezes the screen, then a region is picked from the frozen frame
+  # and opened in satty. hyprshot --freeze lifts the freeze as soon as slurp
+  # exits, racing grim, so the capture could be of the live screen.
+  screenshot = pkgs.writeShellApplication {
+    name = "screenshot";
+    runtimeInputs = with pkgs; [grim hyprpicker satty slurp wl-clipboard];
+    text = ''
+      # hyprpicker draws the frame it grabbed at start over every output
+      hyprpicker --render-inactive --no-zoom --disable-preview --quiet &
+      freeze=$!
+      trap 'kill "$freeze" 2>/dev/null || true' EXIT
+      # slurp has to map above the freeze, not under it
+      sleep 0.2
+      region=$(slurp -d) || exit 0
+      # grim copies the frozen frame, so the freeze stays up until it is done;
+      # satty's default thumbnail is a temp file deleted as --early-exit quits,
+      # before the notification can show it: send its icon instead
+      { grim -g "$region" -; kill "$freeze"; } |
+        satty --fullscreen --early-exit --notification-thumbnail app-icon --copy-command wl-copy -f -
+    '';
+  };
+in {
   home.pointerCursor = {
     enable = true;
     package = pkgs.bibata-cursors;
@@ -88,9 +110,7 @@
       hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
       hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
-      -- satty's default thumbnail is a temp file deleted as --early-exit
-      -- quits, before the notification can show it: send its icon instead
-      hl.bind("Print", exec([[hyprshot -m region --raw | satty --fullscreen --early-exit --notification-thumbnail app-icon --copy-command "wl-copy" -f -]]))
+      hl.bind("Print", exec("${screenshot}/bin/screenshot"))
       hl.bind(mod .. " + Return", exec("ghostty"))
       hl.bind(mod .. " + SHIFT + Q", hl.dsp.window.close())
       for _, dir in ipairs({ "left", "right", "up", "down" }) do
