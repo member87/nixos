@@ -11,7 +11,8 @@ import qs.services
 // Notification popups, top right of the focused monitor, newest on top.
 // Low urgency stays 5s, normal 10s, critical until dismissed (swaync's
 // timeouts); an app's own timeout wins. Hovering a popup holds it, and a
-// hairline along its foot runs down the time it has left.
+// hairline along its foot runs down the time it has left. Hidden while the
+// screenshot editor is open, which they would cover.
 //
 // A new popup slides in from the right edge, one that goes slides back out,
 // and the rest close up. The model keeps each popup's delegate for as long
@@ -35,7 +36,7 @@ PanelWindow {
 
   screen: Quickshell.screens.find(s => s.name === Hyprland.focusedMonitor?.name) ?? Quickshell.screens[0]
   // the open notification centre lists them all already
-  visible: showing && (Menus.page !== "notifications" || Menus.screen === "")
+  visible: showing && !Screenshot.editing && (Menus.page !== "notifications" || Menus.screen === "")
   anchors {
     top: true
     right: true

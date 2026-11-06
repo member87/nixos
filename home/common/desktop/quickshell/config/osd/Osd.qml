@@ -14,7 +14,8 @@ import qs.services
 // whatever changed them; the brightness keys call
 // `qs -c bar ipc call osd brightness` after changing it; skips come from
 // Media wherever they were made, and a song ending into the next is not one.
-// Quiet while the system menu is open (it shows the same things). It rises
+// Quiet while the system menu is open (it shows the same things) and while
+// the screenshot editor is (it would cover the image). It rises
 // a little as it fades in and sinks as it fades out; while it is up, a new
 // change only updates it.
 PanelWindow {
@@ -31,7 +32,7 @@ PanelWindow {
   readonly property var player: Media.player
 
   function show(what: string) {
-    if (!ready || Menus.screen !== "")
+    if (!ready || Menus.screen !== "" || Screenshot.editing)
       return;
     kind = what;
     if (!visible || leave.running) {
