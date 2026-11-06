@@ -5,11 +5,13 @@ import Quickshell
 import Quickshell.Io
 
 // What Spotify plays next and which tracks are liked, from the Spotify Web
-// API, for the music drawer. The sign-in and the refresh token stay in
-// bar-spotify (home/common/desktop/quickshell); this asks it for short-lived
-// access tokens. Spotify is only asked while the drawer is open (`watched`)
-// and when it opens; a track change while it is closed moves the queue up
-// one place here, and the next opening checks it.
+// API, for the music drawer and the system menu's now-playing card. The
+// sign-in and the refresh token stay in bar-spotify
+// (home/common/desktop/quickshell); this asks it for short-lived access
+// tokens. Spotify is only asked while the drawer is open (`watched`), when
+// it or the menu's Sound tab opens, and for the liked state on a track
+// change; a track change while the drawer is closed moves the queue up one
+// place here, and the next opening checks it.
 Singleton {
   id: root
 
