@@ -16,9 +16,9 @@ Singleton {
   readonly property bool discharging: device?.state === UPowerDeviceState.Discharging
 
   // UPower divides the energy by the battery's instantaneous power, read
-  // every 30 s, so its estimate swings with each spike of load. The power
-  // here is the energy actually moved over the last 10 minutes instead;
-  // UPower's own figure fills the first 2 minutes after a state change.
+  // every 30 s, so its estimate swings by hours with each spike of load. The
+  // power here is the energy actually moved over the last 10 minutes
+  // instead, and there is no estimate until 2 minutes of it are in.
   readonly property real windowMs: 10 * 60 * 1000
   readonly property real minSpanMs: 2 * 60 * 1000
   // { t: ms, e: Wh }, oldest first, since the state last changed
@@ -26,19 +26,18 @@ Singleton {
   // W; 0 until there are minSpanMs of samples
   property real averagePower: 0
 
-  readonly property real power: averagePower > 0 ? averagePower : (device?.changeRate ?? 0)
   readonly property real secondsLeft: {
-    if (power <= 0)
+    if (averagePower <= 0)
       return 0;
     if (charging)
-      return (device.energyCapacity - device.energy) / power * 3600;
+      return (device.energyCapacity - device.energy) / averagePower * 3600;
     if (discharging)
-      return device.energy / power * 3600;
+      return device.energy / averagePower * 3600;
     return 0;
   }
 
-  // "3 h 20 min left", "Charging, full in 40 min"; "" while there is no
-  // power reading yet (UPower needs a few after the state changes)
+  // "3 h 20 min left", "Charging, full in 40 min"; "" for the first 2
+  // minutes after a state change
   readonly property string estimate: {
     if (secondsLeft <= 0)
       return "";
