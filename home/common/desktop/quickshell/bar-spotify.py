@@ -8,7 +8,8 @@ bar-spotify token   prints a fresh access token as JSON:
 
 The refresh token is kept in $XDG_STATE_HOME/quickshell/spotify.json, readable
 by this user only; the shell never sees it, only the short-lived access
-tokens. Exit 3: no client ID (default.nix); 4: not linked, or the link was
+tokens. The Spotify app's client ID is read from its agenix secret. Exit 3:
+no client ID (the secret is missing); 4: not linked, or the link was
 revoked; 1: Spotify could not be reached or refused.
 """
 
@@ -26,7 +27,9 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-CLIENT_ID = "@clientId@"
+# decrypted at boot by agenix (hosts/common/desktop/spotify.nix)
+CLIENT_ID_FILE = "@clientIdFile@"
+CLIENT_ID = ""
 XDG_OPEN = "@xdgOpen@"
 PORT = 8898
 REDIRECT = f"http://127.0.0.1:{PORT}/callback"
@@ -154,8 +157,13 @@ def main():
     if len(sys.argv) != 2 or sys.argv[1] not in ("link", "token"):
         print("usage: bar-spotify link|token", file=sys.stderr)
         return 2
+    global CLIENT_ID
+    try:
+        with open(CLIENT_ID_FILE) as f:
+            CLIENT_ID = f.read().strip()
+    except OSError as e:
+        print(f"bar-spotify: cannot read the Spotify client ID: {e}", file=sys.stderr)
     if not CLIENT_ID:
-        print("bar-spotify: no Spotify client ID is set (spotifyClientId in default.nix)", file=sys.stderr)
         return 3
     return link() if sys.argv[1] == "link" else token()
 

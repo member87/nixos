@@ -14,4 +14,6 @@ let
   ];
 in {
   "wireguard_proton_london.age".publicKeys = hosts;
+  # the music drawer's Spotify app (home/common/desktop/quickshell)
+  "spotify_client_id.age".publicKeys = hosts;
 }

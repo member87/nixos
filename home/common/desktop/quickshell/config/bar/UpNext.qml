@@ -212,7 +212,7 @@ ColumnLayout {
     text: {
       switch (Spotify.status) {
       case "off":
-        return "Set spotifyClientId in default.nix to see what plays next";
+        return "No Spotify client ID (secrets/spotify_client_id.age) to see what plays next";
       case "unlinked":
         return "Link Spotify to see what plays next and like tracks";
       case "linking":

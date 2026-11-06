@@ -13,7 +13,7 @@ import Quickshell.Io
 Singleton {
   id: root
 
-  // "idle" before the first look, "off" without a client ID (default.nix),
+  // "idle" before the first look, "off" without a client ID (its agenix secret),
   // "unlinked", "linking" while the browser sign-in runs, "loading",
   // "ready", "error" when Spotify could not be reached
   property string status: "idle"

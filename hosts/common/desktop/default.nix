@@ -9,6 +9,7 @@
     ./hyprland.nix
     ./lockscreen.nix
     ./pipewire.nix
+    ./spotify.nix
     ./upower.nix
   ];
 
