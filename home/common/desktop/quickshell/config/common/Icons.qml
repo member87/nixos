@@ -20,6 +20,8 @@ Singleton {
   readonly property string mediaPause: "\u{F03E4}"
   readonly property string mediaNext: "\u{F04AD}"
   readonly property string music: "\u{F075A}"
+  readonly property string heart: "\u{F02D1}"
+  readonly property string heartOutline: "\u{F02D5}"
   readonly property string awake: "\u{F0176}"
   readonly property string awakeOff: "\u{F06CA}"
   readonly property string powerSaver: "\u{F032A}"

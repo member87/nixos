@@ -27,6 +27,18 @@
     text = builtins.readFile ./bar-cast.sh;
   };
 
+  # the Spotify app the music drawer signs in with (developer.spotify.com,
+  # Development Mode, its owner on Premium), with the redirect URI
+  # http://127.0.0.1:8898/callback. Not a secret: the sign-in uses PKCE.
+  # Empty: the drawer shows no Up next or likes.
+  spotifyClientId = "";
+
+  # signs in to the Spotify Web API and hands out access tokens for the
+  # music drawer's Up next and likes (config/services/Spotify.qml)
+  bar-spotify = pkgs.writers.writePython3Bin "bar-spotify" {flakeIgnore = ["E501"];} (
+    builtins.replaceStrings ["@clientId@" "@xdgOpen@"] [spotifyClientId "${pkgs.xdg-utils}/bin/xdg-open"] (builtins.readFile ./bar-spotify.py)
+  );
+
   # xdph's screen-share picker (screencopy:custom_picker_binary): runs
   # sharepicker.qml and hands its choice back on stdout, which xdph parses,
   # as "[SELECTION]<flags>/<what>"; no line is a cancel
@@ -78,6 +90,7 @@ in {
     # the system menu's brightness slider (goes through logind, no root needed)
     pkgs.brightnessctl
     bar-cast
+    bar-spotify
   ];
 
   # read when xdph starts: restart xdg-desktop-portal-hyprland after a change

@@ -20,6 +20,11 @@ Item {
   property int barGap: 3
   // flush left, the bars running out from the left edge; centred otherwise
   property bool flushLeft: false
+  // the bars can stay centred under flush-left lyrics
+  property bool barsFromStart: flushLeft
+  // lines either side of the sung one may wrap onto this many lines; the
+  // sung line always may onto two
+  property int contextLines: 2
 
   readonly property bool playing: player?.isPlaying ?? false
   // one line's slot: the text's height and the space under it
@@ -61,7 +66,7 @@ Item {
     running: root.active && root.playing
     barWidth: root.barWidth
     barGap: root.barGap
-    fromStart: root.flushLeft
+    fromStart: root.barsFromStart
   }
 
   ListView {
@@ -119,7 +124,7 @@ Item {
         transformOrigin: root.flushLeft ? Item.Left : Item.Center
         text: line.modelData.text
         wrapMode: Text.WordWrap
-        maximumLineCount: 2
+        maximumLineCount: line.sung ? 2 : root.contextLines
         elide: Text.ElideRight
         color: line.sung || line.ahead ? Theme.fgBright : Theme.fg
         font.pixelSize: root.textSize
