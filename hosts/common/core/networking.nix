@@ -1,20 +1,29 @@
 {hostname, ...}: {
   networking.hostName = hostname;
 
+  # NetworkManager runs the network (IP, DNS, VPNs, the bar's Wi-Fi menu);
+  # iwd joins the Wi-Fi under it. iwd also decides when to connect: it holds
+  # the passphrases, so a failed attempt is just retried. With NM deciding
+  # (wifi.iwd.autoconnect=false), any failed join, such as the access point
+  # timing out the handshake after a resume, reads to NM as a wrong password
+  # (nm-device-iwd.c); with no secret agent to ask, NM blocks the profile
+  # from autoconnecting until a manual connect.
   networking.wireless.iwd.enable = true;
-  # iwd's own autoconnect races NetworkManager and blacklists networks with
-  # an exponential backoff after a single failed association (e.g. mt7925e
-  # flakiness after resume), leaving the machine offline for minutes. Hand
-  # autoconnect to NetworkManager; impala still works (explicit connects).
-  networking.wireless.iwd.settings.General.AutoConnect = false;
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
-  # NM only uses its own autoconnect with the iwd backend if this is unset/
-  # false; otherwise iwd's blacklist logic decides everything.
-  environment.etc."NetworkManager/conf.d/wifi-iwd-autoconnect.conf".text = ''
-    [device]
-    wifi.iwd.autoconnect=false
-  '';
+  networking.wireless.iwd.settings = {
+    # iwd sets a failed BSS aside before trying it again: by default 60 s,
+    # then 30 times longer on each further failure, up to a day, which left
+    # the laptop offline for minutes. 10 s every time.
+    Blacklist = {
+      InitialTimeout = 10;
+      Multiplier = 1;
+      MaximumTimeout = 10;
+    };
+    # while disconnected it scans from every 10 s, backing off to 300 s;
+    # stop at 60 so a set-aside network is seen again soon
+    Scan.MaximumPeriodicScanInterval = 60;
+  };
 
   fileSystems."/mnt/nas" = {
     device = "nas-nfs.lab.jackhumes.com:/volume1/photos";
