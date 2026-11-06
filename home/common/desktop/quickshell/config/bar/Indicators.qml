@@ -62,10 +62,21 @@ Clickable {
     }
   }
 
+  // traffic through a tunnel: ProtonVPN, or a Tailscale exit node
   StatusGlyph {
-    visible: Vpn.connected
+    readonly property var exit: Tailscale.running ? Tailscale.exitNode : null
+
+    visible: Vpn.connected || exit !== null
     text: Icons.vpnLocked
-    tip: `VPN: ${Vpn.ip}`
+    color: exit && !exit.online ? Theme.critical : Theme.accent
+    tip: {
+      const lines = [];
+      if (Vpn.connected)
+        lines.push(`VPN: ${Vpn.ip}`);
+      if (exit)
+        lines.push(exit.online ? `Tailscale exit node: ${exit.name}` : `Tailscale exit node ${exit.name} is offline`);
+      return lines.join("<br>");
+    }
   }
 
   StatusGlyph {

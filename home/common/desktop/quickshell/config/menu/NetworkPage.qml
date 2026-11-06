@@ -5,8 +5,8 @@ import qs.common
 import qs.components
 import qs.services
 
-// Ethernet ports, the Wi-Fi card and the network it is on, the VPN, and the
-// networks in range: one group each, hairlines between them.
+// Ethernet ports, the Wi-Fi card and the network it is on, the VPNs, and
+// the networks in range: one group each, hairlines between them.
 ColumnLayout {
   id: root
 
@@ -31,14 +31,17 @@ ColumnLayout {
 
   spacing: 10
 
-  // scanning keeps the network list live; only while this tab is open
+  // scanning keeps the network list live, and Tailscale's settings are
+  // read; only while this tab is open
   Component.onCompleted: {
     if (Net.wifi)
       Net.wifi.scannerEnabled = true;
+    Tailscale.detailed = true;
   }
   Component.onDestruction: {
     if (Net.wifi)
       Net.wifi.scannerEnabled = false;
+    Tailscale.detailed = false;
   }
 
   PageHeader {
@@ -283,30 +286,39 @@ ColumnLayout {
     }
   }
 
-  // ProtonVPN: status only, it is brought up from its own app
-  RowLayout {
-    spacing: 8
+  // the VPNs: Tailscale is run from here; ProtonVPN only reports, as it is
+  // brought up from its own app
+  ColumnLayout {
+    spacing: 10
+    Layout.fillWidth: true
 
-    Glyph {
-      text: Vpn.connected ? Icons.vpnLocked : Icons.vpnUnlocked
-      color: Vpn.connected ? Theme.accent : Theme.fg
-      font.pixelSize: 18
-      Layout.preferredWidth: 24
-    }
+    TailscaleGroup {}
 
-    ColumnLayout {
-      spacing: 0
-      Layout.fillWidth: true
+    RowLayout {
+      spacing: 8
 
-      Txt {
-        text: "VPN"
-        color: Theme.fgBright
-        font.pixelSize: 12
+      Glyph {
+        text: Vpn.connected ? Icons.vpnLocked : Icons.vpnUnlocked
+        color: Vpn.connected ? Theme.accent : Theme.fg
+        font.pixelSize: 18
+        Layout.preferredWidth: 24
       }
 
-      Txt {
-        text: Vpn.connected ? `Connected · ${Vpn.ip}` : "Off"
-        font.pixelSize: 12
+      ColumnLayout {
+        spacing: 0
+        Layout.fillWidth: true
+
+        Txt {
+          text: "ProtonVPN"
+          color: Theme.fgBright
+          font.pixelSize: 13
+          font.weight: Font.Medium
+        }
+
+        Txt {
+          text: Vpn.connected ? `Connected · ${Vpn.ip}` : "Off"
+          font.pixelSize: 12
+        }
       }
     }
   }

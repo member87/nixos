@@ -13,6 +13,8 @@ Singleton {
   readonly property string bluetoothConnected: "\u{F00B1}"
   readonly property string vpnLocked: "\u{F033E}"
   readonly property string vpnUnlocked: "\u{F033F}"
+  // tailscale's mark is a grid of dots
+  readonly property string tailscale: "\u{F15FC}"
   readonly property string brightness: "\u{F00DE}"
   readonly property string notification: "\u{F009A}"
   readonly property string mediaPrev: "\u{F04AE}"
@@ -90,5 +92,17 @@ Singleton {
     if (icon === "phone") return "\u{F011C}";
     if (icon === "computer") return "\u{F0322}";
     return "\u{F00AF}";
+  }
+
+  // tailscale reports a device's OS: "linux", "android", "iOS", "macOS", "windows"
+  function device(os: string): string {
+    switch (os.toLowerCase()) {
+    case "android": return "\u{F0032}";
+    case "ios":
+    case "macos": return "\u{F0035}";
+    case "windows": return "\u{F05B3}";
+    case "linux": return "\u{F033D}";
+    default: return "\u{F048B}";
+    }
   }
 }
