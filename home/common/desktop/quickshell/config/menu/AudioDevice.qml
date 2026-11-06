@@ -56,6 +56,12 @@ ColumnLayout {
         text: root.output ? "Choose output device" : "Choose input device"
       }
     }
+
+    // its width without it, so all sliders end on one line
+    Item {
+      visible: !chooser.visible
+      implicitWidth: 28
+    }
   }
 
   DeviceList {
