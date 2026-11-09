@@ -48,10 +48,13 @@ ColumnLayout {
     title: "Network"
   }
 
+  // wrapped: at its natural width it would widen the page past the clip
   Txt {
     visible: Net.devices.length === 0
     text: "NetworkManager reports no network devices"
     font.pixelSize: 12
+    wrapMode: Text.WordWrap
+    Layout.fillWidth: true
     Layout.leftMargin: 2
   }
 

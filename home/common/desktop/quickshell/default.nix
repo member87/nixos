@@ -83,6 +83,11 @@ in {
     # (5 in 10s) until it is back
     Service.RestartSec = 3;
     Service.Environment = ["QS_WALLPAPER=${wallpaper}"];
+    # Quickshell.Networking looks for NetworkManager once, at startup, and
+    # never again: started alongside it (a switch restarting both) the
+    # network tab stays empty until the next restart. Wait for its bus name;
+    # "-": a host without it still gets a bar.
+    Service.ExecStartPre = "-${pkgs.glib.bin}/bin/gdbus wait --system --timeout 30 org.freedesktop.NetworkManager";
   };
 
   home.packages = [
