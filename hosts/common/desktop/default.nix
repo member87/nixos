@@ -62,7 +62,6 @@
   environment.systemPackages = with pkgs; [
     bibata-cursors
     bluetui
-    brave
     darktable
     ffmpeg
     ghostty
