@@ -101,6 +101,21 @@ in {
     };
 
     extraConfig = ''
+      -- every screen without a rule of its own: 10-bit, or HDR video (auto
+      -- HDR, render.cm_auto_hdr) warns "wide color gamut is enabled but the
+      -- display is not in 10-bit mode". While HDR video is up, SDR surfaces
+      -- (subtitles, the player's controls) get white at sdr_max_luminance
+      -- nits; the default 80 shows white text grey. A rule for a named output
+      -- replaces this one, so it needs its own bitdepth and sdr_max_luminance.
+      hl.monitor({
+        output            = "",
+        mode              = "preferred",
+        position          = "auto",
+        scale             = "auto",
+        bitdepth          = 10,
+        sdr_max_luminance = 250,
+      })
+
       -- monitors.lua is written by nwg-displays and may not exist yet
       pcall(require, "monitors")
 
