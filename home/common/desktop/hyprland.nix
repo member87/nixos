@@ -119,6 +119,12 @@ in {
       -- monitors.lua is written by nwg-displays and may not exist yet
       pcall(require, "monitors")
 
+      -- Jellium (jellyfin-desktop) stays SDR in fullscreen. With auto HDR its
+      -- mpv sends PQ, white at 203 nits on this OLED, much dimmer than the
+      -- same film tone-mapped to SDR at the desktop's brightness. Games
+      -- still switch the screen to HDR.
+      hl.window_rule({ name = "jellium-sdr", match = { class = "^net.nullsum.JelliumDesktop$" }, no_auto_hdr = true })
+
       local mod = "SUPER"
       local function exec(cmd) return hl.dsp.exec_cmd(cmd) end
 
