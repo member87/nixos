@@ -36,7 +36,20 @@ in {
   # pass dispatchers too: hyprctl dispatch 'hl.dsp.exit()'.
   wayland.windowManager.hyprland = {
     configType = "lua";
-    systemd.variables = ["--all"];
+    systemd = {
+      variables = ["--all"];
+      # When Hyprland goes down, xdph crash-loops with no compositor to connect
+      # to and hits its start limit. Restarting the session target then starts a
+      # new xdg-desktop-portal that cannot start xdph, so it advertises no
+      # ScreenCast cursor modes. Discord asks for an embedded cursor, gets refused,
+      # and falls back to its own picker. Clear the limit first so the new
+      # portal can start xdph against this compositor.
+      extraCommands = [
+        "systemctl --user reset-failed xdg-desktop-portal-hyprland.service"
+        "systemctl --user stop hyprland-session.target"
+        "systemctl --user start hyprland-session.target"
+      ];
+    };
     enable = true;
 
     settings.config = {
