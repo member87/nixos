@@ -347,11 +347,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1794516078,
-        "narHash": "sha256-A1wp/GflJzRQas7nVLbeS/O+GBpv2HU5oXfd1z87GmE=",
+        "lastModified": 1794612436,
+        "narHash": "sha256-VSA1YxaiNxqGvVAGfbRYTlwG+dANdAGI5jx6IR55W1I=",
         "owner": "FlameFlag",
         "repo": "nixcord",
-        "rev": "1ec55ed3d53afa9df22948e070b0e0679788d569",
+        "rev": "013f378d06a88e1f6b023b655a07c0a080835561",
         "type": "github"
       },
       "original": {
@@ -367,11 +367,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794425805,
-        "narHash": "sha256-4s5CRvkYX4oAJVZ+zu2bBKFH2gG2GqN6OKHEWgJr1AY=",
+        "lastModified": 1794597451,
+        "narHash": "sha256-bUkc9dMpCFiJuuf5Efr7pnCDs5q18aA8zJah+MYZl9w=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "b6ca87f78ec5bafc4b2aef7b29803dcf419266af",
+        "rev": "eb3c90bd715f7a9a28719bb014f53d309ccb2fc8",
         "type": "github"
       },
       "original": {
@@ -472,11 +472,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1794165970,
-        "narHash": "sha256-XuAV2cUwaod3Bt4XFVqiXz3v1w2ex16W6Sv4S7EWres=",
+        "lastModified": 1794552581,
+        "narHash": "sha256-qXFIqA6FCcx7XeDzw0ZNlkDT9UiCzrNDwK8RuU8RcHM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "ac588ef1c914865dad517b337ea0eb9694a4021c",
+        "rev": "f1e5c356f35d07e7b71a6b5e6c9338e0b029e0c0",
         "type": "github"
       },
       "original": {
@@ -553,11 +553,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1794529518,
-        "narHash": "sha256-dmye9kI+9qP8wnIL7GTTmSK9cX2cHr1fj4aL6u7vOEw=",
+        "lastModified": 1794616910,
+        "narHash": "sha256-eyZnjN83TkU0COecYDZAICpfHJPBF5EVBeNvXKRFSa8=",
         "owner": "can1357",
         "repo": "oh-my-pi",
-        "rev": "74e3cfa57463488cbb8a612f06cc9ad046013f28",
+        "rev": "6ec2b71cd7d80e18e1b6481f2e3d9c05f5f0c56c",
         "type": "github"
       },
       "original": {
@@ -609,11 +609,11 @@
     "skill-impeccable": {
       "flake": false,
       "locked": {
-        "lastModified": 1794425306,
-        "narHash": "sha256-auqflH7kEUZzF0EftJLOZeJe1Lvvy8PeaIgSG/j8y5U=",
+        "lastModified": 1794613690,
+        "narHash": "sha256-MTQYnggsUG9J6RF8f3uk2VuYtGbjDsGJSgscBAgoxXk=",
         "owner": "pbakaus",
         "repo": "impeccable",
-        "rev": "b4bff1626c344067788c2679f048a20057c7cc5a",
+        "rev": "acb4cfe14470b1fdf51e855431af618d936b7db8",
         "type": "github"
       },
       "original": {
