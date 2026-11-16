@@ -111,6 +111,7 @@ in {
     enable = true;
     authKeyFile = config.age.secrets.beammp-auth-key.path;
     name = "nix server";
+    map = "west_coast_usa";
     tailcat.enable = true;
   };
 
