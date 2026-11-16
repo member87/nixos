@@ -209,6 +209,23 @@ in {
       "${resources}/Server" = dir "2775";
     };
 
+    # Members of the beammp group start, stop and restart both services without sudo.
+    # polkit reads group membership from /etc/group, so this holds before a re-login.
+    security.polkit.extraConfig = ''
+      polkit.addRule(function (action, subject) {
+        if (action.id != "org.freedesktop.systemd1.manage-units" || !subject.isInGroup("beammp")) {
+          return polkit.Result.NOT_HANDLED;
+        }
+        var unit = action.lookup("unit");
+        var verb = action.lookup("verb");
+        if ((unit == "beammp-server.service" || unit == "beammp-tailcat.service") &&
+            (verb == "start" || verb == "stop" || verb == "restart")) {
+          return polkit.Result.YES;
+        }
+        return polkit.Result.NOT_HANDLED;
+      });
+    '';
+
     systemd.services.beammp-server = {
       description = "BeamMP server";
       wantedBy = ["multi-user.target"];
