@@ -15,7 +15,7 @@
 
 - `hosts/default.nix` applies to every host: overlays, Home Manager (as a NixOS module, `home/`) and `hosts/common/core`.
 - `hosts/<host>/default.nix` is each host's entry point and picks its roles: `common/desktop`, `common/dev.nix`, `common/gaming.nix`.
-- `modules/nixos/` holds reusable modules (`vfio-vm`), exported as `nixosModules`.
+- `modules/nixos/` holds reusable modules (`vfio-vm`, `beammp-server`), exported as `nixosModules`.
 - `pkgs/` holds custom packages, available as `pkgs.<name>` and `nix build .#<name>`.
 
 `nix flake check` builds both hosts, Home Manager included.

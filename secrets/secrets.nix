@@ -16,4 +16,6 @@ in {
   "wireguard_proton_london.age".publicKeys = hosts;
   # the music drawer's Spotify app (home/common/desktop/quickshell)
   "spotify_client_id.age".publicKeys = hosts;
+  # BeamMP-Server's key from keymaster.beammp.com (modules/nixos/beammp-server.nix)
+  "beammp_auth_key.age".publicKeys = hosts;
 }

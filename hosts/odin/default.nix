@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    ./beammp.nix
     ./boot.nix
     ./hardware.nix
     ./vfio.nix
