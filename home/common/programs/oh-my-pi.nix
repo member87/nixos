@@ -12,9 +12,10 @@
     package = pkgs.omp-bin;
   };
 
-  # Skills are pinned in flake.lock; update with `nix flake update skill-impeccable skill-taste`.
+  # Skills are pinned in flake.lock; update with `nix flake update skill-impeccable skill-taste skill-mermaid`.
   home.file = {
     ".omp/agent/skills/impeccable".source = "${inputs.skill-impeccable}/.omp/skills/impeccable";
     ".omp/agent/skills/design-taste-frontend".source = "${inputs.skill-taste}/skills/taste-skill";
+    ".omp/agent/skills/design-doc-mermaid".source = inputs.skill-mermaid;
   };
 }

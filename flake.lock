@@ -575,6 +575,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "omp": "omp",
         "skill-impeccable": "skill-impeccable",
+        "skill-mermaid": "skill-mermaid",
         "skill-taste": "skill-taste",
         "spicetify-nix": "spicetify-nix",
         "vicinae": "vicinae",
@@ -616,6 +617,22 @@
       "original": {
         "owner": "pbakaus",
         "repo": "impeccable",
+        "type": "github"
+      }
+    },
+    "skill-mermaid": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787605424,
+        "narHash": "sha256-DcXSSIWqBfmMILKqZ7sDjcZ3vGh2ArG5wZTi7029m64=",
+        "owner": "SpillwaveSolutions",
+        "repo": "design-doc-mermaid",
+        "rev": "c36d83503d2ba9c1e51638dc2d8a34758a377dea",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SpillwaveSolutions",
+        "repo": "design-doc-mermaid",
         "type": "github"
       }
     },

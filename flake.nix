@@ -64,6 +64,10 @@
       url = "github:Leonxlnx/taste-skill";
       flake = false;
     };
+    skill-mermaid = {
+      url = "github:SpillwaveSolutions/design-doc-mermaid";
+      flake = false;
+    };
   };
 
   outputs = {
