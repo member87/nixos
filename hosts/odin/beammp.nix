@@ -117,5 +117,10 @@ in {
   # Drop mods into Resources/ and read the tailcat address without sudo.
   users.users.${username}.extraGroups = ["beammp"];
 
+  # The launcher starts BeamNG's native Linux build itself, inside steam-run rather than
+  # Steam's own runtime container, and its embedded Chromium links these, which Steam's
+  # FHS env lacks.
+  programs.steam.extraPackages = with pkgs; [nspr nss at-spi2-core libxcomposite];
+
   environment.systemPackages = [beammp-host];
 }
