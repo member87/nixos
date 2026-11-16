@@ -1,6 +1,6 @@
 # BeamMP: the server runs here, bound to localhost, and friends reach it over tailcat.
-# `beammp-host` starts both services if needed, prints the address, then offers to start
-# the client.
+# Nothing runs at boot: `beammp-host` starts the server and tunnel, prints the address,
+# offers to start the client, and stops both again on Ctrl+C.
 # - Play here: Direct Connect to 127.0.0.1:30814.
 # - Invite: send the address, privately (it is the only credential). They run
 #   `beamcat connect <address>` (`nix build .#beamcat-windows` for the .exe) and Direct
@@ -32,6 +32,7 @@
 
       Start the BeamMP server and its tailcat tunnel, print the address friends connect
       with, then start the BeamMP client (asks, unless --client or --no-client is given).
+      Both keep running until Ctrl+C, which stops them.
       EOF
       }
 
@@ -50,10 +51,24 @@
           ;;
       esac
 
-      # The polkit rule in the beammp-server module lets the beammp group do this.
-      for unit in beammp-server.service beammp-tailcat.service; do
-        systemctl is-active --quiet "$unit" || systemctl start "$unit"
-      done
+      # Every way out stops both, including a failed start. One unit per call: the
+      # polkit rule that lets the beammp group do this checks a single unit.
+      stop() {
+        trap - EXIT
+        # A signal sent to the script alone (not the terminal's Ctrl+C) leaves it behind.
+        [[ -z ''${sleeper:-} ]] || kill "$sleeper" 2>/dev/null || true
+        echo
+        echo "Stopping the BeamMP server..."
+        systemctl stop beammp-tailcat.service || true
+        systemctl stop beammp-server.service || true
+      }
+      trap stop EXIT
+      trap 'exit 130' INT
+      trap 'exit 143' TERM
+      trap 'exit 129' HUP
+
+      systemctl start beammp-server.service
+      systemctl start beammp-tailcat.service
 
       # The address file is beammp-group only, and a new group reaches only sessions
       # started after it was granted; sudo covers that gap.
@@ -93,13 +108,22 @@
           [[ $answer == [yY]* ]] && client=yes
         fi
       fi
-      [[ $client == yes ]] || exit 0
 
-      # The launcher keeps Launcher.cfg, its key, log and mod cache in its working directory.
-      dir=''${XDG_DATA_HOME:-$HOME/.local/share}/BeamMP-Launcher
-      mkdir -p "$dir"
-      cd "$dir"
-      exec steam-run BeamMP-Launcher
+      if [[ $client == yes ]]; then
+        # The launcher keeps Launcher.cfg, its key, log and mod cache in its working
+        # directory. It exits non-zero when the game closes; the server stays up.
+        dir=''${XDG_DATA_HOME:-$HOME/.local/share}/BeamMP-Launcher
+        mkdir -p "$dir"
+        (cd "$dir" && steam-run BeamMP-Launcher) || true
+        echo
+        echo "The client closed; the server is still running."
+      fi
+
+      echo "Press Ctrl+C to stop the server."
+      # In the background, so Ctrl+C runs the trap at once instead of after sleep.
+      sleep infinity &
+      sleeper=$!
+      wait "$sleeper"
     '';
   };
 in {
@@ -110,6 +134,8 @@ in {
   services.beammp-server = {
     enable = true;
     authKeyFile = config.age.secrets.beammp-auth-key.path;
+    # beammp-host starts and stops it.
+    autoStart = false;
     name = "nix server";
     map = "west_coast_usa";
     tailcat.enable = true;

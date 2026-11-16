@@ -58,6 +58,15 @@ in {
 
     package = mkPackageOption pkgs "beammp-server" {};
 
+    autoStart = mkOption {
+      type = types.bool;
+      default = true;
+      description = ''
+        Start the server, and beamcat with it, at boot. Off, they run only when started
+        with systemctl, which members of the beammp group may do without sudo.
+      '';
+    };
+
     authKeyFile = mkOption {
       type = types.path;
       description = ''
@@ -231,7 +240,7 @@ in {
 
     systemd.services.beammp-server = {
       description = "BeamMP server";
-      wantedBy = ["multi-user.target"];
+      wantedBy = lib.optional cfg.autoStart "multi-user.target";
       # authenticates players and itself with backend.beammp.com
       wants = ["network-online.target"];
       after = ["network-online.target"];
@@ -288,7 +297,7 @@ in {
 
     systemd.services.beammp-tailcat = mkIf cfg.tailcat.enable {
       description = "BeamMP server over tailcat";
-      wantedBy = ["multi-user.target"];
+      wantedBy = lib.optional cfg.autoStart "multi-user.target";
       wants = ["network-online.target"];
       after = ["network-online.target" "beammp-server.service"];
 
