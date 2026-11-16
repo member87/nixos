@@ -17,17 +17,13 @@
   # Where beamcat reaches the server: loopback when it listens on every address.
   targetHost =
     {
-      "::" = "[::1]";
-      "0.0.0.0" = "127.0.0.1";
+      "::" = "127.0.0.1";
+      "::ffff:127.0.0.1" = "127.0.0.1";
     }
     .${
       cfg.listenAddress
     }
-    or (
-      if lib.hasInfix ":" cfg.listenAddress
-      then "[${cfg.listenAddress}]"
-      else cfg.listenAddress
-    );
+    or "[${cfg.listenAddress}]";
 
   boolStr = b:
     if b
@@ -125,11 +121,14 @@ in {
 
     listenAddress = mkOption {
       type = types.str;
-      default = "127.0.0.1";
+      default = "::ffff:127.0.0.1";
       description = ''
-        Address the server binds, TCP and UDP. The default keeps it off every network:
-        players on this machine connect to 127.0.0.1, everyone else through tailcat.
-        BeamMP-Server logs a harmless IP_V6ONLY warning for an IPv4 address.
+        IPv6 address the server binds, TCP and UDP. BeamMP-Server treats every peer
+        address as IPv6 and drops a player on an IPv4 socket at login ("bad address
+        cast"), so 127.0.0.1 is spelled as its IPv4-mapped form: the default still
+        accepts only 127.0.0.1, keeping the server off every network. Players on this
+        machine connect to 127.0.0.1, everyone else through tailcat; `::` opens it to
+        the LAN.
       '';
     };
 
@@ -182,6 +181,10 @@ in {
       {
         assertion = lib.all safeName (lib.attrNames cfg.clientMods ++ lib.attrNames cfg.serverPlugins);
         message = "services.beammp-server: clientMods and serverPlugins names must be plain file names.";
+      }
+      {
+        assertion = lib.hasInfix ":" cfg.listenAddress;
+        message = "services.beammp-server.listenAddress must be IPv6 (write 127.0.0.1 as ::ffff:127.0.0.1): BeamMP-Server drops players on an IPv4 socket.";
       }
     ];
 
