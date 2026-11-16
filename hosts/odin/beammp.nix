@@ -1,8 +1,9 @@
 # BeamMP: the server runs here, bound to localhost, and friends reach it over tailcat.
 # Nothing runs at boot: `beammp-host` starts the server and tunnel, prints the address,
-# offers to start the client, and stops both again on Ctrl+C.
+# offers to start the client, and stops both again on Ctrl+C, which also discards the
+# tunnel key: every session has a new address and the last one is dead.
 # - Play here: Direct Connect to 127.0.0.1:30814.
-# - Invite: send the address, privately (it is the only credential). They run
+# - Invite: send the session's address, privately (it is the only credential). They run
 #   `beamcat connect <address>` (`nix build .#beamcat-windows` for the .exe) and Direct
 #   Connect to 127.0.0.1:30814.
 # - Mods: add zips to clientMods, or copy them into /var/lib/beammp-server/Resources/Client
@@ -32,7 +33,8 @@
 
       Start the BeamMP server and its tailcat tunnel, print the address friends connect
       with, then start the BeamMP client (asks, unless --client or --no-client is given).
-      Both keep running until Ctrl+C, which stops them.
+      Both keep running until Ctrl+C, which stops them and retires the address: the next
+      session gets a new one.
       EOF
       }
 
@@ -50,6 +52,13 @@
           exit 2
           ;;
       esac
+
+      # polkit and the address file both go by this process's groups, and a group granted
+      # after login reaches only new sessions; sg adds it to this one (no password for a
+      # listed member).
+      if [[ " $(id -nG) " != *" beammp "* ]]; then
+        exec ${config.security.wrapperDir}/sg beammp -c "$(printf '%q ' "$0" "$@")"
+      fi
 
       # Every way out stops both, including a failed start. One unit per call: the
       # polkit rule that lets the beammp group do this checks a single unit.
@@ -70,17 +79,12 @@
       systemctl start beammp-server.service
       systemctl start beammp-tailcat.service
 
-      # The address file is beammp-group only, and a new group reaches only sessions
-      # started after it was granted; sudo covers that gap.
-      read_address=(cat)
-      [[ " $(id -nG) " == *" beammp "* ]] || read_address=(sudo cat)
-
-      # beamcat writes it once it listens on its relay; the address never changes, so an
-      # older copy from before a restart is just as good.
+      # beamcat writes it once it listens on its relay. The file goes when the tunnel
+      # stops, so whatever is there belongs to this session.
       address=
       for _ in $(seq 30); do
         if systemctl is-active --quiet beammp-tailcat.service &&
-          address=$("''${read_address[@]}" /var/lib/beammp-tailcat/address 2>/dev/null) &&
+          address=$(cat ${cfg.tailcat.addressFile} 2>/dev/null) &&
           [[ -n $address ]]; then
           break
         fi
@@ -97,7 +101,7 @@
         Here:     Direct Connect to 127.0.0.1:${toString cfg.port}
         Friends:  beamcat connect <address>, then Direct Connect to 127.0.0.1:${toString cfg.port}
 
-      Address (send it privately; anyone who has it can join):
+      Address for this session (send it privately; anyone who has it can join):
       $address
       EOF
 
@@ -138,7 +142,11 @@ in {
     autoStart = false;
     name = "nix server";
     map = "west_coast_usa";
-    tailcat.enable = true;
+    tailcat = {
+      enable = true;
+      # A new address every beammp-host session; Ctrl+C retires the old one.
+      stableAddress = false;
+    };
   };
 
   # Drop mods into Resources/ and read the tailcat address without sudo.

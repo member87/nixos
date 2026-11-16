@@ -177,11 +177,32 @@ in {
     tailcat = {
       enable = mkEnableOption ''
         serving the server over tailcat with beamcat. The address players connect to is
-        written to /var/lib/beammp-tailcat/address (readable by the beammp group) and stays
-        the same across restarts. Anyone who has it can join, so share it privately
+        written to {option}`tailcat.addressFile`, readable by the beammp group. Anyone who
+        has it can join, so share it privately
       '';
 
       package = mkPackageOption pkgs "beamcat" {};
+
+      stableAddress = mkOption {
+        type = types.bool;
+        default = true;
+        description = ''
+          Keep the tunnel key, and so the address, across stops. Off, the key lives in a
+          runtime directory that survives restarts but is deleted when the service stops,
+          so every start hands out a new address and every old one is dead.
+        '';
+      };
+
+      addressFile = mkOption {
+        type = types.str;
+        readOnly = true;
+        default = "${
+          if cfg.tailcat.stableAddress
+          then "/var/lib"
+          else "/run"
+        }/beammp-tailcat/address";
+        description = "Where beamcat writes the address while it runs.";
+      };
     };
   };
 
@@ -222,7 +243,7 @@ in {
     };
 
     # Members of the beammp group start, stop and restart both services without sudo.
-    # polkit reads group membership from /etc/group, so this holds before a re-login.
+    # polkit checks the caller's own groups, so a new member logs in again first.
     security.polkit.extraConfig = ''
       polkit.addRule(function (action, subject) {
         if (action.id != "org.freedesktop.systemd1.manage-units" || !subject.isInGroup("beammp")) {
@@ -306,12 +327,23 @@ in {
         // {
           User = "beammp";
           Group = "beammp";
-          StateDirectory = "beammp-tailcat";
-          StateDirectoryMode = "0750";
-          ExecStart = "${getExe cfg.tailcat.package} serve -state %S/beammp-tailcat -target ${targetHost}:${toString cfg.port} -port ${toString cfg.port}";
+          ExecStart = "${getExe cfg.tailcat.package} serve -state ${dirOf cfg.tailcat.addressFile} -target ${targetHost}:${toString cfg.port} -port ${toString cfg.port}";
           Restart = "always";
           RestartSec = 5;
-        };
+        }
+        // (
+          if cfg.tailcat.stableAddress
+          then {
+            StateDirectory = "beammp-tailcat";
+            StateDirectoryMode = "0750";
+          }
+          else {
+            RuntimeDirectory = "beammp-tailcat";
+            RuntimeDirectoryMode = "0750";
+            # Kept across a crash restart, so the address printed for this session holds.
+            RuntimeDirectoryPreserve = "restart";
+          }
+        );
     };
   };
 }
