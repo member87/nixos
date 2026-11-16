@@ -7,6 +7,7 @@
     ./beammp.nix
     ./boot.nix
     ./hardware.nix
+    ./sunshine.nix
     ./vfio.nix
     ../common/desktop
     ../common/dev.nix
