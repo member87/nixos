@@ -8,7 +8,7 @@
   autoPatchelfHook,
   stdenv,
 }: let
-  version = "18.22.1";
+  version = "19.0.0";
 in
   stdenvNoCC.mkDerivation {
     pname = "omp";
@@ -16,7 +16,7 @@ in
 
     src = fetchurl {
       url = "https://github.com/can1357/oh-my-pi/releases/download/v${version}/omp-linux-x64";
-      hash = "sha256-ui04C8VKbxdaMUtJ0vRegtReRpJ0Nilpr7rfLWVCP9Y=";
+      hash = "sha256-x8xcjVBQU8j/rxgEF+XVx4EjW52TbyhoEFYBURIBCb8=";
     };
 
     dontUnpack = true;
