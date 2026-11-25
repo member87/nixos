@@ -141,8 +141,7 @@ in {
     # beammp-host starts and stops it.
     autoStart = false;
     name = "nix server";
-    # From the roane_county mod below.
-    map = "SouthernHighway";
+    map = "italy";
     maxCars = 10;
     clientMods = {
       # UI app showing power, weight and power-to-weight ratio, v2.2.
