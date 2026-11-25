@@ -9,12 +9,12 @@
   # A build-linux-appimage run on main. Upstream has no releases, and a branch URL changes
   # under a fixed hash, so pin the run; scripts/nightly-update.sh moves it to the newest one
   # (GitHub drops artifacts after 90 days).
-  version = "unstable-2026-11-19";
-  runId = "44530455160";
+  version = "unstable-2026-11-24";
+  runId = "45313233142";
 
   artifact = fetchurl {
     url = "https://nightly.link/andrewrabert/jellium-desktop/actions/runs/${runId}/linux-appimage-x86_64.zip";
-    hash = "sha256-99kIUw9kFO6q7JU2JSOCSpeHIp0fCKgvi3dK0A0lCzM=";
+    hash = "sha256-HwXcrDEOnJ9k+uoRBRyXI/wlUuVDikMh8lcqb3gBzeg=";
   };
 
   src = stdenvNoCC.mkDerivation {
