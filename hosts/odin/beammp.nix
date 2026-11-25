@@ -142,6 +142,23 @@ in {
     autoStart = false;
     name = "nix server";
     map = "west_coast_usa";
+    maxCars = 10;
+    clientMods = {
+      # UI app showing power, weight and power-to-weight ratio, v2.2.
+      # https://www.beamng.com/resources/simple-power-weight-ratio.23693/
+      simple_power_weight_ratio = pkgs.fetchurl {
+        name = "simple_power_weight_ratio.zip";
+        url = "https://www.beamng.com/resources/simple-power-weight-ratio.23693/download?version=69578";
+        hash = "sha256-lIWbai1TZZ54tHXXdptYSi+E/vXsw+8ThcIWbgLaz94=";
+      };
+      # 2020 Hirochi CCF, Rework 1.2.5.2.
+      # https://www.beamng.com/resources/2020-hirochi-ccf.29318/
+      hirochi_ccf = pkgs.fetchurl {
+        name = "hirochi_ccf.zip";
+        url = "https://www.beamng.com/resources/2020-hirochi-ccf.29318/download?version=74976";
+        hash = "sha256-4l85Io7xf/sIDjHiPU+qJjeft+KsjzQrDJmM9vhaxBA=";
+      };
+    };
     tailcat = {
       enable = true;
       # A new address every beammp-host session; Ctrl+C retires the old one.
