@@ -158,14 +158,6 @@ in {
         url = "https://www.beamng.com/resources/2020-hirochi-ccf.29318/download?version=74976";
         hash = "sha256-4l85Io7xf/sIDjHiPU+qJjeft+KsjzQrDJmM9vhaxBA=";
       };
-      # Roane County TN USA, for BeamNG 0.19: 175 sq mi of East Tennessee around Kingston,
-      # Rockwood and Harriman. Its level folder is SouthernHighway.
-      # https://www.beamng.com/resources/roane-county-tennessee-usa.1586/
-      roane_county = pkgs.fetchurl {
-        name = "roane_county.zip";
-        url = "https://www.beamng.com/resources/roane-county-tennessee-usa.1586/download?version=22922";
-        hash = "sha256-ro2JqEbzK2AS8ur+YraearyVDKFJode8b/seIupA0+c=";
-      };
       # Volvo V90 by BYLO Productions, from modsfire. Its download links expire after ten
       # minutes, so it can't be fetched: get the zip again and
       # `nix-store --add-fixed sha256 v902BYLOPRODUCTIONS.zip`.
