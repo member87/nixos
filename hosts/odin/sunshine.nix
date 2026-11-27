@@ -5,9 +5,15 @@
 # and credentials stay in ~/.config/sunshine.
 {
   config,
+  lib,
   pkgs,
+  username,
   ...
 }: let
+  hm = config.home-manager.users.${username};
+  # the quickshell lock screen hypridle's lock_cmd starts (home/common/desktop/hypridle.nix)
+  lockScreen = "${hm.programs.quickshell.package}/bin/qs -n -p ${hm.xdg.configHome}/quickshell/bar/lock.qml";
+
   # Streams go to a headless output sized to the client, so a 16:9 client gets a 16:9
   # desktop instead of the 3440x1440 ultrawide letterboxed. The physical screens are
   # turned off for the stream: their workspaces move to the headless output, and it is
@@ -133,6 +139,38 @@
     '';
   };
 
+  # A stream starts on whatever the session was left at, often the lock screen: suspend
+  # locks it first, and hypridle after 5 minutes idle. It is unlocked for the stream, the
+  # client's pairing standing in for the password, and locked again when the stream
+  # ends. Last in global_prep_cmd: undo runs in reverse, so the physical screens are off
+  # by the unlock and still off at the lock.
+  streamLock = pkgs.writeShellApplication {
+    name = "sunshine-stream-lock";
+    runtimeInputs = [config.programs.hyprland.package config.systemd.package pkgs.jq];
+    text = ''
+      case "''${1:-}" in
+        do)
+          # logind's Unlock reaches the lock screen through hypridle's unlock_cmd; a
+          # failure must not abort the launch
+          loginctl unlock-session || true
+          ;;
+        undo)
+          loginctl lock-session
+          ;;
+        stopped)
+          # ExecStopPost runs at every stop and restart: lock only if a stream was cut off
+          hyprctl monitors all -j 2>/dev/null |
+            jq -e 'any(.[]; .name == "SUNSHINE")' >/dev/null || exit 0
+          loginctl lock-session
+          ;;
+        *)
+          echo "usage: sunshine-stream-lock do|undo|stopped" >&2
+          exit 2
+          ;;
+      esac
+    '';
+  };
+
   # Sunshine treats an app that exits 0 within 5 s as a launcher and keeps the session
   # open: a client gone that quickly would leave the screens off.
   streamApp = app:
@@ -146,6 +184,11 @@ in {
     enable = true;
     # The module opens these on every interface; lan-firewall.nix scopes them.
     openFirewall = false;
+    # The module's wrapper, for CAP_SYS_NICE alone: with it Sunshine gets the high-priority
+    # EGL context it asks for, so its colour conversion is not queued behind a game that
+    # saturates the GPU. CAP_SYS_ADMIN is only for KMS capture, which isn't used. Sunshine
+    # drops the capability once its EGL worker thread holds it.
+    capSysAdmin = true;
     settings = {
       # The headless output is only reachable through wlroots screencopy, and only the
       # RX 7900 XT encodes; set, Sunshine skips probing the XDG portal and NVENC at start.
@@ -153,6 +196,13 @@ in {
       capture = "wlr";
       encoder = "vaapi";
       adapter_name = "/dev/dri/by-path/pci-0000:03:00.0-render";
+      # CBR with the standard VBV buffer let scene changes produce frames too large for
+      # FEC, which Sunshine then sent unprotected ("Skipping FEC for abnormally large
+      # encoded frame").
+      vaapi_strict_rc_buffer = "enabled";
+      # Sunshine counts Tailscale's 100.64.0.0/10 as LAN; the firewall keeps 47990 closed
+      # too, this holds if it ever opens.
+      origin_web_ui_allowed = "pc";
       global_prep_cmd = builtins.toJSON [
         {
           do = "${streamDisplay}/bin/sunshine-stream-display do";
@@ -161,6 +211,10 @@ in {
         {
           do = "${streamInhibit}/bin/sunshine-stream-inhibit do";
           undo = "${streamInhibit}/bin/sunshine-stream-inhibit undo";
+        }
+        {
+          do = "${streamLock}/bin/sunshine-stream-lock do";
+          undo = "${streamLock}/bin/sunshine-stream-lock undo";
         }
       ];
     };
@@ -186,11 +240,39 @@ in {
     };
   };
 
-  # If Sunshine crashes mid-stream, no undo runs.
+  security.wrappers.sunshine.capabilities = lib.mkForce "cap_sys_nice+p";
+
+  # If Sunshine crashes mid-stream, no undo runs. Locked first, while the screens are off.
   systemd.user.services.sunshine.serviceConfig.ExecStopPost = [
+    "${streamLock}/bin/sunshine-stream-lock stopped"
     "${streamDisplay}/bin/sunshine-stream-display undo"
     "${streamInhibit}/bin/sunshine-stream-inhibit undo"
   ];
+
+  # libvirtualhid builds DualSense, DualShock 4 and Switch pads, and native Xbox HID ones,
+  # on /dev/uhid. The node exists before the module loads, root-only, so the udev rules'
+  # uaccess never applied and Xbox pads fell back to uinput. Loaded at boot, its add event
+  # gives the session user the node (the Virtual FIDO2 rule in default.nix needs it too).
+  boot.kernelModules = ["uhid"];
+
+  # Sunshine runs in the user's session, so after a reboot Moonlight found odin offline
+  # until someone logged in at the desk. greetd logs in once per boot without a password,
+  # and Hyprland starts the lock screen before anything else; after a logout the greeter
+  # asks as before. With no password at login the keyring starts locked; typing the
+  # password on the lock screen unlocks it (its PAM stack has pam_gnome_keyring, greeter.nix).
+  services.greetd.settings.initial_session = {
+    command = "${pkgs.writeShellScript "hyprland-locked" ''
+      export LOCK_AT_START=1
+      exec ${config.programs.hyprland.package}/bin/start-hyprland
+    ''}";
+    user = username;
+  };
+  home-manager.users.${username}.wayland.windowManager.hyprland.extraConfig = ''
+    -- LOCK_AT_START: the boot-time autologin (hosts/odin/sunshine.nix)
+    hl.on("hyprland.start", function()
+      hl.exec_cmd('[ "$LOCK_AT_START" = 1 ] && exec ${lockScreen}')
+    end)
+  '';
 
   # Base port 47989 and its fixed offsets (the module's openFirewall list), less the web
   # UI's 47990. Streams from outside the house come over Tailscale, whose 100.64.0.0/10

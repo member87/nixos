@@ -8,6 +8,7 @@
 
 import QtQuick
 import Quickshell
+import Quickshell.Io
 import Quickshell.Wayland
 import qs.common
 import qs.lock
@@ -44,6 +45,15 @@ ShellRoot {
     id: exit
     interval: 250
     onTriggered: Qt.quit()
+  }
+
+  // `loginctl unlock-session`, through hypridle's unlock_cmd: releases the session as a
+  // correct password would
+  IpcHandler {
+    target: "lock"
+    function unlock(): void {
+      lockContext.succeed();
+    }
   }
 
   // Hyprland confirms a lock (`secure`) almost at once. One it never
