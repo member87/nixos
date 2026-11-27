@@ -48,11 +48,15 @@ ShellRoot {
   }
 
   // `loginctl unlock-session`, through hypridle's unlock_cmd: releases the session as a
-  // correct password would
+  // correct password would. `secure`: whether Hyprland holds the lock, which Sunshine's
+  // stream end waits for before the screens come back (hosts/odin/sunshine.nix).
   IpcHandler {
     target: "lock"
     function unlock(): void {
       lockContext.succeed();
+    }
+    function secure(): bool {
+      return lock.secure;
     }
   }
 
