@@ -7,4 +7,6 @@ pkgs: {
   jellyfin-desktop = pkgs.callPackage ./jellyfin-desktop.nix {};
   moonfin = pkgs.callPackage ./moonfin.nix {};
   omp-bin = pkgs.callPackage ./omp-bin.nix {};
+  # SunshineStream/Sunshine, replacing nixpkgs' LizardByte/Sunshine package
+  sunshine = pkgs.callPackage ./sunshine.nix {};
 }
