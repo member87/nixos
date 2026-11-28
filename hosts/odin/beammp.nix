@@ -158,13 +158,6 @@ in {
         url = "https://www.beamng.com/resources/2020-hirochi-ccf.29318/download?version=74976";
         hash = "sha256-4l85Io7xf/sIDjHiPU+qJjeft+KsjzQrDJmM9vhaxBA=";
       };
-      # Volvo V90 by BYLO Productions, from modsfire. Its download links expire after ten
-      # minutes, so it can't be fetched: get the zip again and
-      # `nix-store --add-fixed sha256 v902BYLOPRODUCTIONS.zip`.
-      volvo_v90 = pkgs.requireFile {
-        name = "v902BYLOPRODUCTIONS.zip";
-        url = "https://modsfire.com/";
-        hash = "sha256-JcbMkfWtd9dCLzaHpDgmXoRZTMGnR8jPXu0aCIy05aw=";
       };
     };
     tailcat = {
