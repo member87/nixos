@@ -158,6 +158,20 @@ in {
         url = "https://www.beamng.com/resources/2020-hirochi-ccf.29318/download?version=74976";
         hash = "sha256-4l85Io7xf/sIDjHiPU+qJjeft+KsjzQrDJmM9vhaxBA=";
       };
+      # UK emergency service pack 1.3: Met Police, LAS and LFB skins and configs for the
+      # ETK 800, Vivace and van. Its Gavril Scout (fullsuv) configs need LucasBE's paid Scout.
+      # https://www.beamng.com/resources/uk-emergency-service-pack.26331/
+      uk_emergency_service_pack = pkgs.fetchurl {
+        name = "uk_emergency_service_pack.zip";
+        url = "https://www.beamng.com/resources/uk-emergency-service-pack.26331/download?version=46215";
+        hash = "sha256-oW9FfvPfZJ9dyRxzZgJMiHsm2fK9Q/DY5TMZGQ0vC/I=";
+      };
+      # FallGems config pack V3.2: over 2500 configs for vanilla vehicles.
+      # https://www.beamng.com/resources/fallgems-config-pack-over-2500-non-modded-configs.27968/
+      fallgems_config_pack = pkgs.fetchurl {
+        name = "fallgems_config_pack.zip";
+        url = "https://www.beamng.com/resources/fallgems-config-pack-over-2500-non-modded-configs.27968/download?version=74184";
+        hash = "sha256-VsA9fv0Bd0K9Cwjmzb/VErjdcaMIOJx6mjZNinz9fXc=";
       };
     };
     tailcat = {
